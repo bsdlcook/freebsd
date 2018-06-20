@@ -24,14 +24,14 @@ Granted, this workflow (for me personally) helps me get things done a lot quicke
 - **Mod + Enter**: Open a terminal;
 - **Mod + q**: Restart dwm (needed after when ran with ``theme.sh``, note that this will restart the layout to tiling mode);
 - **Mod + r**: Start dmenu, program launcher;
-- **Mod + t**: Tiling layoug mode;
-- **Mod + f**: Floatig layout mode;
+- **Mod + t**: Tiling layout mode;
+- **Mod + f**: Floating layout mode;
 - **Mod + g**: Grid layout mode.
 
 # Prerequisites
 There isn't much prerequisites as the setup script makes it *for the most part* autonomous. Before you continue running the setup I assume you're under these following conditions:
 - Basic /UNIX/BSD*/ knowledge;
-- Recently installed FreeBSD;
+- Freshly installed FreeBSD system;
 - Git installed (``pkg install git``);
 - Bash installed (``pkg install bash``) - I'd like to make bash redundant but the bourne shell doesn't support arrays ~~damn POSIX~~;
 - Sudo installed (``pkg install sudo``) and the user added to the sudoers file with NOPASSWD enabled for that user (makes life much easier): ``echo "YOUR_USER ALL=(ALL) NOPASSWRD: ALL" | sudo tee -a /usr/local/etc/sudoers``;
@@ -49,7 +49,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 *As simple as that*. You should be done now, given my mediocre scripting has worked for you. I'd suggest rebooting the system once the setup script has completed.
 
 # Screenshots
-Glorious screenshots of my setup.
+Glorious screenshots of the setup. You're able to make different variations of the setup with the header file, customize it to your heart's desire.
 
 - Default accent ``#FF6B57`` and background ``#1C1C1C``:
 ![](./screenshots/1.png)
