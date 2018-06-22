@@ -7,7 +7,7 @@ static const char *fonts[]          = { "Terminus:pixelsize=10:antialias=true:au
 static const char dmenufont[]       = "Terminus:pixelsize=10:antialias=true:autohint=true";
 
 /* colors */
-#include "../theme.h"
+#include "../themes/theme.h"
 static const char *colors[][3]      = {
 	/*               fg          	   bg                border                      */
 	[SchemeNorm] = { theme.foreground, theme.background, theme.border }, /* normal   */

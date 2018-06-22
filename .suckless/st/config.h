@@ -30,7 +30,7 @@ char *termname = "xterm-256color";
 
 unsigned int tabspaces = 8;
 
-#include "../theme.h"
+#include "../themes/theme.h"
 static const char *colorname[] = {
 
   /* 8 normal colors */
