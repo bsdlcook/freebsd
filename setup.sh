@@ -10,7 +10,7 @@ if [ -z $(pkg info -x security/sudo 2>/dev/null | head -n 1) ]; then
 	exit
 fi
 
-declare -a packages=(editors/neovim ftp/wget graphics/ImageMagick graphics/feh graphics/zathura graphics/zathura-pdf-mupdf sysutils/tmux sysutils/htop sysutils/py-ranger sysutils/neofetch x11-fonts/terminus-font x11-fonts/nerd-fonts x11/dmenu x11/xorg x11/libX11 x11/libXau x11/libxcb x11/libXdmcp x11/libXext x11/libXinerama devel/libpthread-stubs devel/cmake)
+declare -a packages=(editors/neovim ftp/wget graphics/ImageMagick graphics/feh graphics/zathura graphics/zathura-pdf-mupdf audio/cmus sysutils/tmux sysutils/htop sysutils/py-ranger sysutils/neofetch x11-fonts/terminus-font x11-fonts/nerd-fonts x11/dmenu x11/xorg x11/libX11 x11/libXau x11/libxcb x11/libXdmcp x11/libXext x11/libXinerama devel/libpthread-stubs devel/cmake)
 
 echo "Checking packages..."
 for package in ${packages[*]}; do

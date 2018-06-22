@@ -1,5 +1,5 @@
 /* general appearance */
-static const unsigned int borderpx  = 2; /* border pixel of windows */
+static const unsigned int borderpx  = 1; /* border pixel of windows */
 static const unsigned int snap      = 8; /* snap pixel              */
 static const int showbar            = 1; /* 0 means no bar          */
 static const int topbar             = 1; /* 0 means bottom bar      */
@@ -55,7 +55,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2]         = "0"; 
 static const char *dmenu[]      = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", theme.background, "-nf", theme.foreground, "-sb", theme.background, "-sf", theme.accent, NULL };
-static const char *terminal[]   = { "st", "-e", "tmux", NULL };
+static const char *terminal[]   = { "st", NULL };
 
 #include "src/movestack.c"
 #include "src/shiftview.c"
