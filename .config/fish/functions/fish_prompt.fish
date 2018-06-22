@@ -26,7 +26,7 @@ end
 
 alias v nvim
 alias vim nvim
-alias ssh s
+alias s ssh
 
 function fish_prompt -d "Write out the left prompt of the syl20bnr theme"
   set -l last_status $status
