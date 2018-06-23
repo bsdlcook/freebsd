@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 echo -ne "Suckless theme manager script\n\n"
 echo -ne "Available themes:\n"
 echo -e $(ls ~/.suckless/themes/*.conf | sed "s/\/home\/$USER\/.suckless\/themes\///g" | sed s/.conf//g | sort)  '\n' 

@@ -48,8 +48,29 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 
 *As simple as that*. You should be done now, given my mediocre scripting has worked for you. I'd suggest rebooting the system once the setup script has completed.
 
+# Theme manager
+I've included a simplistic theme manager script for /dwm/st/etc/ located at ``~/.scripts/theme-manager.sh``. As of now there's a few theme configs (`~/.suckless/themes/`) that you can apply to the system, the script directory is appended to the ``$PATH`` environment variable meaning you can run ``theme-manager.sh`` from anywhere (this also applies to any other script in ``~/.scripts``).
+
+**How do I use it?**
+Open a terminal and type ``theme-manager.sh``, upon typing this you'll be prompted with an array of different themes to choose from. Type the theme you wish to apply (case sensitive!) - you'll have to confirm the change by typing either ``y`` or ``yes``; else the script will exit. After using this script run ``theme.sh`` (may need to run this 1-2 times) to apply it to the system. Restart dwm with the restart keybind ``Mod + q``. Below is a screenshot of it in action:
+![](./screenshots/7.png)
+
+**How does it work?**
+The script will read from ``~/.suckless/themes/THEME_NAME.conf`` parsing the hex values with awk, then using sed to replace those values inside of ``~/.suckless/themes/theme`` which /dwm/st/ inherits. To add your own theme it's as follow:
+- Create the desired theme name inside ``~/.suckless/themes/`` with ``.conf`` appened to the filename (this is crucial for it the script to detect it!) e.g. ``epictheme.conf``;
+- The format of the theme config is ``accent:background:foreground:border``, no more, no less. e.g. ``#752A2A:#1C1C1C:#BBBBBB:#44444``;
+- The script will parse this and should be available as a theme to choose from - that's it - you can now use ``epictheme``! *easy-as-pie*.
+
+**Example themes**
+
+- ``darkcherry`` theme:
+![](./screenshots/8.png)
+
+- ``darkblue`` theme:
+![](./screenshots/9.png)
+
 # Screenshots
-Glorious screenshots of the setup. You're able to make different variations of the setup with the header file, customize it to your heart's desire.
+Glorious screenshots of the setup. You're able to make variations of the setup with the header file, customize it to your heart's desire - see the ``Theme manager`` section for more details.
 
 - Default accent ``#FF6B57`` and background ``#1C1C1C``:
 ![](./screenshots/1.png)
