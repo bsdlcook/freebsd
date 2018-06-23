@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 if [ $(id -u) -eq 0 ]; then
 	echo "This script shouldn't be run as root, please use a non-privileged user"
 	exit
