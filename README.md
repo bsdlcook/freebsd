@@ -53,6 +53,7 @@ I've included a simplistic theme manager script for /dwm/st/etc/ located at ``~/
 
 **How do I use it?**
 Open a terminal and type ``theme-manager.sh``, upon typing this you'll be prompted with an array of different themes to choose from. Type the theme you wish to apply (case sensitive!) - you'll have to confirm the change by typing either ``y`` or ``yes``; else the script will exit. After using this script run ``theme.sh`` (may need to run this 1-2 times) to apply it to the system. Restart dwm with the restart keybind ``Mod + q``. Below is a screenshot of it in action:
+
 ![](./screenshots/7.png)
 
 **How does it work?**
@@ -62,7 +63,6 @@ The script will read from ``~/.suckless/themes/THEME_NAME.conf`` parsing the hex
 - The script will parse this and should be available as a theme to choose from - that's it - you can now use ``epictheme``! *easy-as-pie*.
 
 **Example themes**
-
 - ``darkcherry`` theme:
 ![](./screenshots/8.png)
 
