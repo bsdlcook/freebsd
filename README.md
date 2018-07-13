@@ -52,7 +52,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 I've included a simplistic theme manager script for /dwm/st/etc/ located at ``~/.scripts/theme-manager.sh``. As of now there's a few theme configs (`~/.suckless/themes/`) that you can apply to the system, the script directory is appended to the ``$PATH`` environment variable meaning you can run ``theme-manager.sh`` from anywhere (this also applies to any other script inside ``~/.scripts/``).
 
 **How do I use it?**
-Open a terminal and type ``theme-manager.sh``, you'll be prompted with an array of different themes to choose from. Type the theme you wish to apply (case sensitive!) and confirm the change by typing either ``y`` or ``yes``; else the script will exit. You'll then be given the option to apply the theme to your system oppose to just overwriting the theme header file. If you choose to apply the theme to the whole system you must restart dwm with the keybind ``Mod + q``. Below is a screenshot of it in action:
+Open a terminal and type ``theme-manager.sh``, you'll be prompted with an array of different themes to choose from. Type the theme you wish to apply (case sensitive!) and confirm the change by typing ``y``; else the script will exit. You'll then be given the option to apply the theme to your system oppose to just overwriting the theme header file. If you choose to apply the theme to the whole system you must restart dwm with the keybind ``Mod + q``. Below is a screenshot of it in action:
 
 ![](./screenshots/7.png)
 
