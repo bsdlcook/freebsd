@@ -10,9 +10,9 @@ function pinstall
 				echo "'$argv[1]' successfully installed"
 			end
 		else
-			echo "No package found for '$argv[1]'"
+			echo "No package matching '$argv[1]'"
 		end
 	else
-		echo "Usage: pinstall [package] [--source/-s]"
+		echo "Usage: pinstall [group/package] [--source/-s]"
 	end
 end

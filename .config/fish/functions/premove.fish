@@ -5,10 +5,10 @@ function premove
 			sudo make -C $package deinstall
 			echo "'$argv[1]' successfully removed"
 		else
-			echo "No package found for '$argv[1]'"
+			echo "No package matching '$argv[1]'"
 		end
 	else
-		echo "Usage: premove [package]"
+		echo "Usage: premove [group/package]"
 	end
 end
 

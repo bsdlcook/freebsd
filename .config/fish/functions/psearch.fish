@@ -1,12 +1,13 @@
 function psearch
 	if test (count $argv) -gt 0
-		set -l results (pkg search -o $argv[1] | wc -l | tr -d ' ') 
+		set -l results (pkg search -o $argv[1] | uniq | wc -l | tr -d ' ') 
 		if test $results -gt 0
-  			pkg search -o $argv[1] | awk \
+  			pkg search -o $argv[1] | uniq | awk \
 			'BEGIN {
-				print "package\t\t\t       description"
 				lines = sprintf("%75s", "") 
 				gsub(/ /, "-", lines)
+				print lines
+				print "package\t\t\t       description"
 				print lines
 			}
 		
@@ -17,9 +18,10 @@ function psearch
 			END {
 				print lines
 			}'
-			echo "$results package(s) found - type pinstall <group/package> to install"
+			echo "$results package(s) matched: type pinstall [group/package] to install"
+			echo "---------------------------------------------------------------------------"
 		else
- 			echo "No package(s) found for '$argv[1]'"
+ 			echo "No package(s) matching '$argv[1]'"
 		end
 	else
 		echo "Usage: psearch [package]"
