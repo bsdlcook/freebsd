@@ -1,3 +1,3 @@
 function pclean
-	sudo pkg autoremove && sudo pkg clean
+	doas pkg autoremove && doas pkg clean
 end

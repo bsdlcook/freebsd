@@ -3,10 +3,10 @@ function pinstall
 		set -l package /usr/ports/$argv[1]
 		if test (pkg search -o $argv[1] | wc -l | tr -d ' ') -gt 0 && test -d $package
 			if test $argv[2] = "-s" 2>/dev/null || test $argv[2] = "--source" 2>/dev/null
-				sudo make -C $package install clean BATCH=yes
+				doas make -C $package install clean BATCH=yes
 				echo "'$argv[1]' successfully installed from source"
 			else
-				sudo pkg install $argv[1]
+				doas pkg install $argv[1]
 				echo "'$argv[1]' successfully installed"
 			end
 		else

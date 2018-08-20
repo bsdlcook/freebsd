@@ -65,8 +65,8 @@ else
 		read -r -n1 input && input=$(echo $input | tr "[:upper:]" "[:lower:]")
 		if [ $input == "y" 2>/dev/null ]; then
 			echo -ne "\n\nPlease wait..."
-			sudo make clean install -C ~/.suckless/dwm &>/dev/null
-			sudo make clean install -C ~/.suckless/st &>/dev/null
+			doas make clean install -C ~/.suckless/dwm &>/dev/null
+			doas make clean install -C ~/.suckless/st &>/dev/null
 			
 			zathura_conf=~/.config/zathura/zathurarc
 	        	sed -i "" s/$(cat ~/.config/zathura/zathurarc | grep "highlight-color" | awk '{print $3}' | sed s/\"//g)/$updated_accent/g $zathura_conf

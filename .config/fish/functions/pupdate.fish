@@ -1,3 +1,3 @@
 function pupdate
-	sudo portsnap fetch extract update && sudo pkg clean
+	doas portsnap fetch extract update && doas pkg clean
 end
