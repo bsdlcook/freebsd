@@ -34,8 +34,8 @@ There isn't much prerequisites as the setup script makes it *for the most part* 
 - Freshly installed FreeBSD system;
 - Git installed (``pkg install git``);
 - Bash installed (``pkg install bash``) - I'd like to make bash redundant but the bourne shell doesn't support arrays ~~damn POSIX~~;
-- Sudo installed (``pkg install sudo``) and the user added to the sudoers file with NOPASSWD enabled for that user (makes life much easier): ``echo "YOUR_USER ALL=(ALL) NOPASSWRD: ALL" | sudo tee -a /usr/local/etc/sudoers``;
-- I'm aware this isn't a good practice allowing users running sudo without a password. Security isn't a number one priority in this type of environment; simply for the sake of convenience.
+- Doas installed (``pkg install doas``) and the user added to the doas config file with 'nopass' enabled for that user (makes life much easier, run this command on the root account): ``echo "permit nopass YOUR_USER as root" | tee -a /usr/local/etc/doas.conf``;
+- I'm aware this isn't a good practice allowing users running doas without a password. Security isn't a number one priority in this type of environment; simply for the sake of convenience.
 - Everything else is pulled in by the setup script. Nothing else required - only a brain and common sense.
 
 # Setup
