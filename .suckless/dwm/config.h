@@ -15,18 +15,7 @@ static const char *colors[][3]      = {
 };
 
 /* tags */
-static const char *tags[] = { "main", "web", "term", "dev", "chat", "music" };
-
-/* rules */
-static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-};
+static const char *tags[] = { "MAIN", "WEB", "TERM", "DEV", "CHAT", "MUSIC" };
 
 /* layout(s) */
 static const float mfact     = 0.50; /* factor of master area size [0.05..0.95]      */
@@ -36,9 +25,9 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 #include "src/gaplessgrid.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function 				     */
-	{ "[t]",      tile },        /* tiling layout behavior (default) */
-	{ "[f]",      NULL },        /* floating window behavior         */
-	{ "[g]",      gaplessgrid }, /* gapelessgrid layout behaviour    */
+	{ "[T]",      tile },        /* tiling layout behavior (default) */
+	{ "[F]",      NULL },        /* floating window behavior         */
+	{ "[G]",      gaplessgrid }, /* gapelessgrid layout behaviour    */
 };
 
 /* key definitions */
