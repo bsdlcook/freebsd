@@ -41,7 +41,7 @@ function fish_prompt -d "Write out the left prompt of the syl20bnr theme"
   set -l colred    (set_color red)
   set -l colbred   (set_color -o red)
   set -l colwhite  (set_color white)
-  set -l colbwhite  (set_color -o white)
+  set -l colbwhite (set_color -o white)
   
   # Segments
   set -l ps_git ""
@@ -51,16 +51,16 @@ function fish_prompt -d "Write out the left prompt of the syl20bnr theme"
     set -l git_info ""
     set -l git_status (__syl20bnr_git_status)
     if echo $git_status | grep ahead > /dev/null
-      set git_info "["$colbgreen"↑"(__syl20bnr_unpushed_commit_count $git_status)$colnormal"]"
+      set git_info "["$colbgreen"↑"(__syl20bnr_unpushed_commit_count $git_status)$colbred"]"
     end
     if echo $git_status | grep behind > /dev/null
-      set git_info "$git_info""["$colbred"↓"(__syl20bnr_unmerged_commit_count $git_status)$colnormal"]"
+      set git_info "$git_info""["$colbred"↓"(__syl20bnr_unmerged_commit_count $git_status)$colbred"]"
     end
     set -l colbranch $colbgreen
     if echo $git_status | grep -E "\s\?\?\s|\sM\s|\sD\s" > /dev/null
       set colbranch $colbred
     end
-    set ps_git $colbwhite"git:"$colbcyan$git_branch_name$git_info$colnormal"@"$colbranch$git_repo_name
+    set ps_git $colbwhite"git:"$colbred$git_branch_name$git_info$colnormal"*"$colbcyan$git_repo_name
     if test "$basedir_name" != "$git_repo_name"
         set -l basedir_depth (echo (__syl20bnr_git_repo_base) | sed "s/\// /g" | wc -w)
         set ps_git $ps_git$colnormal":"$colbwhite$basedir_name$colnormal
@@ -72,13 +72,13 @@ function fish_prompt -d "Write out the left prompt of the syl20bnr theme"
   if test -z "$ps_git"
     set -l in_home (echo (pwd) | grep ~)
     if test -n "$in_home"
-      set ps_pwd $colred"home"
+      set ps_pwd $colred"~"
     else
-      set ps_pwd $colred"/"
+      set ps_pwd $colred"*"
     end
     if test (echo (pwd)) != ~ -a (echo (pwd)) != /
-      set ps_pwd $ps_pwd":"$colred$basedir_name
-      set ps_pwd $ps_pwd$colnormal
+      set ps_pwd $ps_pwd$colred" "$basedir_name
+      #set ps_pwd $ps_pwd$colnormal
     end
   end
       
@@ -99,7 +99,7 @@ function fish_prompt -d "Write out the left prompt of the syl20bnr theme"
   end
 
   # end of prompt
-  set -l ps_end "~>"
+  set -l ps_end " λ"
   
   # indicator for ranger parent process
   set -l ranger ""
