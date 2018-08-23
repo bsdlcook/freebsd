@@ -69,13 +69,15 @@ else
 			doas make clean install -C ~/.suckless/st &>/dev/null
 			
 			zathura_conf=~/.config/zathura/zathurarc
-	        	sed -i "" s/$(cat ~/.config/zathura/zathurarc | grep "highlight-color" | awk '{print $3}' | sed s/\"//g)/$updated_accent/g $zathura_conf
-			sed -i "" s/$(cat ~/.config/zathura/zathurarc | grep "recolor-lightcolor" | awk '{print $3}' | sed s/\"//g)/$updated_background/g $zathura_conf
-			sed -i "" s/$(cat ~/.config/zathura/zathurarc | grep "statusbar-fg" | awk '{print $3}' | sed s/\"//g)/$updated_foreground/g $zathura_conf
+	        	sed -i "" s/$(grep "highlight-color" $zathura_conf | awk '{print $3}' | sed s/\"//g)/$updated_accent/g $zathura_conf
+			sed -i "" s/$(grep "recolor-lightcolor" $zathura_conf | awk '{print $3}' | sed s/\"//g)/$updated_background/g $zathura_conf
+			sed -i "" s/$(grep "statusbar-fg" $zathura_conf | awk '{print $3}' | sed s/\"//g)/$updated_foreground/g $zathura_conf
             		
-			convert ~/.scripts/.bsd.png -fuzz 20% -trim +repage -fill $updated_accent -opaque "#333333" ~/.scripts/.bsd-icon.png
-            		convert -size 2560x1080 canvas:$updated_background -gravity center ~/.scripts/.bsd-icon.png -composite ~/.scripts/.background.png
-            		feh --bg-fill ~/.scripts/.background.png
+			bsd_icon=~/.scripts/.bsd-icon.png
+			bsd_background=~/.scripts/.background.png
+			convert ~/.scripts/.bsd.png -fuzz 20% -trim +repage -fill $updated_accent -opaque "#333333" $bsd_icon
+            		convert -size 2560x1080 canvas:$updated_background -gravity center $bsd_icon -composite $bsd_background
+            		feh --bg-fill $bsd_background
 			
 			echo " System theme has been applied! Press Mod + q to restart dwm."
 		else
