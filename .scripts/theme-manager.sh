@@ -7,23 +7,22 @@ done
 theme_count=${#themes[@]}
 
 if ((theme_count < 1)); then
-	echo "No themes found in $theme_dir/."
+	echo "No themes found in $theme_dir/" && exit
 fi
 
-echo -ne "Suckless theme manager script\n\n"
-echo -ne "Available themes:\n"
+echo -e "Suckless theme manager script\n"
 for ((i = 0; i < theme_count; i++)); do
 	if ((i != theme_count-1)); then
-		echo -n "[$i] ${themes[$i]}, ";
+		echo "[$i] ${themes[$i]},";
 	else
-		echo -n "[$i] ${themes[$i]} ";
+		echo "[$i] ${themes[$i]}";
 	fi
 done
 
-echo -ne "\n\n[?] Choose a theme: "
+echo -ne "\n[?] Choose a theme: "
 read -r -n1 theme_index
 if ((theme_index > theme_count-1 || theme_index < 0)); then
-	echo -ne "\n\nNo such theme exists."
+	echo -e "\n\nNo such theme exists."
 else
 	theme=${themes[theme_index]}
 	echo " [$theme]"
@@ -59,12 +58,12 @@ else
 		sed -i "" s/"$current_background"/"$updated_background"/ $theme_file
 		sed -i "" s/"$current_foreground"/"$updated_foreground"/ $theme_file
 		sed -i "" s/"$current_border"/"$updated_border"/ $theme_file
-		echo -ne "\n\nUpdated $theme_file with the $theme theme!" | sed "s/\/home\/$USER\/.suckless\/themes\///g"
+		echo -e "\n\nUpdated $theme_file with the $theme theme!" | sed "s/\/home\/$USER\/.suckless\/themes\///g"
 		
-		echo -ne "\n\n[?] Do you want to apply this theme to the system? (y/n) "
+		echo -ne "\n[?] Do you want to apply this theme to the system? (y/n) "
 		read -r -n1 input && input=$(echo $input | tr "[:upper:]" "[:lower:]")
 		if [ $input == "y" 2>/dev/null ]; then
-			echo -ne "\n\nPlease wait..."
+			echo -ne "\n\nPlease wait... "
 			doas make clean install -C ~/.suckless/dwm &>/dev/null
 			doas make clean install -C ~/.suckless/st &>/dev/null
 			
@@ -79,11 +78,11 @@ else
             		convert -size 2560x1080 canvas:$updated_background -gravity center $bsd_icon -composite $bsd_background
             		feh --bg-fill $bsd_background
 			
-			echo " System theme has been applied! Press Mod + q to restart dwm."
+			echo "System theme has been applied! Press Mod + q to restart dwm."
 		else
-			echo -ne "\n\nGoodbye!"
+			echo -e "\n\nGoodbye!"
 		fi
 	else
-		echo -ne "\n\nNo new theme applied."
+		echo -e "\n\nNo new theme applied."
 	fi
 fi
