@@ -3,8 +3,8 @@ static const unsigned int borderpx  = 1; /* border pixel of windows */
 static const unsigned int snap      = 8; /* snap pixel              */
 static const int showbar            = 1; /* 0 means no bar          */
 static const int topbar             = 1; /* 0 means bottom bar      */
-static const char *fonts[]          = { "Terminus:pixelsize=10:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Terminus:pixelsize=10:antialias=true:autohint=true";
+static const char *fonts[]          = { "IBM Plex Mono:pixelsize=12:antialias=true:autohint=true" };
+static const char dmenufont[]       = "IBM Plex Mono:pixelsize=12:antialias=true:autohint=true";
 
 /* colors */
 #include "../themes/theme.h"
@@ -15,7 +15,7 @@ static const char *colors[][3]      = {
 };
 
 /* tags */
-static const char *tags[] = { "MAIN", "WEB", "TERM", "DEV", "CHAT", "MUSIC" };
+static const char *tags[] = { "1:MAIN", "2:WEB", "3:TERM", "4:DEV", "5:MUSIC" };
 
 /* layout(s) */
 static const float mfact     = 0.50; /* factor of master area size [0.05..0.95]      */

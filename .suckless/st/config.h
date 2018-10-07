@@ -1,5 +1,5 @@
 static char *font = "IBM Plex Mono:pixelsize=12:antialias=true:autohint=true";
-static int borderpx = 2;
+static int borderpx = 15;
 
 static char *shell = "/usr/local/bin/fish";
 char *utmp = NULL;
