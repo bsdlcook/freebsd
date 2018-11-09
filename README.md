@@ -41,7 +41,7 @@ There isn't much prerequisites as the setup script makes it *for the most part* 
 # Setup
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
 - Changing your current directory to ``/tmp`` with of course ``cd /tmp``;
-- Cloning this repo ``git clone https://gitlab.com/omnistar/freebsd-setup`` and changing to that given directory ``cd freebsd-setup``;
+- Cloning this repo ``git clone https://gitlab.com/lust3088/freebsd-setup`` and changing to that given directory ``cd freebsd-setup``;
 - From there you'll find a setup script ``setup.sh`` that you can run by typing ``./setup.sh`` and everything else is done for you;
 - When changing the default shell ``chsh`` you'll be prompted to enter your password;
 - What the script does is check if the required packages are installed, change the default shell to fish and install the IBM Plex Mono fonts. Feel free to check the script.
