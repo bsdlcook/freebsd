@@ -1,4 +1,7 @@
-static char *font = "IBM Plex Mono:pixelsize=12:antialias=true:autohint=true";
+/* theme settings */
+#include "../themes/theme.h"
+
+static char *font = theme.font;
 static int borderpx = 15;
 
 static char *shell = "/usr/local/bin/fish";
@@ -30,9 +33,7 @@ char *termname = "xterm-256color";
 
 unsigned int tabspaces = 8;
 
-#include "../themes/theme.h"
 static const char *colorname[] = {
-
   /* 8 normal colors */
   [0] = "#101010", /* black   */
   [1] = "#ff6b57", /* red     */
