@@ -18,14 +18,15 @@ static const char *colors[][3] = {
 /* tags */
 static const char *tags[] = { "1:main", "2:web", "3:term", "4:dev", "5:music" };
 
-#include "src/gaplessgrid.c"
-/* layout(s) */
+/* client/master ratios */
 static const float mfact     = 0.50; /* factor of master area size [0.05..0.95]      */
 static const int nmaster     = 1;    /* number of clients in master area             */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
+/* layout(s) */
+#include "src/gaplessgrid.c"
 static const Layout layouts[] = {
-	/* symbol     arrange function 				     	 */
+	/* symbol     arrange function					 */
 	{ "[T]",      tile },        /* tiling layout behavior (default) */
 	{ "[F]",      NULL },        /* floating window behavior         */
 	{ "[G]",      gaplessgrid }, /* gapelessgrid layout behaviour    */
@@ -40,34 +41,40 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* applications */
-static const char *terminal[]   = { "st", NULL };
-static const char *browser[]    = { "firefox", NULL };
+static const char *terminal[]	= { "st", NULL };
+static const char *browser[]	= { "firefox", NULL };
+static const char *files[]	= { "st", "-e", "vifm", NULL };
+static const char *editor[]	= { "st", "-e", "nvim", NULL };
+static const char *music[]	= { "st", "-e", "cmus", NULL };
 
 /* commands */
-static const char *dmenu[]      = { "dmenu_run", "-i", "-p", "run:", NULL };
-static const char *screenshot[] = { "xshare", "-s", "-c", NULL };
-static const char *themer[] 	= { "/bin/sh", "-c", "~/.scripts/themer.sh", NULL };
+static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
+static const char *screenshot[]	= { "xshare", "-s", "-c", NULL };
+static const char *themer[]	= { "/bin/sh", "-c", "~/.scripts/themer.sh", NULL };
 
+/* key bindings */
 #include "src/movestack.c"
 #include "src/shiftview.c"
-/* key bindings */
 static Key keys[] = {
 	/* modifier                     key        function        argument 								*/
 	/*																*/
 	/*							   applications:							*/
 	{ MODKEY,             		XK_Return, spawn,          {.v = terminal}   },  /* spawn terminal	           		*/
-	{ MODKEY,			XK_f,      spawn,	   {.v = browser}    },  /* spawn web browser 				*/
+	{ MODKEY,			XK_w,      spawn,	   {.v = browser}    },  /* spawn web browser 				*/
+	{ MODKEY,			XK_r,	   spawn,	   {.v = files}      },  /* spawn file browser 				*/
+	{ MODKEY,			XK_e,	   spawn,	   {.v = editor}     },	 /* spawn editor 				*/
+	{ MODKEY,			XK_m,	   spawn,	   {.v = music}      },	 /* spawn music player 				*/
 
 	/*							   commands:								*/
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenu}      },	 /* spawn dmenu 		   		*/
 	{ MODKEY, 			XK_s,	   spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
-	{ MODKEY|ShiftMask,		XK_t,	   spawn,	   {.v = themer}     },	 /* change theme 				*/						
-	
+	{ MODKEY|ShiftMask,		XK_t,	   spawn,	   {.v = themer}     },	 /* change theme 				*/
+
 	/*							   bindings:								*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },	         /* toggle bar		                        */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1}    },       /* focus to next client                     	*/
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1}    },	 /* focus to previous client       		*/
-	{ MODKEY|ShiftMask,		XK_j,	   movestack,	   {.i = +1}    },       /* move client stack foward       		*/        
+	{ MODKEY|ShiftMask,		XK_j,	   movestack,	   {.i = +1}    },       /* move client stack foward       		*/
 	{ MODKEY|ShiftMask,		XK_k,	   movestack,	   {.i = -1}    },       /* move client stack backward    		*/
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1}    },	 /* add client to master area      		*/
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1}    },	 /* remove client from master area 		*/
