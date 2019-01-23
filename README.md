@@ -22,13 +22,35 @@ I've written some very basic fish functions that somewhat act as a wrapper for p
 
 **Work-flow**
 
-Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to. I've made the process of changing the system theme convenient and easy, not the paradigm of 'you have to recompile dwm everytime which makes it hard' as that's simply not true (unless you lack the competence to run a simple keybind). For this to work all you need to do is press ``Mod + Shift + t`` and you'll be prompted by dmenu to choose a theme: select the theme you desire; press enter; wait a few seconds (this automatically recompiles the suckless software); dwm will restart and it's done. Your newly compiled dwm, st and dmenu now awaits with your newly set background wallpaper (alongside any other arbitrary configuration files manipulated by the script). The only caveat is any preexisting windows will be rest to tiling mode so I'd suggest choosing the theme before changing - this is not an issue, as not often you'll be messing with it - on the odd occasion you do it's trivial to move the windows back around as you see fit. =)   
+Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to.
 
-*Note: All of the key bindings for dwm are in **~/.suckless/dwm/config.h**.* The modkey is set to the Windows key, a quick overview of the bindings are as following:
+I've made the process of changing the system theme convenient and easy, not the paradigm of 'you have to recompile dwm everytime which makes it hard' as that's simply not true (unless you lack the competence to run a simple keybind). For this to work all you need to do is press ``Mod + Shift + t`` and you'll be prompted by dmenu to choose a theme: select the theme you desire; press enter; wait a few seconds (this automatically recompiles the suckless software); dwm will restart and it's done. Your newly compiled dwm, st and dmenu now awaits with your newly set background wallpaper (alongside any other arbitrary configuration files manipulated by the script). The only caveat is any preexisting windows will be reset to tiling mode so I'd suggest choosing the theme before changing - this is not an issue, as not often you'll be messing with it - on the odd occasion you do it's trivial to move the windows back around as you see fit. =)   
+
+**Screenshots**
+*Note: the themes below are included by default*.
+
+*zenmint theme*:
+![](https://i.imgur.com/sUq2yzt.png) 
+![](https://i.imgur.com/wJ2xaT5.png)
+*zenpurple theme*:
+![](https://i.imgur.com/P2iBvcX.png) 
+![](https://i.imgur.com/ffUUPNZ.png)
+*suckless theme*:
+![](https://i.imgur.com/8bZ0WXg.png) 
+![](https://i.imgur.com/avafFWE.png)
+*darkpurple theme*:
+![](https://i.imgur.com/kcQysdX.png) 
+*cherry theme*:
+![](https://i.imgur.com/NfSNkMj.png)
+
+**Keybindings**
+
+*Note: All of the key bindings for dwm are in **~/.suckless/dwm/config.h**.* The modkey is set to the Windows metakey, a quick overview of the bindings are as follows:
 - ``Mod + Enter``: Open a terminal;
 - ``Mod + Shift + t``: Theme chooser dmenu prompt;
-- ``Mod + q``: Restart dwm;
-- ``Mod + r``: Launch dmenu (program launcher);
+- ``Mod + Space``: Launch dmenu (program launcher);
+- ``Mod + r``: Launch vifm (terminal file managaer);
+- ``Mod + w``: Launch firefox;
 - ``Mod + t``: Tiling layout mode;
 - ``Mod + f``: Floating layout mode;
 - ``Mod + g``: Grid layout mode.
@@ -54,7 +76,8 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 I've included a simplistic theme manager script for dwm/st/dmenu etc located at **~/.scripts/themer.sh**. As of now there's a few theme configs (**~/.suckless/themes/**) that you can apply to the system, run with the keybind ``Mod + Shift + t`` as explained earlier on this README. The script directory is appended to the $PATH environment variable meaning you can run ``themer.sh`` from anywhere in the terminal (this also applies to any other script inside **~/.scripts/**) but it's best advised to use the keybind.
 
 **How does it work?**
+
 Themes are read from **~/.suckless/themes/\*.conf** parsing the hex values with awk, then using sed to replace those values inside of **~/.suckless/themes/theme.h** which /dwm/st/dmenu inherits. To add your own theme it's as following:
-- Create a new file in **~/.suckless/themes/** with the given file extension conf (this is crucial for it the script to detect it!) e.g. **epictheme.conf**;
-- The format of the theme config is ``accent:background:foreground:border:x11-font``, no more, no less. e.g. ``#752A2A:#1C1C1C:#BBBBBB:#44444``;
+- Create a new file in **~/.suckless/themes/** with the given file extension conf (this is crucial for it the script to detect it!) e.g. ``epictheme.conf``;
+- The format of the theme config is ``accent:background:foreground:border``, no more, no less. e.g. ``#752A2A:#1C1C1C:#BBBBBB:#44444``;
 - That config will then be parsed and should be available as a theme to choose from - that's it - you can now use ``epictheme``! *easy-as-pie*, right?
