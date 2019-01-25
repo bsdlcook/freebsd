@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+bsd=$scriptdir\.themer/.bsd.png
+bsdicon=$scriptdir\.themer/.bsd-icon.png
+bsdbg=$scriptdir\.themer/.background.png
+convert $bsd -fuzz 20% -trim +repage -fill $newaccent -opaque "#333333" $bsdicon
+convert -size 2560x1080 canvas:$newbg -gravity center $bsdicon -composite $bsdbg
+feh --bg-fill $bsdbg

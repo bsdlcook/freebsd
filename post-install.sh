@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-declare -a PACKAGES=(
+declare -a packages=(
 	shells/fish
 	editors/neovim
 	misc/vifm
@@ -21,6 +21,7 @@ declare -a PACKAGES=(
 	x11/libXdmcp
 	x11/libXext
 	x11/libXinerama
+	x11/xdotool
 	devel/dbus
 )
 
@@ -63,11 +64,11 @@ check_doas() {
 
 install_packages() {
 	printf "\nchecking packages...\n"
-	for PACKAGE in ${PACKAGES[*]}; do
-		printf "[#] $PACKAGE: "
-		if [ -z $(pkg info -x $PACKAGE 2>/dev/null | head -n1) ]; then
+	for package in ${packages[*]}; do
+		printf "[#] $package: "
+		if [ -z $(pkg info -x $package 2>/dev/null | head -n1) ]; then
 			printf "not installed. "
-			doas pkg install -y $PACKAGE &>/dev/null
+			doas pkg install -y $package &>/dev/null
 			printf "passed.\n"
 		else
 			printf "passed.\n"

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+zatconf=$HOME/.config/zathura/zathurarc
+cat $zatconf\.bak > $zatconf
+zat=($(grep -o "#[0-9a-fA-F]\{6\}" $zatconf))
+zatcur=($(printf "%s\n" ${zat[@]} | sort -us))
+zataccent=${zatcur[0]}
+zatbg=${zatcur[1]}
+zatfg=${zatcur[2]}
+sed -i "" -e "s/$zataccent/$newaccent/g"  \
+    -i "" -e "s/$zatbg/$newbg/g"          \
+    -i "" -e "s/$zatfg/$newfg/g" $zatconf \

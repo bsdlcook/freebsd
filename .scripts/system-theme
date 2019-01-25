@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+read theme
+sucklessdir=$HOME/.suckless/
+themedir=$sucklessdir\themes/
+scriptdir=$HOME/.scripts/
+themefile=$themedir\theme.h
+themeconf=$themedir$theme.conf
+[ ! -f $themeconf ] && exit 1
+# current settings.
+cur=($(grep -o "#[0-9a-fA-F]\{6\}" $themefile))
+curaccent=${cur[0]}
+curbg=${cur[1]}
+curfg=${cur[2]}
+curborder=${cur[3]}
+# new theme settings.
+new=($(grep -o "#[0-9a-fA-F]\{6\}" $themeconf))
+newaccent=${new[0]}
+newbg=${new[1]}
+newfg=${new[2]}
+newborder=${new[3]}
+# update header file.
+sed -i "" -e "s/$curaccent/$newaccent/"            \
+    -i "" -e "s/$curbg/$newbg/"                    \
+    -i "" -e "s/$curfg/$newfg/"                    \
+    -i "" -e "s/$curborder/$newborder/" $themefile \
+# recompile suckless software.
+doas make clean install -C $sucklessdir\dwm &> /dev/null
+doas make clean install -C $sucklessdir\dmenu &>/dev/null
+doas make clean install -C $sucklessdir\st &>/dev/null
+# update other arbitrary configs.
+source $scriptdir.themer/wallpaper
+source $scriptdir.themer/zathura
+# restart dwm.
+xdotool key "Super+q"
