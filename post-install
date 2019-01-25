@@ -4,7 +4,7 @@ declare -a packages=(
 	shells/fish
 	editors/neovim
 	misc/vifm
-	graphics/ImageMagick7 
+	graphics/ImageMagick6 
 	graphics/feh
 	graphics/zathura
 	graphics/zathura-pdf-mupdf
