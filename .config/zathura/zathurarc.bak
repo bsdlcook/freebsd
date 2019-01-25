@@ -2,7 +2,7 @@ set recolor
 set recolor-darkcolor "#BBBBBB"
 set highlight-color "#033F5F"
 set highlight-active-color "#033F5F"
-set statusbar-bg "#033F5F"
+set statusbar-bg "#141920"
 set statusbar-fg "#BBBBBB"
 set font "Apercu Mono Pro 8"
 set default-fg "#BBBBBB"
