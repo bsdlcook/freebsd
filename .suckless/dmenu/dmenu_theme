@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-themedir=$HOME/.suckless/themes/
-scriptdir=$HOME/.scripts/
+themedir="$HOME/.suckless/themes/"
+scriptdir="$HOME/.scripts/"
 
-find $themedir -maxdepth 1 -type f -name *.conf -exec echo {} \; | sed -e "s/\/home\/$USER\/.suckless\/themes\///g" -e "s/.conf//g" | \
-	dmenu -i -p "select theme:" "$@" | $scriptdir\system-theme
+find "$themedir" -maxdepth 1 -type f -name "*.conf" | sed -e "s/\/home\/$USER\/.suckless\/themes\///g" -e "s/.conf//g" | \
+	sort -us | dmenu -i -p "select theme:" "$@" | $scriptdir\system-theme
