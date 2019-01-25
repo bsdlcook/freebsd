@@ -24,7 +24,7 @@ I've written some very basic fish functions that somewhat act as a wrapper for p
 
 Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to.
 
-I've made the process of changing the system theme convenient and easy, not the paradigm of 'you have to recompile dwm everytime which makes it hard' as that's simply not true (unless you lack the competence to run a simple keybind). For this to work all you need to do is press ``Mod + Shift + t`` and you'll be prompted by dmenu to choose a theme: select the theme you desire; press enter; wait a few seconds (this automatically recompiles the suckless software); dwm will restart and it's done. Your newly compiled dwm, st and dmenu now awaits with your newly set background wallpaper (alongside any other arbitrary configuration files manipulated by the script). The only caveat is any preexisting windows will be reset to tiling mode so I'd suggest choosing the theme before changing - this is not an issue, as not often you'll be messing with it - on the odd occasion you do it's trivial to move the windows back around as you see fit. =)   
+I've made the process of changing the system theme convenient and easy, not the paradigm of 'you have to recompile dwm everytime which makes it hard' as that's simply not true (unless you lack the competence to run a simple keybind). For this to work all you need to do is press ``Mod + Shift + t`` and you'll be prompted by dmenu to choose a theme: select the theme you desire; press enter; wait a few seconds (this automatically recompiles the suckless software); dwm will restart and it's done. Your newly compiled dwm, st and dmenu now awaits with your newly set background wallpaper (alongside any other arbitrary configuration files manipulated by the script). The only caveat is any preexisting windows will be reset to tiling mode so I'd suggest choosing the theme before changing - this is not an issue, as not often you'll be messing with it - on the odd occasion you do it's trivial to move the windows back around as you see fit. =)
 
 **Screenshots**
 
@@ -50,7 +50,7 @@ I've made the process of changing the system theme convenient and easy, not the 
 - ``Mod + Enter``: Open a terminal;
 - ``Mod + Shift + t``: Theme chooser dmenu prompt;
 - ``Mod + Space``: Launch dmenu (program launcher);
-- ``Mod + r``: Launch vifm (terminal file managaer);
+- ``Mod + r``: Launch vifm (terminal file manager);
 - ``Mod + w``: Launch firefox;
 - ``Mod + t``: Tiling layout mode;
 - ``Mod + f``: Floating layout mode;
@@ -74,7 +74,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 *As simple as that*. You should be done now, given my mediocre scripting has worked for you. I'd suggest rebooting the system once the setup script has completed.
 
 # Theme manager
-I've included a simplistic theme manager script for dwm/st/dmenu etc located at **~/.scripts/themer.sh**. As of now there's a few theme configs (**~/.suckless/themes/**) that you can apply to the system, run with the keybind ``Mod + Shift + t`` as explained earlier on this README. The script directory is appended to the $PATH environment variable meaning you can run ``themer.sh`` from anywhere in the terminal (this also applies to any other script inside **~/.scripts/**) but it's best advised to use the keybind.
+I've included a simplistic theme manager script for dwm/st/dmenu etc located at **~/.scripts/system-theme*. As of now there's a few theme configs (**~/.suckless/themes/**) that you can apply to the system, run with the keybind ``Mod + Shift + t`` as explained earlier on this README. The script directory is appended to the $PATH environment variable meaning you can run ``echo "theme_name" | system-theme`` from anywhere in the terminal (this also applies to any other script inside **~/.scripts/**) but it's best advised to use the keybind.
 
 **How does it work?**
 

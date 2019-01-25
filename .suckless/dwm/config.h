@@ -50,7 +50,7 @@ static const char *music[]	= { "st", "-e", "cmus", NULL };
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
 static const char *screenshot[]	= { "xshare", "-s", "-c", NULL };
-static const char *themer[]	= { "/bin/sh", "-c", "~/.scripts/themer.sh", NULL };
+static const char *themer[]	= { "dmenu_theme", NULL };
 
 /* key bindings */
 #include "src/movestack.c"
