@@ -2,7 +2,7 @@ function premove
 	if test (count $argv) -gt 0
 		set -l package /usr/ports/$argv[1]
 		if test (pkg info | grep $argv[1] | wc -l | tr -d ' ') && test -d $package
-			doas make -C $package deinstall
+			doas pkg remove -y $argv[1]
 			echo "'$argv[1]' successfully removed"
 		else
 			echo "No package matching '$argv[1]'"
