@@ -1,3 +1,3 @@
 function pclean
-	doas pkg autoremove && doas pkg clean
+	doas pkg autoremove -y && doas pkg clean -ay
 end

@@ -6,7 +6,7 @@ function pinstall
 				doas make -C $package install clean BATCH=yes
 				echo "'$argv[1]' successfully installed from source"
 			else
-				doas pkg install $argv[1]
+				doas pkg install -y $argv[1]
 				echo "'$argv[1]' successfully installed"
 			end
 		else
