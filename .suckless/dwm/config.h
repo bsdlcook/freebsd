@@ -49,7 +49,7 @@ static const char *music[]	= { "st", "-e", "cmus", NULL };
 
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
-static const char *screenshot[]	= { "xshare", "-s", "-c", NULL };
+static const char *screenshot[]	= { "goshare", "-s", "-c", NULL };
 static const char *themer[]	= { "dmenu_theme", NULL };
 
 /* key bindings */
@@ -109,5 +109,6 @@ static Button buttons[] = {
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} }, /* move client via mouse	 */ 
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} }, /* toggle floating client */
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} }, /* resize floating client */
+	{ ClkTagBar,		0,		Button1,	view,		{0} }, /* change tag via click   */ 
 	/*													 */
 };
