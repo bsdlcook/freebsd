@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-read theme
+
+set -- "${1:-$(</dev/stdin)}" "${@:2}"
 sucklessdir=$HOME/.suckless/
 themedir=$sucklessdir\themes/
 scriptdir=$HOME/.scripts/
 themefile=$themedir\theme.h
-themeconf=$themedir$theme.conf
+themeconf=$themedir$1.conf
 [ ! -f $themeconf ] && exit 1
 # current settings.
 cur=($(grep -o "#[0-9a-fA-F]\{6\}" $themefile))

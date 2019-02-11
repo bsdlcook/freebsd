@@ -64,12 +64,10 @@ static Key keys[] = {
 	{ MODKEY,			XK_r,	   spawn,	   {.v = files}      },  /* spawn file browser 				*/
 	{ MODKEY,			XK_e,	   spawn,	   {.v = editor}     },	 /* spawn editor 				*/
 	{ MODKEY,			XK_m,	   spawn,	   {.v = music}      },	 /* spawn music player 				*/
-
 	/*							   commands:								*/
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenu}      },	 /* spawn dmenu 		   		*/
 	{ MODKEY, 			XK_s,	   spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
 	{ MODKEY|ShiftMask,		XK_t,	   spawn,	   {.v = themer}     },	 /* change theme 				*/
-
 	/*							   bindings:								*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },	         /* toggle bar		                        */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1}    },       /* focus to next client                     	*/
@@ -92,7 +90,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1} },	 	 /* move client to right monitor		*/
 	{ MODKEY,             		XK_q,      quit,           {1} },		 /* inline restart dwm				*/
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },		 /* quit dwm 					*/
-	
 	/*							   workspace bindings:							*/
 	TAGKEYS(                        XK_1,                      0)			 /* workspace 1: main				*/
 	TAGKEYS(                        XK_2,                      1)			 /* workspace 2: web			  	*/
@@ -105,7 +102,6 @@ static Key keys[] = {
 /* button definitions */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument 			 */
-	/*													 */
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} }, /* move client via mouse	 */ 
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} }, /* toggle floating client */
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} }, /* resize floating client */

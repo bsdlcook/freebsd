@@ -74,7 +74,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 *As simple as that*. You should be done now, given my mediocre scripting has worked for you. I'd suggest rebooting the system once the setup script has completed.
 
 # Theme manager
-I've included a simplistic theme manager script for dwm/st/dmenu etc located at **~/.scripts/system-theme*. As of now there's a few theme configs (**~/.suckless/themes/**) that you can apply to the system, run with the keybind ``Mod + Shift + t`` as explained earlier on this README. The script directory is appended to the $PATH environment variable meaning you can run ``echo "theme_name" | system-theme`` from anywhere in the terminal (this also applies to any other script inside **~/.scripts/**) but it's best advised to use the keybind.
+I've included a simplistic theme manager script for dwm/st/dmenu etc located at **~/.scripts/sys-themes-apply*. As of now there's a few theme configs (**~/.suckless/themes/**) that you can apply to the system, run with the keybind ``Mod + Shift + t`` as explained earlier on this README. The script directory is appended to the $PATH environment variable meaning you can run ``sys-themes-apply [theme]`` or ``sysa [theme`` (shorthand alias to sys-themes-apply) from anywhere in the terminal (this also applies to any other script inside **~/.scripts/**) but it's best advised to use the keybind. To view the current themes on the system run: ``sys-themes`` and this will return a full list including the theme name: accent; background; foreground and the border hex values (use ``sysl`` as a shorthand alias to ``sys-themes``). 
 
 **How does it work?**
 
