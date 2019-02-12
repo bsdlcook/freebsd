@@ -25,8 +25,9 @@ declare -a packages=(
 	devel/dbus
 )
 
-banner() {
-cat << "EOF"
+banner()
+{
+	cat << "EOF"
 	       ,        ,
               /(        )`
               \ \___   / |
@@ -41,85 +42,111 @@ cat << "EOF"
   <----.     __ / __   \
   <----|====O)))==) \) /====
   <----'    `--' `.__,' \
-               |        |    lewis' freebsd post-installation setup script.
-                \       /	   ver 1.
+               |        |    Lewis' FreeBSD post-installation setup script.
+                \       /	   Version 1.
            ______( (_  / \______
          ,'  ,-----'   |        \     - gitlab.com/love_lace/freebsd-setup
          `--{__________)        \/    
 EOF
 }
 
-check_root() {
-	printf "\nchecking perms... "
-	[ $(id -u) -eq 0 ] && printf "error: please re-run this script as a non-privileged user.\n" && exit 1
-	printf "passed.\n"
+update_repo()
+{
+	printf "\nUpdating package metadata: "
+	doas pkg update &>/dev/null
+	printf "Passed.\n"
 }
 
-check_doas() {
-	printf "checking doas... "
+check_root()
+{
+	printf "\nTesting user permissions: "
+	[ $(id -u) -eq 0 ] && printf "Error: Please re-run this script as a non-privileged user.\n" && exit 1
+	printf "Passed.\n"
+}
+
+check_doas()
+{
+	printf "Testing doas permissions: "
 	[ -z $(pkg info -x security/doas 2>/dev/null | head -n1) ] && \
-		printf "error: please install doas by typing: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass your_user as root' | tee -s /usr/local/etc/doas.conf - then re-run the script.\n" && exit  1
-	printf "passed.\n"
+		printf "Error: Please install doas by typing: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass your_user as root' | tee -s /usr/local/etc/doas.conf - then re-run the script.\n" && exit  1
+	printf "Passed.\n"
 }
 
-install_packages() {
-	printf "\nchecking packages...\n"
+check_package()
+{
+	printf "   - $1: "
+	if [ -z $(pkg info -x $1 2>/dev/null | head -n1) ]; then
+		printf "Not installed... "
+		doas pkg install -y $1 &>/dev/null
+		printf "Passed.\n"
+	else
+		printf "Passed.\n"
+	fi
+
+}
+
+install_packages()
+{
+	printf "\nInstalling ${#packages[@]} supplied packages:\n"
 	for package in ${packages[*]}; do
-		printf "[#] $package: "
-		if [ -z $(pkg info -x $package 2>/dev/null | head -n1) ]; then
-			printf "not installed. "
-			doas pkg install -y $package &>/dev/null
-			printf "passed.\n"
-		else
-			printf "passed.\n"
-		fi
+		check_package $package		
 	done
 }
 
-set_shell() {
-	printf "\nchanging default shell...\n"
+set_shell()
+{
+	printf "\nSetting default shell:\n"
 	chsh -s $(which fish)
 }
 
-check_dein() {
-	printf "\nchecking dain... "
+check_dein()
+{
+	printf "\nChecking for dein: "
 	if [ ! -d ~/.cache/dein ]; then
-		printf "not installed. downloading setup script. "
+		printf "Not installed. Downloading setup script. "
 		fetch -qo - https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh | bash -s ~/.cache/dein &>/dev/null
-		printf "passed.\n"
+		printf "Passed.\n"
 	else
-		printf "passed.\n"
+		printf "Passed.\n"
 	fi
 }
 
-dbus_setup() {
-	printf "\nsetting up dbus...\nmachine id: "
-	dbus-uuidgen | doas tee /etc/machine-id
+dbus_setup()
+{
+	printf "\nSetting dbus services:\n"
+	dbus-uuidgen | doas tee /etc/machine-id >/dev/null
 	doas sysrc dbus_enable="YES"
 	doas sysrc hald_enable="YES"
-	printf "dbus setup complete.\n"
 }
 
-copy_configs() {
-	printf "\ncopying configuration files... "
+copy_configs()
+{
+	printf "\nCopying configuration files: "
 	cp -fR {.config,.scripts,.suckless,.xinitrc,.tmux.conf} ~ &>/dev/null 	
-	printf "passed.\n"
+	printf "Passed.\n"
 }
 
-compile_suckless() {
-	printf "\ncompiling suckless software... "
-	doas make install clean -C ~/.suckless/dwm &>/dev/null
-	doas make install clean -C ~/.suckless/st  &>/dev/null
-	doas make install clean -C ~/.suckless/dmenu &>/dev/null
-	printf "passed.\n\nsetup complete. please reboot your system.\n\n-lewis"
+compile_suckless()
+{
+	printf "\nCompiling suckless utilities: "
+	doas make install clean -C $HOME/.suckless/dwm &>/dev/null
+	doas make install clean -C $HOME/.suckless/st  &>/dev/null
+	doas make install clean -C $HOME/.suckless/dmenu &>/dev/null
+	printf "Passed.\n\nSetup done. Please reboot your system to finalize the changes.\n"
 }
 
-banner
-check_root
-check_doas
-install_packages
-set_shell
-check_dein
-dbus_setup
-copy_configs
-compile_suckless
+run_setup()
+{
+	banner
+	check_root
+	check_doas
+	update_repo
+	install_packages
+	check_dein
+	set_shell
+	dbus_setup
+	copy_configs
+	compile_suckless
+}
+
+run_setup
