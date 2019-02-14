@@ -2,11 +2,13 @@
 #include "../themes/theme.h"
 
 /* general appearance */
-static const unsigned int borderpx = dwm_borderpx;   /* border pixel of windows */
-static const unsigned int snap     = 8; 	     /* snap pixel              */
-static const int showbar           = 1; 	     /* 0 means no bar          */
-static const int topbar            = 1; 	     /* 0 means bottom bar      */
-static const char *fonts[]         = { theme.font }; /* x11 bar font 	        */
+static const unsigned int borderpx = dwm_borderpx;   /* border pixel of windows          */
+static const unsigned int snap     = 8; 	     /* snap pixel                       */
+static const int showbar           = 1; 	     /* 0 means no bar                   */
+static const int topbar            = 1; 	     /* 0 means bottom bar               */
+static const int horizpadbar       = 1;        	     /* horizontal padding for statusbar */
+static const int vertpadbar        = 15;             /* vertical padding for statusbar   */
+static const char *fonts[]         = { theme.font }; /* x11 bar font 	                 */
 
 /* colors */
 static const char *colors[][3] = {
