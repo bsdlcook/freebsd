@@ -1,35 +1,57 @@
 #!/usr/bin/env bash
-
+#--------------------- Read input
 set -- "${1:-$(</dev/stdin)}" "${@:2}"
-sucklessdir=$HOME/.suckless/
-themedir=$sucklessdir\themes/
-scriptdir=$HOME/.scripts/
-themefile=$themedir\theme.h
-themeconf=$themedir$1.conf
+#--------------------- Variables
+sucklessdir=$HOME/.suckless
+scriptdir=$HOME/.scripts
+themeconf=$sucklessdir/themes/$1.conf
+#--------------------- Check theme exists
 [ ! -f $themeconf ] && exit 1
-# current settings.
-cur=($(grep -o "#[0-9a-fA-F]\{6\}" $themefile))
-curaccent=${cur[0]}
-curbg=${cur[1]}
-curfg=${cur[2]}
-curborder=${cur[3]}
-# new theme settings.
-new=($(grep -o "#[0-9a-fA-F]\{6\}" $themeconf))
-newaccent=${new[0]}
-newbg=${new[1]}
-newfg=${new[2]}
-newborder=${new[3]}
-# update header file.
-sed -i "" -e "s/$curaccent/$newaccent/"            \
-    -i "" -e "s/$curbg/$newbg/"                    \
-    -i "" -e "s/$curfg/$newfg/"                    \
-    -i "" -e "s/$curborder/$newborder/" $themefile \
-# recompile suckless software.
-doas make clean install -C $sucklessdir\dwm &> /dev/null
-doas make clean install -C $sucklessdir\dmenu &>/dev/null
-doas make clean install -C $sucklessdir\st &>/dev/null
-# update other arbitrary configs.
-source $scriptdir.themer/wallpaper
-source $scriptdir.themer/zathura
-# restart dwm.
-xdotool key "Super+q"
+#--------------------- Source theme
+source $themeconf
+#--------------------- General appearance
+accent=${accent:-#1177AA}
+background=${background:-#000000}
+foreground=${foreground:-#FFFFFF}
+font=${font:-Apercu Mono Pro:pixelsize=12:antialias=true:autohint=true}
+#--------------------- DWM
+borderactive=${dwm_border_active:-#6592A8}
+borderinactive=${dwm_border_inactive:-#405D6B}
+borderpx=${dwm_border_px:-1}
+#--------------------- ST
+paddingpx=${st_padding_px:-15}
+#--------------------- Generate C headerfile
+cat > $sucklessdir/themes/theme.h <<EOF
+typedef struct {
+	char accent[8];
+	char background[8];
+	char foreground[8];
+	char font[255];
+	struct {
+		char border_active[8];
+		char border_inactive[8];
+	} dwm;
+} Theme;
+
+/* theme: $1 */
+#define dwm_borderpx ${borderpx} 
+#define st_paddingpx ${paddingpx}
+static const Theme theme = {
+	/* accent, background, foreground, font */
+	"${accent}", "${background}", "${foreground}", "${font}",
+	{
+		"${borderactive}",	/* dwm border active   */
+		"${borderinactive}"	/* dwm border inactive */
+	}
+};
+EOF
+#--------------------- Recompile suckless utilities 
+doas make clean install -C $sucklessdir/dwm &> /dev/null
+doas make clean install -C $sucklessdir/dmenu &> /dev/null
+doas make clean install -C $sucklessdir/st &> /dev/null
+#--------------------- Update arbitrary configs
+source $scriptdir/.themer/wallpaper
+source $scriptdir/.themer/zathura
+#--------------------- Restart dwm
+xdotool key 'Super+q'
+#---------------------

@@ -2,7 +2,7 @@
 #include "../themes/theme.h"
 
 /* general appearance */
-static const unsigned int borderpx = 1; 	     /* border pixel of windows */
+static const unsigned int borderpx = dwm_borderpx;   /* border pixel of windows */
 static const unsigned int snap     = 8; 	     /* snap pixel              */
 static const int showbar           = 1; 	     /* 0 means no bar          */
 static const int topbar            = 1; 	     /* 0 means bottom bar      */
@@ -10,9 +10,9 @@ static const char *fonts[]         = { theme.font }; /* x11 bar font 	        */
 
 /* colors */
 static const char *colors[][3] = {
-	/*               fg          	   bg                border                      */
-	[SchemeNorm] = { theme.foreground, theme.background, theme.border }, /* normal   */
-	[SchemeSel]  = { theme.accent,     theme.background, theme.accent }, /* selected */
+	/*               fg          	   bg                border                       	      */
+	[SchemeNorm] = { theme.foreground, theme.background, theme.dwm.border_inactive }, /* normal   */
+	[SchemeSel]  = { theme.accent,     theme.background, theme.dwm.border_active   }, /* selected */
 };
 
 /* tags */

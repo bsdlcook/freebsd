@@ -12,6 +12,7 @@ declare -a packages=(
 	sysutils/tmux 
 	sysutils/htop 
 	sysutils/neofetch
+	www/firefox
 	x11-fonts/nerd-fonts
 	x11/xorg
 	x11/xinit
@@ -104,7 +105,7 @@ check_dein()
 	printf "\nChecking for dein: "
 	if [ ! -d ~/.cache/dein ]; then
 		printf "Not installed. Downloading setup script. "
-		fetch -qo - https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh | bash -s ~/.cache/dein &>/dev/null
+		fetch -qo - https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh | bash -s $HOME/.cache/dein &>/dev/null
 		printf "Passed.\n"
 	else
 		printf "Passed.\n"
@@ -122,7 +123,7 @@ dbus_setup()
 copy_configs()
 {
 	printf "\nCopying configuration files: "
-	cp -fR {.config,.scripts,.suckless,.xinitrc,.tmux.conf} ~ &>/dev/null 	
+	cp -fR {.config,.scripts,.suckless,.xinitrc,.tmux.conf} $HOME &>/dev/null 	
 	printf "Passed.\n"
 }
 

@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
-
-results=$(ls -l $HOME/.suckless/themes/*.conf | wc -l | tr -d ' ')
-awk -F ":" \
-	'BEGIN {
-		lines = sprintf("%75s", "")
-		gsub(/ /, "-", lines)
-		print lines
-		print "theme\t\t accent\t\t background\t foreground\t border"	
-		print lines
-	}
-		
-	{
-		print FILENAME,"\t",$1,"\t",$2,"\t",$3,"\t",$4
-	}
-
-	END {
-		print lines
-	}' $HOME/.suckless/themes/*.conf | sed -e "s/\/home\/$USER\/.suckless\/themes\///g" -e "s/.conf//g" 
-echo "$results theme(s) found: type sys-theme-apply [theme] OR sysa [theme] to install"
+#--------------------- Variables.
+themedir=$HOME/.suckless/themes/
+themes=($(find $themedir -maxdepth 2 -type f -name "*.conf"))
+#--------------------- Check if no themes exist in array.
+[ ${#themes[@]} -eq 0 ] && \
+	printf "No themes found in $themedir\n" && exit 1
+#--------------------- Display theme header. 
 echo "---------------------------------------------------------------------------"
+echo -ne "theme\t\taccent\t\tbackground\tforeground\tborder\n"
+echo -n "---------------------------------------------------------------------------"
+#--------------------- Loop through each theme, sourcing the theme and displaying
+#--------------------- the variables. Once completed sed out the directory and conf
+#--------------------- file extention.
+for theme in ${themes[@]}; do
+	source $theme
+	echo -e "\n$theme\t$accent\t\t$background\t\t$foreground\t\t$dwm_border_active"
+done | sed -e "s/\/home\/$USER\/.suckless\/themes\///g" -e "s/.conf//g" | sort -us
+echo "---------------------------------------------------------------------------"
+echo "${#themes[@]} theme(s) found: type sys-themes-apply [theme] OR sysa [theme] to install"
+echo "---------------------------------------------------------------------------"
+#---------------------

@@ -1,11 +1,17 @@
 #!/usr/bin/env sh
-zatconf=$HOME/.config/zathura/zathurarc
-cat $zatconf\.bak > $zatconf
-zat=($(grep -o "#[0-9a-fA-F]\{6\}" $zatconf))
+#--------------------- Variables 
+zatconf=$HOME/.config/zathura
+zatrc=$zatconf/zathurarc
+#--------------------- Annoying hack, prevents colors clashing
+cat $zatconf/zathurarc.bak > $zatrc
+#--------------------- Get current colors from zathura 
+zat=($(grep -o "#[0-9a-fA-F]\{6\}" $zatrc))
 zatcur=($(printf "%s\n" ${zat[@]} | sort -us))
 zataccent=${zatcur[0]}
-zatbg=${zatcur[1]}
-zatfg=${zatcur[2]}
-sed -i "" -e "s/$zataccent/$newaccent/g"  \
-    -i "" -e "s/$zatbg/$newbg/g"          \
-    -i "" -e "s/$zatfg/$newfg/g" $zatconf \
+zatbackground=${zatcur[1]}
+zatforeground=${zatcur[2]}
+#--------------------- Replace original colors with new ones
+sed -i "" -e "s/$zataccent/$accent/g"  	             \
+    -i "" -e "s/$zatbackground/$background/g"        \
+    -i "" -e "s/$zatforeground/$foreground/g" $zatrc \
+#---------------------
