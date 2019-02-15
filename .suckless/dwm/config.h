@@ -1,3 +1,12 @@
+/*
+     ____  _ _ _ _____ 
+    |    \| | | |     |
+    |  |  | | | | | | |
+    |____/|_____|_|_|_|
+    Lewis' FreeBSD setup
+    gitlab.com/love_lace/freebsd-setup
+*/
+
 /* theme settings */
 #include "../themes/theme.h"
 
@@ -8,11 +17,11 @@ static const unsigned int showbar     = 1;              /* 0 means no bar       
 static const unsigned int topbar      = 1;              /* 0 means bottom bar               */
 static const unsigned int horizpadbar = 1;              /* horizontal padding for statusbar */
 static const unsigned int vertpadbar  = 15;             /* vertical padding for statusbar   */
-static const char *fonts[]            = { theme.font }; /* x11 bar font 	             */
+static const char *fonts[]            = { theme.font }; /* x11 bar font 	            */
 
 /* colors */
 static const char *colors[][3] = {
-	/*               fg          	   bg                border                       	      */
+	/*               forground         background        border                       	      */
 	[SchemeNorm] = { theme.foreground, theme.background, theme.dwm.border_inactive }, /* normal   */
 	[SchemeSel]  = { theme.accent,     theme.background, theme.dwm.border_active   }, /* selected */
 };
@@ -21,9 +30,9 @@ static const char *colors[][3] = {
 static const char *tags[] = { "1:main", "2:web", "3:term", "4:dev", "5:music" };
 
 /* client/master ratios */
-static const float mfact     = 0.50; /* factor of master area size [0.05..0.95]      */
-static const int nmaster     = 1;    /* number of clients in master area             */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const float mfact              = 0.50; /* factor of master area size [0.05..0.95]      */
+static const unsigned int nmaster     = 1;    /* number of clients in master area             */
+static const unsigned int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 /* layout(s) */
 #include "src/gaplessgrid.c"
@@ -43,16 +52,16 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* applications */
-static const char *terminal[]	= { "st", NULL };
-static const char *browser[]	= { "firefox", NULL };
-static const char *files[]	= { "st", "-e", "vifm", NULL };
-static const char *editor[]	= { "st", "-e", "nvim", NULL };
-static const char *music[]	= { "st", "-e", "cmus", NULL };
+static const char *terminal[] = { "st", NULL               };
+static const char *browser[]  = { "firefox", NULL          };
+static const char *files[]    = { "st", "-e", "vifm", NULL };
+static const char *editor[]   = { "st", "-e", "nvim", NULL };
+static const char *music[]    = { "st", "-e", "cmus", NULL };
 
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
-static const char *screenshot[]	= { "goshare", "-s", "-c", NULL };
-static const char *themer[]	= { "dmenu_theme", NULL };
+static const char *screenshot[]	= { "goshare", "-s", "-c", NULL           };
+static const char *themer[]	= { "dmenu_theme", NULL                   };
 
 /* key bindings */
 #include "src/movestack.c"
