@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#--------------------- Replace neovim colorscheme if defined.
+[[ -v vim_theme ]] && \
+	sed -i "" "s/colorscheme.*/colorscheme $vim_theme/" $HOME/.config/nvim/init.vim
+#---------------------
