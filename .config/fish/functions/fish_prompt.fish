@@ -2,9 +2,10 @@
 function git_branch; echo (command git symbolic-ref HEAD ^/dev/null | sed -e "s|^refs/heads/||"); end
 function git_repo; echo (command basename (git rev-parse --show-toplevel ^/dev/null)); end
 function git_dir; echo (command git rev-parse --show-prefix ^/dev/null); end
+function git_hash; echo (command git rev-parse --short HEAD ^/dev/null); end
 
 function fish_prompt
-	set -l delim ">>>"
+	set -l delim "Ψ"
 	set -l host (hostname)
 	set -l user (whoami)
 	set -l basedir (basename (prompt_pwd))
@@ -31,7 +32,12 @@ function fish_prompt
 	if test -n "$git_branch"
 		set -l git_repo (git_repo)
 		set -l git_dir (git_dir)
-		set git "["$bcyan$git_branch$normal"]" "["$bgreen$git_repo/$git_dir$normal"] "
+		set -l git_hash	(git_hash)
+		if test -n "$git_hash" # check if bare repo
+			set git "["$bcyan$git_branch$white:$bblue$git_hash$normal"]" "["$bgreen$git_repo/$git_dir$normal"] "
+		else
+			set git "["$bcyan$git_branch$normal"]" "["$bgreen$git_repo/$git_dir$normal"] "
+		end
 	end
 
 	# pwd 
