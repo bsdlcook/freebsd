@@ -4,10 +4,10 @@
     |  |  | | | | | | |
     |____/|_____|_|_|_|
     Lewis' FreeBSD setup
-    gitlab.com/love_lace/freebsd-setup
+    gitlab.com/wiredlace/freebsd-setup
 */
 
-/* theme settings */
+/* inherit global colorscheme */ 
 #include "../themes/theme.h"
 
 /* general appearance */
@@ -34,7 +34,7 @@ static const float mfact              = 0.50; /* factor of master area size [0.0
 static const unsigned int nmaster     = 1;    /* number of clients in master area             */
 static const unsigned int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
-/* layout(s) */
+/* layouts */
 #include "src/gaplessgrid.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function					 */
@@ -62,6 +62,7 @@ static const char *music[]    = { "st", "-e", "cmus", NULL };
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
 static const char *screenshot[]	= { "goshare", "-s", "-c", NULL           };
 static const char *themer[]	= { "dmenu_theme", NULL                   };
+static const char *streams[]	= { "open-stream", NULL			  };
 
 /* key bindings */
 #include "src/movestack.c"
@@ -79,6 +80,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenu}      },	 /* spawn dmenu 		   		*/
 	{ MODKEY, 			XK_s,	   spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
 	{ MODKEY|ShiftMask,		XK_t,	   spawn,	   {.v = themer}     },	 /* change theme 				*/
+	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = streams}    },	 /* select stream with dmenu 			*/
 	/*							   bindings:								*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },	         /* toggle bar		                        */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1}    },       /* focus to next client                     	*/
@@ -89,7 +91,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1}    },	 /* remove client from master area 		*/
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },       /* decrease master area factor    		*/
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },       /* increase master area factor    		*/
-	{ MODKEY,                       XK_Tab,    shiftview,      {.i = +1 }   },       /* shift to next tag              		*/
+	{ MODKEY,                       XK_Tab,    shiftview,      {.i = +1}    },       /* shift to next tag              		*/
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },                /* kill focused client 	   		*/
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* toggle tiling layout           		*/
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} }, /* toggle floating layout         		*/
