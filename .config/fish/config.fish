@@ -1,5 +1,12 @@
 status --is-login; if test -z "$DISPLAY"; exec startx; end
 
+alias gitc="git clone"
+alias gitm="git commit -m"
+alias gitp="git push -f origin"
+alias gita="git add ."
+alias gitl="git log"
+alias gits="git status"
+
 alias pc="pclean"
 alias pi="pinstall"
 alias prm="premove"
