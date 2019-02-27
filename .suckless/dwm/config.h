@@ -11,13 +11,15 @@
 #include "../themes/theme.h"
 
 /* general appearance */
-static const unsigned int borderpx    = dwm_borderpx;   /* border pixel of windows          */
-static const unsigned int snap        = 8;              /* snap pixel                       */
-static const unsigned int showbar     = 1;              /* 0 means no bar                   */
-static const unsigned int topbar      = 1;              /* 0 means bottom bar               */
-static const unsigned int horizpadbar = 1;              /* horizontal padding for statusbar */
-static const unsigned int vertpadbar  = 15;             /* vertical padding for statusbar   */
-static const char *fonts[]            = { theme.font }; /* x11 bar font 	            */
+static const char *fonts[]            = { theme.font }; /* x11 bar font 	                      */
+static const unsigned int borderpx    = dwm_borderpx;   /* border pixel of windows                    */
+static const unsigned int snap        = 8;              /* snap pixel                                 */
+static const unsigned int showbar     = 1;              /* 0 means no bar                             */
+static const unsigned int topbar      = 1;              /* 0 means bottom bar                         */
+static const unsigned int horizpadbar = 1;              /* horizontal padding for statusbar           */
+static const unsigned int vertpadbar  = 15;             /* vertical padding for statusbar             */
+static const unsigned int tagline     = 1; 		/* 0 means use default (square) tag indicator
+							   1 means use line tag indicator             */ 
 
 /* colors */
 static const char *colors[][3] = {

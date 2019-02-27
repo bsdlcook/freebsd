@@ -124,6 +124,7 @@ struct Monitor {
 	unsigned int tagset[2];
 	int showbar;
 	int topbar;
+	int tagline;
 	Client *clients;
 	Client *sel;
 	Client *stack;
@@ -621,6 +622,7 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->topbar = topbar;
+	m->tagline = tagline;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -701,10 +703,17 @@ drawbar(Monitor *m)
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-		if (occ & 1 << i)
-			drw_rect(drw, x + boxs, boxs, boxw, boxw,
-				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-				urg & 1 << i);
+		if (occ & 1 << i) {
+			if (m->tagline) {
+                        	drw_rect(drw, x + boxw, 0, w - (2 * boxw + 1), boxw - 2,
+                                	m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+                        		urg & 1 << i);
+			} else {
+        			drw_rect(drw, x + boxs, boxs, boxw, boxw,
+                			m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+ 					urg & 1 << i);
+			}
+		}
 		x += w;
 	}
 	w = blw = TEXTW(m->ltsymbol);
@@ -716,8 +725,6 @@ drawbar(Monitor *m)
 			int mid = (m->ww - TEXTW(m->sel->name)) / 2 - x;
 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
 			drw_text(drw, x, 0, w, bh, mid, m->sel->name, 0);
-			if (m->sel->isfloating)
-				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
 		} else {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_rect(drw, x, 0, w, bh, 1, 1);
