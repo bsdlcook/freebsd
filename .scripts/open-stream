@@ -12,7 +12,7 @@ stream=$(for i in "${!streams[@]}"; do echo "$i"; done | sort -us | dmenu -i -p 
 #--------------------- Check stream type then play via mpv.
 case "${streamtype[${stream}]}" in
 	video)
-		mpv --background="$(grep -o "#[0-9a-fA-F]\{6\}" "$HOME/.suckless/themes/theme.h" | sed -n 2p)" "${streams[$stream]}"
+		mpv --background="$(grep -owE "#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})" "$HOME/.suckless/themes/theme.h" | sed -n 2p)" "${streams[$stream]}"
 		;;
 	music)
 		st -e mpv "${streams[$stream]}"	
