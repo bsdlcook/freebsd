@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 #--------------------- Check for solid_background variable in theme conf.
-if [[ -v solid_background ]]; then
-	#--------------------- Generate solid background wallpaper.
-	convert -size 2560x1080 canvas:$solid_background $scriptdir/.themer/.background.png
-	#---------------------
-else
-	#--------------------- Generate wallpaper with icon.
-	convert $scriptdir/.themer/.bsd.png -fuzz 20% -trim +repage -fill $accent -opaque "#333333" $scriptdir/.themer/.bsd-icon.png
-	convert -size 2560x1080 canvas:$background -gravity center $scriptdir/.themer/.bsd-icon.png -composite $scriptdir/.themer/.background.png
-	#---------------------
-fi
+[[ -n "$solid_background" ]] && \
+#--------------------- Generate solid background wallpaper.
+	convert -size 2560x1080 canvas:"$solid_background" "$scriptdir/.themer/.background.png" || {
+#--------------------- Generate wallpaper with icon.
+	convert "$scriptdir/.themer/.bsd.png" -fuzz 20% -trim +repage -fill "$accent" -opaque "#333333" "$scriptdir/.themer/.bsd-icon.png" && \
+	convert -size 2560x1080 canvas:"$background" -gravity center "$scriptdir/.themer/.bsd-icon.png" -composite "$scriptdir/.themer/.background.png"
+}
 #--------------------- Set newly generated wallpaper.
-source $scriptdir/background
+source "$scriptdir/background"
 #---------------------

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #--------------------- Variables.
 themedir=$HOME/.suckless/themes/
-themes=($(find $themedir -maxdepth 2 -type f -name "*.conf"))
+mapfile -t themes < <(find "$themedir" -maxdepth 2 -type f -name "*.conf")
 #--------------------- Check if no themes exist in array.
 [ ${#themes[@]} -eq 0 ] && \
-	printf "No themes found in $themedir\n" && exit 1
+	printf "No themes found in %s\n" "$themedir" && exit 1
 #--------------------- Display theme header. 
 echo "---------------------------------------------------------------------------"
 echo -ne "theme\t\taccent\t\tbackground\tforeground\tborder\n"
@@ -12,8 +12,8 @@ echo -n "-----------------------------------------------------------------------
 #--------------------- Loop through each theme, sourcing the theme and displaying
 #--------------------- the variables. Once completed sed out the directory and conf
 #--------------------- file extention.
-for theme in ${themes[@]}; do
-	source $theme
+for theme in "${themes[@]}"; do
+	source "$theme"
 	echo -e "\n$theme\t$accent\t\t$background\t\t$foreground\t\t$dwm_border_active"
 done | sed -e "s/\/home\/$USER\/.suckless\/themes\///g" -e "s/.conf//g" | sort -us
 echo "---------------------------------------------------------------------------"

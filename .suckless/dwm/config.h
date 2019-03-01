@@ -40,9 +40,9 @@ static const unsigned int resizehints = 0;    /* 1 means respect size hints in t
 #include "src/gaplessgrid.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function					 */
-	{ "[T]",      tile },        /* tiling layout behavior (default) */
-	{ "[F]",      NULL },        /* floating window behavior         */
-	{ "[G]",      gaplessgrid }, /* gapelessgrid layout behaviour    */
+	{ "[t]",      tile },        /* tiling layout behavior (default) */
+	{ "[f]",      NULL },        /* floating window behavior         */
+	{ "[g]",      gaplessgrid }, /* gapelessgrid layout behaviour    */
 };
 
 /* key definitions */

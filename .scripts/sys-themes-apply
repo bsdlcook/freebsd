@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #--------------------- Read input.
 set -- "${1:-$(</dev/stdin)}" "${@:2}"
-#--------------------- Variables
+#--------------------- Variables.
 sucklessdir=$HOME/.suckless
 scriptdir=$HOME/.scripts
 themeconf=$sucklessdir/themes/$1.conf
 #--------------------- Check theme exists.
-[ ! -f $themeconf ] && exit 1
+[[ ! -f "$themeconf" ]] && exit 1
 #--------------------- Source theme.
-source $themeconf
+source "$themeconf"
 #--------------------- General appearance.
 accent=${accent:-#1177AA}
 background=${background:-#000000}
@@ -21,7 +21,7 @@ borderpx=${dwm_border_px:-1}
 #--------------------- ST.
 paddingpx=${st_padding_px:-15}
 #--------------------- Generate C headerfile.
-cat > $sucklessdir/themes/theme.h <<EOF
+cat > "$sucklessdir/themes/theme.h" <<EOF
 typedef struct {
 	char accent[8];
 	char background[8];
@@ -46,13 +46,13 @@ static const Theme theme = {
 };
 EOF
 #--------------------- Recompile suckless utilities.
-doas make clean install -C $sucklessdir/dwm &> /dev/null
-doas make clean install -C $sucklessdir/dmenu &> /dev/null
-doas make clean install -C $sucklessdir/st &> /dev/null
+doas make clean install -C "$sucklessdir/dwm" &> /dev/null
+doas make clean install -C "$sucklessdir/dmenu" &> /dev/null
+doas make clean install -C "$sucklessdir/st" &> /dev/null
 #--------------------- Update arbitrary configs.
-source $scriptdir/.themer/wallpaper
-source $scriptdir/.themer/zathura
-source $scriptdir/.themer/neovim
+source "$scriptdir/.themer/wallpaper"
+source "$scriptdir/.themer/zathura"
+source "$scriptdir/.themer/neovim"
 #--------------------- Restart dwm.
 xdotool key 'Super+q'
 #---------------------

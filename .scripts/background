@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 #--------------------- Set background.
-feh --bg-fill $HOME/.scripts/.themer/.background.png
+feh --bg-fill "$HOME/.scripts/.themer/.background.png"
 #--------------------- 
