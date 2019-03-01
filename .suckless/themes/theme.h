@@ -9,14 +9,14 @@ typedef struct {
 	} dwm;
 } Theme;
 
-/* theme: zen/purple */
+/* theme: zen/mint */
 #define dwm_borderpx 1 
 #define st_paddingpx 15
 static const Theme theme = {
 	/* accent, background, foreground, font */
-	"#593C58", "#190B18", "#BDB395", "Apercu Mono Pro:pixelsize=12:antialias=true:autohint=true",
+	"#9DE3C0", "#042327", "#BDB395", "Apercu Mono Pro:pixelsize=12:antialias=true:autohint=true",
 	{
-		"#593C58",	/* dwm border active   */
-		"#190F19"	/* dwm border inactive */
+		"#9DE3C0",	/* dwm border active   */
+		"#183538"	/* dwm border inactive */
 	}
 };
