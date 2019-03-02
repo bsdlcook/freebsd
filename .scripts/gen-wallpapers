@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#--------------------- Variables.
+outputdir=/tmp/wallpaper
+themedir=$HOME/.suckless/themes/
+scriptdir=$HOME/.scripts
+mapfile -t themes < <(find "$themedir" -maxdepth 2 -type f -name "*.conf")
+#--------------------- Check if no themes exist in array.
+[ ${#themes[@]} -eq 0 ] && \
+	printf "No themes found in %s\n" "$themedir" && exit 1
+#--------------------- Check for solid_background variable in theme conf.
+solid_bg() {
+	[[ $(grep -owE "solid_background=#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})" "$1") ]] || return 1
+} 
+#--------------------- Check if $outputdir exists.
+[[ ! -d $outputdir/output ]] && mkdir -p $outputdir/output
+#--------------------- Generate wallpapers from theme conf files.
+echo "Generating supplied theme wallpaper(s):"
+for theme in "${themes[@]}"; do
+	themename=$(echo "$theme" | sed -e "s/\/home\/$USER\/.suckless\/themes\///g" -e "s/\///g" -e "s/misc//g" -e "s/.conf//g")
+#--------------------- Source the theme for conf variables.
+	source "$theme"
+	echo -e "\t- $themename"
+	[[ $(solid_bg "$theme") ]] && \
+#--------------------- Generate solid background wallpaper.
+		convert -size 2560x1080 canvas:"$solid_background" "$outputdir/output/$themename.png" || {
+#--------------------- Generate wallpaper with icon.
+		sed -i "" -r "s/fill=\"#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\"/fill=\"$accent\"/" "$scriptdir/.themer/.icon.svg" && \
+		convert -size 2560x1080 canvas:"$background" -gravity center -background none -size 400x400 "$scriptdir/.themer/.icon.svg" -composite "$outputdir/output/$themename.png"
+	}
+done
+echo "${#themes[@]} wallpaper(s) generated to $outputdir/output"
+#--------------------- Generate tarball archive.
+tar -zcf $outputdir/output.tar.gz $outputdir/output/*.png &>/dev/null
+echo "Tarball archive generated to $outputdir/output.tar.gz"
+#---------------------
