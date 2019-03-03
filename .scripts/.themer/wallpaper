@@ -4,8 +4,8 @@
 #--------------------- Generate solid background wallpaper.
 	convert -size 2560x1080 canvas:"$solid_background" "$scriptdir/.themer/.background.png" || {
 #--------------------- Generate wallpaper with icon.
-	sed -i "" -r "s/fill=\"#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\"/fill=\"$accent\"/" "$scriptdir/.themer/.icon.svg" && \
-	convert -size 2560x1080 canvas:"$background" -gravity center -background none -size 400x400 "$scriptdir/.themer/.icon.svg" -composite "$scriptdir/.themer/.background.png"
+	sed -i "" -r "s/(fill|stroke|stop-color)(=|:)(\"?)#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})(\"?)/\1\2\3$accent\5/g" "$scriptdir/.themer/.icon.svg" && \
+	convert -size 2560x1080 canvas:"$background" -gravity center -background none -size x400 "$scriptdir/.themer/.icon.svg" -composite "$scriptdir/.themer/.background.png"	
 }
 #--------------------- Set newly generated wallpaper.
 source "$scriptdir/background"
