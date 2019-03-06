@@ -46,9 +46,9 @@ static const Theme theme = {
 };
 EOF
 #--------------------- Recompile suckless utilities.
-doas make clean install -C "$sucklessdir/dwm" &> /dev/null
-doas make clean install -C "$sucklessdir/dmenu" &> /dev/null
-doas make clean install -C "$sucklessdir/st" &> /dev/null
+doas make CC="ccache cc" clean install -C "$sucklessdir/dwm" &> /dev/null
+doas make CC="ccache cc" clean install -C "$sucklessdir/dmenu" &> /dev/null
+doas make CC="ccache cc" clean install -C "$sucklessdir/st" &> /dev/null
 #--------------------- Update arbitrary configs.
 source "$scriptdir/.themer/wallpaper"
 source "$scriptdir/.themer/zathura"

@@ -24,6 +24,7 @@ declare -a packages=(
 	x11/libXinerama
 	x11/xdotool
 	devel/dbus
+	devel/ccache-static
 )
 
 banner()
@@ -130,9 +131,9 @@ copy_configs()
 compile_suckless()
 {
 	printf "\nCompiling suckless utilities: "
-	doas make install clean -C $HOME/.suckless/dwm &>/dev/null
-	doas make install clean -C $HOME/.suckless/st  &>/dev/null
-	doas make install clean -C $HOME/.suckless/dmenu &>/dev/null
+	doas make CC="ccache cc" install clean -C $HOME/.suckless/dwm &>/dev/null
+	doas make CC="ccache cc" install clean -C $HOME/.suckless/st  &>/dev/null
+	doas make CC="ccache cc" install clean -C $HOME/.suckless/dmenu &>/dev/null
 	printf "Passed.\n\nSetup done. Please reboot your system to finalize the changes.\n"
 }
 
