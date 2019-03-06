@@ -18,8 +18,9 @@ static const unsigned int showbar     = 1;              /* 0 means no bar       
 static const unsigned int topbar      = 1;              /* 0 means bottom bar                         */
 static const unsigned int horizpadbar = 1;              /* horizontal padding for statusbar           */
 static const unsigned int vertpadbar  = 15;             /* vertical padding for statusbar             */
-static const unsigned int tagline     = 1; 		/* 0 means use default (square) tag indicator
-							   1 means use line tag indicator             */ 
+static const unsigned int tagind      = 2; 		/* 0 means use no tag indicator		     
+							   1 means use square tag indicator
+							   2 means use line tag indicator             */
 
 /* colors */
 static const char *colors[][3] = {
