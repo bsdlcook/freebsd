@@ -47,7 +47,7 @@ banner()
                |        |    Lewis' FreeBSD post-installation setup script.
                 \       /	   Version 1.
            ______( (_  / \______
-         ,'  ,-----'   |        \     - gitlab.com/love_lace/freebsd-setup
+         ,'  ,-----'   |        \     - gitlab.com/bitw/fbsd
          `--{__________)        \/    
 EOF
 }
