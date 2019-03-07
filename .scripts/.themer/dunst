@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+dunstrc="$HOME/.config/dunst/dunstrc"
+#--------------------- Replace dunst colors.
+sed -i "" "s/background.*/background = \"$background\"/g" "$dunstrc"
+sed -i "" "s/foreground.*/foreground = \"$foreground\"/g" "$dunstrc"
+sed -i "" "s/frame_color.*/frame_color = \"$accent\"/g" "$dunstrc"
+#--------------------- Restart dunst.
+killall dunst
+#---------------------

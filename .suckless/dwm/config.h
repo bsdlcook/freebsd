@@ -63,7 +63,7 @@ static const char *music[]    = { "st", "-e", "cmus", NULL };
 
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
-static const char *screenshot[]	= { "goshare", "-s", "-c", NULL           };
+static const char *screenshot[]	= { "screenshot", NULL 		          };
 static const char *themer[]	= { "dmenu_theme", NULL                   };
 static const char *streams[]	= { "open-stream", NULL			  };
 

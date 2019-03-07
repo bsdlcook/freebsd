@@ -53,6 +53,9 @@ doas make CC="ccache cc" clean install -C "$sucklessdir/st" &> /dev/null
 source "$scriptdir/.themer/wallpaper"
 source "$scriptdir/.themer/zathura"
 source "$scriptdir/.themer/neovim"
+source "$scriptdir/.themer/dunst"
 #--------------------- Restart dwm.
 xdotool key 'Super+q'
+#--------------------- Notify newly changed theme.
+notify-send "<b>System theme updated!</b>" "Theme changed to '<i>$1</i>'."
 #---------------------

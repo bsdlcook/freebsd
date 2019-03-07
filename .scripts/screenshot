@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#--------------------- Upload image to external host then notify.
+goshare -sc && notify-send "Screenshot uploaded!"
+#---------------------
