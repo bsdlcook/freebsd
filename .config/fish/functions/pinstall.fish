@@ -1,10 +1,13 @@
 function pinstall
 	if test (count $argv) -gt 0
-		set -l package /usr/ports/$argv[1]
-		if test (pkg search -o $argv[1] | wc -l | tr -d ' ') -gt 0 && test -d $package
+		if test (pkg rquery '%o' $argv[1] | wc -l | tr -d ' ') -gt 0
 			if test $argv[2] = "-s" 2>/dev/null || test $argv[2] = "--source" 2>/dev/null
-				doas make -C $package install clean BATCH=yes
-				echo "'$argv[1]' successfully installed from source"
+				if test -d /usr/ports
+					doas make -C /usr/ports/(pkg rquery '%o' $argv[1]) install clean BATCH=yes
+					echo "'$argv[1]' successfully installed from source"
+				else
+					echo "Error: ports tree not found! Type 'portsnap fetch extract' to install the collection"
+				end
 			else
 				doas pkg install -y $argv[1]
 				echo "'$argv[1]' successfully installed"
