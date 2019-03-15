@@ -20,7 +20,8 @@ static const unsigned int horizpadbar = 1;              /* horizontal padding fo
 static const unsigned int vertpadbar  = 15;             /* vertical padding for statusbar             */
 static const unsigned int tagind      = 2; 		/* 0 means use no tag indicator		     
 							   1 means use square tag indicator
-							   2 means use line tag indicator             */
+							   2 means use overline tag indicator             
+							   3 means use underline tag indicator        */
 
 /* colors */
 static const char *colors[][3] = {

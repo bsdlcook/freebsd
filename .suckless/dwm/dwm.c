@@ -755,6 +755,11 @@ drawbar(Monitor *m)
                                 	m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
                         		urg & 1 << i);
 				break;
+			case 3:
+				drw_rect(drw, x + boxw, 20, w - (2 * boxw + 1), boxw - 2,
+                                	m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+                        		urg & 1 << i);
+				break;
 			}	
 		}
 		x += w;
