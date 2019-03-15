@@ -2,7 +2,7 @@
 #include "../themes/theme.h"
 
 static char *font = theme.font;
-static int borderpx = st_paddingpx;
+static int borderpx = _paddingpx;
 
 static char *shell = "/usr/local/bin/fish";
 char *utmp = NULL;
@@ -34,29 +34,27 @@ char *termname = "xterm-256color";
 unsigned int tabspaces = 8;
 
 static const char *colorname[] = {
-  /* 8 normal colors */
-  [0] = "#101010", /* black   */
-  [1] = "#ff6b57", /* red     */
-  [2] = "#b8d68c", /* green   */
-  [3] = "#e1aa5d", /* yellow  */
-  [4] = "#7dc1cf", /* blue    */
-  [5] = "#9b64fb", /* magenta */
-  [6] = "#6d878d", /* cyan    */
-  [7] = "#dddddd", /* white   */
-
-  /* 8 bright colors */
-  [8]  = "#404040", /* black   */
-  [9]  = "#ff6b57", /* red     */
-  [10] = "#a0cf5d", /* green   */
-  [11] = "#f39d21", /* yellow  */
-  [12] = "#4e9fb1", /* blue    */
-  [13] = "#8542ff", /* magenta */
-  [14] = "#42717b", /* cyan    */
-  [15] = "#dddddd", /* white   */
-
+  /* normal colors */
+  [0] = theme.st.black,
+  [1] = theme.st.red,
+  [2] = theme.st.green,
+  [3] = theme.st.yellow,
+  [4] = theme.st.blue,
+  [5] = theme.st.magenta,
+  [6] = theme.st.cyan,
+  [7] = theme.st.white,
+  /* bright colors */
+  [8]  = theme.st.bright_black,
+  [9]  = theme.st.bright_red,
+  [10] = theme.st.bright_green,
+  [11] = theme.st.bright_yellow,
+  [12] = theme.st.bright_blue,
+  [13] = theme.st.bright_magenta,
+  [14] = theme.st.bright_cyan,
+  [15] = theme.st.bright_white,
   /* special colors */
-  [256] = theme.background, /* background */
-  [257] = theme.foreground, /* foreground */
+  [256] = theme.background,
+  [257] = theme.foreground
 };
 
 unsigned int defaultfg = 257;
