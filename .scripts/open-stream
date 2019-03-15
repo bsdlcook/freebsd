@@ -8,7 +8,7 @@ while read -r stream url type; do
 	streamtype[$stream]=$type
 done < <(sed "/^#/d" "$HOME/.config/streams")
 #--------------------- Select stream via dmenu.
-stream=$(for i in "${!streams[@]}"; do echo "$i"; done | sort -us | dmenu -i -p "select stream:" "$@")
+stream=$(for i in "${!streams[@]}"; do echo "$i"; done | sort -us | dmenu -i -p "SELECT STREAM:" "$@")
 #--------------------- Check stream type then play via mpv.
 case "${streamtype[${stream}]}" in
 	video)

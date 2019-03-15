@@ -31,7 +31,7 @@ static const char *colors[][3] = {
 };
 
 /* tags */
-static const char *tags[] = { "1:main", "2:web", "3:term", "4:dev", "5:music" };
+static const char *tags[] = { "MAIN", "WEB", "TERM", "DEV", "MUSIC" };
 
 /* client/master ratios */
 static const float mfact              = 0.50; /* factor of master area size [0.05..0.95]      */
@@ -63,7 +63,7 @@ static const char *editor[]   = { "st", "-e", "nvim", NULL };
 static const char *music[]    = { "st", "-e", "cmus", NULL };
 
 /* commands */
-static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
+static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "RUN:", NULL };
 static const char *screenshot[]	= { "screenshot", NULL 		          };
 static const char *themer[]	= { "dmenu_theme", NULL                   };
 static const char *streams[]	= { "open-stream", NULL			  };
