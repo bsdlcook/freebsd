@@ -50,7 +50,6 @@ All of the key bindings for dwm are in **~/.suckless/dwm/config.h**.* The defaul
 | `Mod + Space` | Program launcher
 | `Mod + t` | Tiling layout mode
 | `Mod + f` | Floating layout mode
-| `Mod + g` | Grid layout mode
 
 # Prerequisites
 

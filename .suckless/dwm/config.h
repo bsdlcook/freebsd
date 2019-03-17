@@ -39,12 +39,10 @@ static const unsigned int nmaster     = 1;    /* number of clients in master are
 static const unsigned int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 /* layouts */
-#include "src/gaplessgrid.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function					 */
-	{ "|t|",      tile },        /* tiling layout behavior (default) */
-	{ "|f|",      NULL },        /* floating window behavior         */
-	{ "|g|",      gaplessgrid }, /* gapelessgrid layout behaviour    */
+	{ "[T]",      tile },        /* tiling layout behavior (default) */
+	{ "[F]",      NULL }        /* floating window behavior         */
 };
 
 /* key definitions */
@@ -99,7 +97,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },                /* kill focused client 	   		*/
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* toggle tiling layout           		*/
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} }, /* toggle floating layout         		*/
-	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[2]} }, /* toggle gaplessgrid layout      		*/
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },                /* toggle floating client         		*/
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1} },	         /* focus to the left monitor 			*/
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1} },	 	 /* focus to the right monitor			*/
