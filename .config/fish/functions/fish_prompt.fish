@@ -12,13 +12,15 @@ function fish_prompt
 	
 	# colors
 	set -l normal (set_color normal)
+	set -l yellow (set_color yellow)
 	set -l red (set_color red)
 	set -l cyan (set_color cyan)
 	set -l green (set_color green)
 	set -l purple (set_color purple)
 	set -l blue (set_color blue)
 	set -l white (set_color white)
-
+	
+	set -l byellow (set_color -o yellow)
 	set -l bred (set_color -o red)
 	set -l bcyan (set_color -o cyan)
 	set -l bpurple (set_color -o purple)
@@ -33,7 +35,7 @@ function fish_prompt
 		set -l git_repo (git_repo)
 		set -l git_dir (git_dir)
 		set -l git_hash	(git_hash)
-		if test -n "$git_hash" # check if bare repo
+		if test -n "$git_hash"
 			set git "["$bcyan$git_branch$white:$bblue$git_hash$normal"]" "["$bgreen$git_repo/$git_dir$normal"] "
 		else
 			set git "["$bcyan$git_branch$normal"]" "["$bgreen$git_repo/$git_dir$normal"] "
@@ -55,5 +57,5 @@ function fish_prompt
 	end
 	
 	# prompt
-	echo -esn $bpurple$user$bwhite@$bcyan$host " "$normal$pwd $git $blue$delim" "
+	echo -esn $bred$user$bwhite@$bgreen$host " "$normal$pwd $git $bgreen$delim" "
 end
