@@ -58,7 +58,6 @@ static const char *terminal[] = { "st", NULL               };
 static const char *browser[]  = { "firefox", NULL          };
 static const char *files[]    = { "st", "-e", "vifm", NULL };
 static const char *editor[]   = { "st", "-e", "nvim", NULL };
-static const char *music[]    = { "st", "-e", "cmus", NULL };
 
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "RUN:", NULL };
@@ -77,7 +76,6 @@ static Key keys[] = {
 	{ MODKEY,			XK_w,      spawn,	   {.v = browser}    },  /* spawn web browser 				*/
 	{ MODKEY,			XK_r,	   spawn,	   {.v = files}      },  /* spawn file browser 				*/
 	{ MODKEY,			XK_e,	   spawn,	   {.v = editor}     },	 /* spawn editor 				*/
-	{ MODKEY,			XK_m,	   spawn,	   {.v = music}      },	 /* spawn music player 				*/
 	/*							   commands:								*/
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenu}      },	 /* spawn dmenu 		   		*/
 	{ MODKEY, 			XK_s,	   spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
