@@ -8,7 +8,6 @@ declare -a packages=(
 	graphics/feh
 	graphics/zathura
 	graphics/zathura-pdf-mupdf
-	audio/cmus
 	sysutils/tmux 
 	sysutils/htop 
 	sysutils/neofetch
@@ -18,15 +17,7 @@ declare -a packages=(
 	x11/xorg-minimal
 	x11/xsetroot
 	x11/setxkbmap
-	x11/xinit
-	x11/libX11
-	x11/libXau
-	x11/libxcb
-	x11/libXdmcp
-	x11/libXext
-	x11/libXinerama
 	x11/xdotool
-	devel/dbus
 	devel/ccache-static
 )
 
