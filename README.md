@@ -53,10 +53,10 @@ All of the key bindings for dwm are in **~/.suckless/dwm/config.h**.* The defaul
 
 # Prerequisites
 
-There isn't much prerequisites as the post-setup script makes it *for the most part* autonomous. Before you continue running the setup you need to meet the following conditions:
+There isn't much prerequisites as the bootstrap script makes it *for the most part* autonomous. Before you continue running the setup you need to meet the following conditions:
 - Basic UNIX/BSD* knowledge;
 - Freshly installed FreeBSD system;
-- Git, bash and doas installed ``pkg install git bash doas``. I'd like to make bash redundant but the bourne shell doesn't support arrays ~~damn POSIX~~;
+- Git, bash and doas installed ``pkg install git-lite bash doas``. I'd like to make bash redundant but the bourne shell doesn't support arrays ~~damn POSIX~~;
 - User added to the doas config file with 'nopass' enabled for that user (makes life much easier, run this command on the root account): ``echo "permit nopass YOUR_USER as root" | tee -a /usr/local/etc/doas.conf``. This isn't a good practice allowing non-privileged users running doas as root without root password. However security isn't a number one priority in this type of environment, it's simply for the sake of convenience.
 - Everything else is pulled in by the setup script. Nothing else required - only a brain and common sense.
 
@@ -64,7 +64,7 @@ There isn't much prerequisites as the post-setup script makes it *for the most p
 
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
 - Clone this repo ``git clone https://gitlab.com/bitw/fbsd`` and change to that given directory;
-- From there you'll find a setup script that you can run by typing ``./post-install`` and everything else is done for you;
+- From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
 - The default shell is changed to fish so you'll be prompted to enter your password for the chsh command;
 - Note: the **x11-fonts/nerd-fonts** package is fairly large, give it time to download and extract (be patient).
 
