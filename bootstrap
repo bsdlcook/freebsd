@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-
-SCRIPT_VERSION="2.1"
+SCRIPT_VERSION="2.2"
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
 SCRIPT_REPO="https://gitlab.com/bitw/fbsd"
-SCRIPT_BACKTITLE="Bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
+SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
 
 PACKAGE_FILE="./packages"
 DATABASE_FILE="/var/db/pkg/repo-FreeBSD.sqlite"
@@ -16,7 +15,7 @@ DIALOG_EXTRA=3
 
 exec_script()
 {
-	exec $0 ./"$SCRIPT_FILE"
+	exec "$0" ./"$SCRIPT_FILE"
 }
 
 about()
@@ -68,7 +67,6 @@ package_install()
 	local __COUNT=0
 	local __PACKAGES=()
 	local __SELECTED
-
 	while read -r PACKAGE OPT; do
 		((++__COUNT))
 		__PACKAGES+=("$PACKAGE" "$(pkg rquery -i "%c" "$PACKAGE")" "$OPT")
@@ -78,7 +76,6 @@ package_install()
 	[[ $? -eq $DIALOG_CANCEL ]] && exec_script
 	
 	mapfile -t __UPDATED_PACKAGES < <(printf "%s" "$__SELECTED" | tr " " "\n")
-	
 	[[ -z "${__UPDATED_PACKAGES[*]}" ]] && {
 		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" \
 			--no-label "Exit" --yes-label "Restart" --yesno \
@@ -88,7 +85,6 @@ package_install()
 
 	local __COUNTER=0
 	local __PACKAGE_COUNT="${#__UPDATED_PACKAGES[@]}"
-
 	dialog --title "Fetching supplied packages" --backtitle "$SCRIPT_BACKTITLE" --gauge "" 10 55 < <(
 		for PACKAGE in ${__UPDATED_PACKAGES[*]}; do
 			STATUS=$((100*(++__COUNTER)/__PACKAGE_COUNT))
@@ -126,10 +122,17 @@ Copying file $FILE ($__COUNTER/$__FILE_COUNT)
 Please wait...
 XXX
 EOF
-			cp -f "$FILE" "$HOME" &>/dev/null
+			echo "$FILE" | cpio -p -d "/usr/home/$USER" &>/dev/null
 		done
 	)
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrap complete" --msgbox "\n\nConfiguration files have been copied to your home directory." $DIALOG_HEIGHT $DIALOG_WIDTH
+}
+
+dein_check()
+{
+	[[ ! -d "$HOME/.cache/dein" ]] && {
+		fetch -qo - https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh | bash -s "$HOME/.cache/dein" &>/dev/null
+	}
 }
 
 compile_utils()
@@ -163,7 +166,7 @@ main()
 	local MENU_INSTALL=$DIALOG_OK
 	local MENU_EXIT=$DIALOG_CANCEL
 	local MENU_ABOUT=$DIALOG_EXTRA
-
+	
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to Lewis' FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH 
 
 	case $? in
@@ -187,6 +190,9 @@ main()
 
 			# symlink scripts to /usr/local/bin (needed for dwm keybinds)
 			doas ln -s "$HOME/.scripts/"{open-stream,screenshot} /usr/local/bin 2>/dev/null
+
+			# check if dein is installed
+			dein_check
 
 			# compile Suckless utilities
 			compile_utils
