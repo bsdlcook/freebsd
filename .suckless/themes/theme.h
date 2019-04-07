@@ -30,7 +30,7 @@ typedef struct {
 /* theme: zen/mint */
 static const Theme theme = {
 	/* main appearance */
-	"Apercu Mono Pro:pixelsize=13:antialias=true:autohint=true",
+	"Iosevka:pixelsize=13:antialias=true:autohint=true",
 	"#9DE3C0", /* accent     */
 	"#042327", /* background */
 	"#BDB395", /* foreground */
