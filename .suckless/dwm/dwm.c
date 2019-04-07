@@ -737,19 +737,13 @@ drawbar(Monitor *m)
 			switch(m->tagind) {
 			default: break;
 			case 1:
-				drw_rect(drw, x + boxs, boxs, boxw, boxw,
-                			m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
- 					urg & 1 << i);
+				drw_rect(drw, x + boxs, boxs, boxw, boxw, urg & 1 << i);
 				break;
 			case 2:
-				drw_rect(drw, x + boxw, 0, w - (2 * boxw + 1), boxw - 2,
-                                	m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-                        		urg & 1 << i);
+				drw_rect(drw, x + boxw, 0, w - (2 * boxw + 1), boxw - 2, urg & 1 << i);
 				break;
 			case 3:
-				drw_rect(drw, x + boxw, 25, w - (2 * boxw + 1), boxw - 2,
-                                	m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-                        		urg & 1 << i);
+				drw_rect(drw, x + boxw, 25, w - (2 * boxw + 1), boxw - 2, urg & 1 << i);
 				break;
 			}	
 		}
@@ -766,7 +760,7 @@ drawbar(Monitor *m)
 			drw_text(drw, x, 0, w, bh, mid, m->sel->name, 0);
 		} else {
 			drw_setscheme(drw, scheme[SchemeNorm]);
-			drw_rect(drw, x, 0, w, bh, 1, 1);
+			drw_rect(drw, x, 0, w, bh, 1);
 		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
