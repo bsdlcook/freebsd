@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-SCRIPT_VERSION="2.23"
+# shellcheck disable=SC2015
+
+SCRIPT_VERSION="2.24"
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
 SCRIPT_REPO="https://gitlab.com/syne/freebsd"
 SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
@@ -153,6 +155,15 @@ virtualbox_enable()
 	}
 }
 
+nvidia_enable()
+{
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "NVIDIA Drivers" --yesno "\n\nAre you using an NVIDIA GPU?" $DIALOG_HEIGHT $DIALOG_WIDTH
+	[[ $? -eq $DIALOG_OK ]] && {
+		echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+		echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+	}
+}
+
 finish()
 {
 		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Installation finished" \
@@ -167,7 +178,7 @@ main()
 	local MENU_EXIT=$DIALOG_CANCEL
 	local MENU_ABOUT=$DIALOG_EXTRA
 	
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to Lewis' FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH 
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to syne's FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH 
 
 	case $? in
 		$MENU_INSTALL)
@@ -178,7 +189,7 @@ main()
 			package_install
 			
 			# set default shell to fish
-			doas chsh -s "$(command -v fish)"	
+			doas chsh -s "$(command -v fish)" "$USER"	
 			
 			# generate machine-id and enable dbus startup services
 			dbus-uuidgen | doas tee /etc/machine-id >/dev/null 
@@ -199,8 +210,11 @@ main()
 
 			# check if running in VirtualBox
 			virtualbox_enable
+			
+			# check if running nvidia gpu
+			nvidia_enable
 
-			# finalize changes
+			# finalize changes (requires reboot)
 			finish
 			;;
 		$MENU_EXIT)
