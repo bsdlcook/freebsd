@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-SCRIPT_VERSION="2.22"
+SCRIPT_VERSION="2.23"
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
-SCRIPT_REPO="https://gitlab.com/bitw/fbsd"
+SCRIPT_REPO="https://gitlab.com/syne/freebsd"
 SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
 
 PACKAGE_FILE="./packages.full"
@@ -20,7 +20,7 @@ exec_script()
 
 about()
 {
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\nhttps://gitlab.com/bit/fbsd" 23 $DIALOG_WIDTH 
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\nhttps://gitlab.com/syne/freebsd" 23 $DIALOG_WIDTH 
 	exec_script
 }
 

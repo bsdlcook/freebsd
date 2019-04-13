@@ -3,8 +3,8 @@
     |    \| | | |     |
     |  |  | | | | | | |
     |____/|_____|_|_|_|
-    Lewis' FreeBSD setup
-    gitlab.com/bitw/fbsd
+    syne's FreeBSD setup
+    gitlab.com/syne/freebsd
 */
 
 /* inherit global colorscheme */ 
