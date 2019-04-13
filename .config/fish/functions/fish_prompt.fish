@@ -36,9 +36,9 @@ function fish_prompt
 		set -l git_dir (git_dir)
 		set -l git_hash	(git_hash)
 		if test -n "$git_hash"
-			set git "["$bcyan$git_branch$white:$bblue$git_hash$normal"]" "["$bgreen$git_repo/$git_dir$normal"] "
+			set git $white"["$bpurple$git_branch$white:$bblue$git_hash$normal$white"] ""["$bgreen$git_repo/$git_dir$normal$white"] "
 		else
-			set git "["$bcyan$git_branch$normal"]" "["$bgreen$git_repo/$git_dir$normal"] "
+			set git $white"["$bpurple$git_branch$normal$white"] ""["$bgreen$git_repo/$git_dir$normal$white"] "
 		end
 	end
 
@@ -47,15 +47,15 @@ function fish_prompt
 	if test -z "$git"
 		set -l home (echo (pwd) | grep ~)
 		if test -n "$home"
-			set pwd "[$bwhite$basedir$normal] "
+			set pwd $white"[$normal$basedir$normal$white] "
 		else
-			set pwd "[$bwhite/$normal] "
+			set pwd "[$white/$normal] "
 		end
 		if test (echo (pwd)) != ~ -a (echo (pwd)) != /
-			set pwd "["$bwhite$basedir$normal"] "
+			set pwd $white"["$normal$basedir$normal$white"] "
 		end
 	end
 	
 	# prompt
-	echo -esn $bred$user$bwhite@$bgreen$host " "$normal$pwd $git $bgreen$delim" "
+	echo -esn "$bred$user$bwhite@$bgreen$host$normal$white" " "$normal$pwd $git $bgreen$delim" "
 end
