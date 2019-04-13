@@ -5,13 +5,12 @@ graphics/feh on
 graphics/ImageMagick6 on
 graphics/zathura on
 graphics/zathura-pdf-mupdf on
-misc/vifm on
 multimedia/mpv on
 shells/fish on
 sysutils/dunst on
-sysutils/htop on
-sysutils/neofetch on
-sysutils/tmux on
+sysutils/htop on 
+sysutils/neofetch off  
+sysutils/tmux on 
 www/chromium off
 www/firefox on
 x11-drivers/xf86-video-intel off

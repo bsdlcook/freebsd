@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2015
 
-SCRIPT_VERSION="2.24"
+SCRIPT_VERSION="2.25"
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
 SCRIPT_REPO="https://gitlab.com/syne/freebsd"
 SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
@@ -161,6 +161,8 @@ nvidia_enable()
 	[[ $? -eq $DIALOG_OK ]] && {
 		echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
 		echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+		has_package x11/nvidia-xconfig
+		doas nvidia-xconfig
 	}
 }
 
@@ -195,7 +197,10 @@ main()
 			dbus-uuidgen | doas tee /etc/machine-id >/dev/null 
 			doas sysrc dbus_enable="YES" >/dev/null
 			doas sysrc hald_enable="YES" >/dev/null
-			
+		
+			# load linux module needed to install nvidia driver
+			kldload linux.ko
+
 			# bootstrap files to user directory
 			bootstrap_files
 
