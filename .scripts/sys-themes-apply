@@ -13,7 +13,7 @@ source "$themeconf"
 accent=${accent:-#1177AA}
 background=${background:-#000000}
 foreground=${foreground:-#FFFFFF}
-font=${font:-Iosevka:pixelsize=13:antialias=true:autohint=true}
+font=${font:-Iosevka:pixelsize=14:antialias=true:autohint=true}
 #--------------------- DWM.
 borderactive=${dwm_border_active:-#6592A8}
 borderinactive=${dwm_border_inactive:-#405D6B}

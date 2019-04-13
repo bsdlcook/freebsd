@@ -5,7 +5,7 @@ function git_dir; echo (command git rev-parse --show-prefix ^/dev/null); end
 function git_hash; echo (command git rev-parse --short HEAD ^/dev/null); end
 
 function fish_prompt
-	set -l delim "Ψ"
+	set -l delim "λ"
 	set -l host (hostname)
 	set -l user (whoami)
 	set -l basedir (basename (prompt_pwd))
