@@ -159,8 +159,8 @@ nvidia_enable()
 {
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "NVIDIA Drivers" --yesno "\n\nAre you using an NVIDIA GPU?" $DIALOG_HEIGHT $DIALOG_WIDTH
 	[[ $? -eq $DIALOG_OK ]] && {
-		echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
-		echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+	        echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+	        echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
 		has_package x11/nvidia-xconfig
 		doas nvidia-xconfig
 	}
@@ -170,7 +170,7 @@ finish()
 {
 		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Installation finished" \
 			--no-label "Exit" --yes-label "Reboot" --yesno \
-			"\n\nBoostrap completed. Please reboot your system to finalize the changes." $DIALOG_HEIGHT $DIALOG_WIDTH
+			"\n\nBootstrap completed. Please reboot your system to finalize the changes." $DIALOG_HEIGHT $DIALOG_WIDTH
 		[[ $? -eq $DIALOG_OK ]] && doas reboot || exit	
 }
 
