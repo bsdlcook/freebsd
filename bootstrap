@@ -1,31 +1,52 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2015
 
-SCRIPT_VERSION="2.25"
+# bootstrap --- Syne's FreeBSD setup.
+# Copyright (C) 2019 syne
+
+# Author: syne <syne@wired.sh>
+# URL: https://gitlab.com/syne/freebsd/bootstrap
+# Version:
+SCRIPT_VERSION="2.26"
+
+# Global variables.
+
+# Script metadata:
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
 SCRIPT_REPO="https://gitlab.com/syne/freebsd"
 SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
 
+# Key files:
 PACKAGE_FILE="./packages.full"
 DATABASE_FILE="/var/db/pkg/repo-FreeBSD.sqlite"
 
+# Dialog default size(s):
 DIALOG_HEIGHT=10
 DIALOG_WIDTH=50
 DIALOG_OK=0
 DIALOG_CANCEL=1
 DIALOG_EXTRA=3
 
+# Re-execute the script, allowing user to return back to the main dialog.
 exec_script()
 {
 	exec "$0" ./"$SCRIPT_FILE"
 }
 
+# Dialog to display information about the script and repository.
 about()
 {
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\nhttps://gitlab.com/syne/freebsd" 23 $DIALOG_WIDTH 
 	exec_script
 }
 
+# Preliminary checks before the installer is executed.
+#
+# This checks for the following:
+#      * The user executing the script has the correct permissions set;
+#      * The package 'doas' is installed, which is needed to evaluate privileges.
+#
+# Granted these are met, the user can proceed with the installtion.
 preinstall_check()
 {
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\nTo begin lets check the current user permissions." $DIALOG_HEIGHT $DIALOG_WIDTH 
@@ -47,11 +68,23 @@ preinstall_check()
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\nPreinstall user check passed without any errors." $DIALOG_HEIGHT $DIALOG_WIDTH
 }
 
+# Simply checks if a package is installed passed in as the first argument, if not, install it.
 has_package()
 {
 	[[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]] && doas pkg install -y "$1" &>/dev/null
 }
 
+# Firstly, assuming that everything has executed correctly, the function will read the file 'packages.full' via the
+# current directory. 'packages.full' contains a list of packages to be installed, alongside a value to
+# determine if the package is enabled by default (mainly for a few extra packaegs such as VirtualBox and
+# the NVIDIA display drivers).
+#
+# Secondly, the package file is parsed into an array with it's 'ON'/'OFF' value with the while loop. The user
+# is prompted with a checklist of packages to be installed, and if none are selected shown an error. The process
+# of fetching the package begins via 'pkg': a visable progress-bar is displayed to indicate the amount of packages
+# left.
+#
+# Lastly, once the everything has been installed we move onto the next step.  
 package_install()
 {
 	[[ ! -f $PACKAGE_FILE ]] && {
@@ -73,8 +106,7 @@ package_install()
 		((++__COUNT))
 		__PACKAGES+=("$PACKAGE" "$(pkg rquery -i "%c" "$PACKAGE")" "$OPT")
 	done < "$PACKAGE_FILE"
-	__SELECTED=$(dialog --backtitle "$SCRIPT_BACKTITLE" --title "Select packages" --cancel-label "Back" --checklist "" 0 0 "$__COUNT" "${__PACKAGES[@]}" --stdout)
-			
+	__SELECTED=$(dialog --backtitle "$SCRIPT_BACKTITLE" --title "Select packages" --cancel-label "Back" --checklist "" 0 0 "$__COUNT" "${__PACKAGES[@]}" --stdout)			
 	[[ $? -eq $DIALOG_CANCEL ]] && exec_script
 	
 	mapfile -t __UPDATED_PACKAGES < <(printf "%s" "$__SELECTED" | tr " " "\n")
@@ -105,6 +137,8 @@ EOF
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Packages installed" --msgbox "\n\nAll $__PACKAGE_COUNT corresponding packages have been installed successfully." $DIALOG_HEIGHT $DIALOG_WIDTH 
 }
 
+# Bootstrap into the users home directory that contains all the necessary configuration files. As with the package installer dialog,
+# each file that's copied is shown on the screen with a progress-bar.
 bootstrap_files()
 {
 	local __COUNTER=0
@@ -130,6 +164,7 @@ EOF
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrap complete" --msgbox "\n\nConfiguration files have been copied to your home directory." $DIALOG_HEIGHT $DIALOG_WIDTH
 }
 
+# Check if the dein cache directory exists - this is used for the plugin manager of neovim.
 dein_check()
 {
 	[[ ! -d "$HOME/.cache/dein" ]] && {
@@ -137,6 +172,7 @@ dein_check()
 	}
 }
 
+# Compile the plethora of suckless utils and install them. 
 compile_utils()
 {
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Suckless utilities" --msgbox "\n\nThe suckless utils will now be compiled and installed on your system." 10 50
@@ -146,6 +182,7 @@ compile_utils()
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Suckless utilities" --msgbox "\n\nCompilation complete." 10 50
 }
 
+# Prompt the user if they're running within VirtualBox, if so, enable the needed services at startup.
 virtualbox_enable()
 {
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "VirtualBox" --yesno "\n\nAre you running this machine in VirtualBox?" $DIALOG_HEIGHT $DIALOG_WIDTH
@@ -155,6 +192,8 @@ virtualbox_enable()
 	}
 }
 
+# Prompt the user if they're using a NVIDIA GPU and enable the corresponding services needed. This will also install the 'nvidia-xconfig' package
+# that'll generate the correct Xorg configuration file.
 nvidia_enable()
 {
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "NVIDIA Drivers" --yesno "\n\nAre you using an NVIDIA GPU?" $DIALOG_HEIGHT $DIALOG_WIDTH
@@ -166,6 +205,7 @@ nvidia_enable()
 	}
 }
 
+# Prompt the user everything has completed with success, optionally being able to reboot the system (recommended) or exit the script.
 finish()
 {
 		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Installation finished" \
@@ -174,6 +214,12 @@ finish()
 		[[ $? -eq $DIALOG_OK ]] && doas reboot || exit	
 }
 
+# Main function that prompts the user with three options:
+# 1: Install;
+# 2: About;
+# 3: Exit.
+#
+# Depending on what option is selected, the desired function(s) will be executed.
 main()
 {
 	local MENU_INSTALL=$DIALOG_OK
@@ -184,52 +230,54 @@ main()
 
 	case $? in
 		$MENU_INSTALL)
-			# check for user permissions
+			# Check user permissions.
 			preinstall_check
 			
-			# install selected packages
+			# Install selected packages.
 			package_install
 			
-			# set default shell to fish
+			# Set the default user-shell to fish.
 			doas chsh -s "$(command -v fish)" "$USER"	
 			
-			# generate machine-id and enable dbus startup services
+			# Generate machine-id and enable dbus startup services.
 			dbus-uuidgen | doas tee /etc/machine-id >/dev/null 
 			doas sysrc dbus_enable="YES" >/dev/null
 			doas sysrc hald_enable="YES" >/dev/null
 		
-			# load linux module needed to install nvidia driver
+			# Load the Linux module needed to install the NVIDIA driver.
 			kldload linux.ko
 
-			# bootstrap files to user directory
+			# Bootstrap files to user directory.
 			bootstrap_files
 
-			# symlink scripts to /usr/local/bin (needed for dwm keybinds)
+			# Symlink scripts to /usr/local/bin (needed for dwm keybinds).
 			doas ln -s "$HOME/.scripts/"{open-stream,screenshot} /usr/local/bin 2>/dev/null
 
-			# check if dein is installed
+			# Check if dein exists.
 			dein_check
 
-			# compile Suckless utilities
+			# Compile Suckless utilities.
 			compile_utils
 
-			# check if running in VirtualBox
+			# Check if running in VirtualBox.
 			virtualbox_enable
 			
-			# check if running nvidia gpu
+			# Check if running NVIDIA GPU.
 			nvidia_enable
 
-			# finalize changes (requires reboot)
+			# Finalize changes (requires hard-reboot).
 			finish
 			;;
 		$MENU_EXIT)
-			exit 0 
+		        # Exit the script and do nothing.
+		        exit 0 
 			;;
 		$MENU_ABOUT)
-			# display the about menu
+			# Display the about dialog.
 			about
 			;;
 	esac
 }
 
+# Begin the fun.
 main "$@"
