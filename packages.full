@@ -8,6 +8,7 @@ graphics/zathura-pdf-mupdf on
 multimedia/mpv on
 shells/fish on
 sysutils/dunst on
+sysutils/exa on
 sysutils/htop on 
 sysutils/neofetch off  
 sysutils/tmux on 

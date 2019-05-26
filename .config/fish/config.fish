@@ -1,5 +1,7 @@
 status --is-login; if test -z "$DISPLAY"; exec startx; end
 
+alias ls="exa"
+
 alias gitc="git clone"
 alias gitm="git commit -m"
 alias gitp="git push -f origin"
