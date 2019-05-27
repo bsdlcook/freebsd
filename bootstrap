@@ -44,9 +44,9 @@ about()
 #
 # This checks for the following:
 #      * The user executing the script has the correct permissions set;
-#      * The package 'doas' is installed, which is needed to evaluate privileges.
+#      * The package 'doas' is installed, which is needed to escalate privileges.
 #
-# Granted these are met, the user can proceed with the installtion.
+# Granted these are met, the user can proceed with the installation.
 preinstall_check()
 {
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\nTo begin lets check the current user permissions." $DIALOG_HEIGHT $DIALOG_WIDTH 
@@ -68,23 +68,23 @@ preinstall_check()
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\nPreinstall user check passed without any errors." $DIALOG_HEIGHT $DIALOG_WIDTH
 }
 
-# Simply checks if a package is installed passed in as the first argument, if not, install it.
+# Function to determine and install package given from the first paramater.
 has_package()
 {
 	[[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]] && doas pkg install -y "$1" &>/dev/null
 }
 
-# Firstly, assuming that everything has executed correctly, the function will read the file 'packages.full' via the
+# Firstly, assuming that everything has executed correctly, the function will read the file 'packages.full' from the
 # current directory. 'packages.full' contains a list of packages to be installed, alongside a value to
-# determine if the package is enabled by default (mainly for a few extra packaegs such as VirtualBox and
-# the NVIDIA display drivers).
+# determine if the package is enabled by default (mainly for a few extra packages such as VirtualBox and
+# the NVIDIA GPU display drivers).
 #
-# Secondly, the package file is parsed into an array with it's 'ON'/'OFF' value with the while loop. The user
+# Secondly, the package file is parsed into an array with it's 'on'/'off' value with the while loop. The user
 # is prompted with a checklist of packages to be installed, and if none are selected shown an error. The process
 # of fetching the package begins via 'pkg': a visable progress-bar is displayed to indicate the amount of packages
-# left.
+# left to download.
 #
-# Lastly, once the everything has been installed we move onto the next step.  
+# Lastly, once everything has been installed we move onto the next step - bootstrapping the files.  
 package_install()
 {
 	[[ ! -f $PACKAGE_FILE ]] && {
@@ -137,8 +137,8 @@ EOF
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Packages installed" --msgbox "\n\nAll $__PACKAGE_COUNT corresponding packages have been installed successfully." $DIALOG_HEIGHT $DIALOG_WIDTH 
 }
 
-# Bootstrap into the users home directory that contains all the necessary configuration files. As with the package installer dialog,
-# each file that's copied is shown on the screen with a progress-bar.
+# Bootstraps into the users home directory that contains all the necessary configuration files. As with the package installer dialog,
+# each file that's copied is shown on the screen with a neat little progress-bar.
 bootstrap_files()
 {
 	local __COUNTER=0
@@ -219,13 +219,13 @@ finish()
 # 2: About;
 # 3: Exit.
 #
-# Depending on what option is selected, the desired function(s) will be executed.
+# Depending on what option is selected, the appropriate function will be ran.
 main()
 {
 	local MENU_INSTALL=$DIALOG_OK
 	local MENU_EXIT=$DIALOG_CANCEL
 	local MENU_ABOUT=$DIALOG_EXTRA
-	
+
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to syne's FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH 
 
 	case $? in
