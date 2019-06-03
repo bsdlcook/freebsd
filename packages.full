@@ -1,5 +1,4 @@
 devel/ccache-static on
-editors/neovim on
 emulators/virtualbox-ose-additions off
 graphics/feh on
 graphics/ImageMagick6 on
@@ -11,7 +10,6 @@ sysutils/dunst on
 sysutils/exa on
 sysutils/htop on 
 sysutils/neofetch off  
-sysutils/tmux on 
 www/chromium off
 www/firefox on
 x11-drivers/xf86-video-intel off

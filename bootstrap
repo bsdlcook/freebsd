@@ -164,14 +164,6 @@ EOF
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrap complete" --msgbox "\n\nConfiguration files have been copied to your home directory." $DIALOG_HEIGHT $DIALOG_WIDTH
 }
 
-# Check if the dein cache directory exists - this is used for the plugin manager of neovim.
-dein_check()
-{
-	[[ ! -d "$HOME/.cache/dein" ]] && {
-		fetch -qo - https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh | bash -s "$HOME/.cache/dein" &>/dev/null
-	}
-}
-
 # Compile the plethora of suckless utils and install them. 
 compile_utils()
 {
@@ -252,9 +244,6 @@ main()
 
 			# Symlink scripts to /usr/local/bin (needed for dwm keybinds).
 			doas ln -s "$HOME/.scripts/"{open-stream,screenshot} /usr/local/bin 2>/dev/null
-
-			# Check if dein exists.
-			dein_check
 
 			# Compile Suckless utilities.
 			compile_utils

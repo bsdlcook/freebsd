@@ -125,7 +125,6 @@ doas make CC="ccache cc" clean install -C "$sucklessdir/st" &> /dev/null
 #--------------------- Update arbitrary configs.
 source "$scriptdir/.themer/wallpaper"
 source "$scriptdir/.themer/zathura"
-source "$scriptdir/.themer/neovim"
 source "$scriptdir/.themer/dunst"
 #--------------------- Restart dwm.
 xdotool key 'Super+q'
