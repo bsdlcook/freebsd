@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2015
 
-# bootstrap --- Syne's FreeBSD setup.
-# Copyright (C) 2019 syne
+# bootstrap --- vulcan's FreeBSD setup.
+# Copyright (C) 2019 vulcan
 
-# Author: syne <syne@wired.sh>
-# URL: https://gitlab.com/syne/freebsd/bootstrap
+# Author: vulcan <vulcan@wired.sh>
+# URL: https://gitlab.com/vulc/freebsd/bootstrap
 # Version:
 SCRIPT_VERSION="2.26"
 
@@ -13,7 +13,7 @@ SCRIPT_VERSION="2.26"
 
 # Script metadata:
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
-SCRIPT_REPO="https://gitlab.com/syne/freebsd"
+SCRIPT_REPO="https://gitlab.com/vulc/freebsd"
 SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
 
 # Key files:
@@ -36,7 +36,7 @@ exec_script()
 # Dialog to display information about the script and repository.
 about()
 {
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\nhttps://gitlab.com/syne/freebsd" 23 $DIALOG_WIDTH 
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\nhttps://gitlab.com/vulc/freebsd" 23 $DIALOG_WIDTH 
 	exec_script
 }
 
@@ -218,7 +218,7 @@ main()
 	local MENU_EXIT=$DIALOG_CANCEL
 	local MENU_ABOUT=$DIALOG_EXTRA
 
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to syne's FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH 
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to Vulcan's FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH 
 
 	case $? in
 		$MENU_INSTALL)

@@ -3,8 +3,8 @@
     |    \| | | |     |
     |  |  | | | | | | |
     |____/|_____|_|_|_|
-    syne's FreeBSD setup
-    gitlab.com/syne/freebsd
+    vulcan's FreeBSD setup
+    gitlab.com/vulc/freebsd
 */
 
 /* inherit global colorscheme */ 
