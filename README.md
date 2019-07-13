@@ -61,7 +61,7 @@ There isn't much prerequisites as the bootstrap script makes it *for the most pa
 # Setup
 
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
-- Clone this repo ``git clone https://gitlab.com/vulc/freebsd`` and change to that given directory;
+- Clone this repo ``git clone https://gitlab.com/nihilism/freebsd`` and change to that given directory;
 - From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
 - The default shell is changed to fish so you'll be prompted to enter your password for the chsh command;
 - Note: the **x11-fonts/nerd-fonts** package is fairly large, give it time to download and extract (be patient).
@@ -72,7 +72,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 
 I've included a simplistic theme manager script for dwm/st/dmenu/etc located at **~/.scripts/sys-themes-apply**. As of now there's a few theme configs (**~/.suckless/themes/**) that you can apply to the system, run with the keybind ``Mod + Shift + t`` as explained earlier on this README. The script directory is appended to the $PATH environment variable meaning you can run ``sys-themes-apply [theme]`` or ``sysa [theme]`` (shorthand alias to sys-themes-apply) from anywhere in the terminal (this also applies to any other script inside **~/.scripts/**) but it's best advised to use the keybind. To view the current themes on the system run: ``sys-themes`` and this will return a full list including the theme name: accent; background; foreground and the border hex values (use ``sysl`` as a shorthand alias to ``sys-themes``). 
 
-Themes are placed within **~/.suckless/themes/**, divided into folders and defined in the configuration file for each given theme. In a nutshell they're read from this [script](https://gitlab.com/vulc/freebsd/blob/master/.scripts/sys-themes-apply) that generates a C header file the suckless utils inherit for their appearance, alongside any other arbitrarily placed scripts to run - I wont go into great detail with what happens as it's self-explanatory in the script. A brief rundown would be: you pass in the theme **zen/glace** (theme group/theme) to ``sys-themes-apply`` and checks if it (**~/.suckless/themes/zen/glace.conf**) exists else it'll quit. The contents of that file is:
+Themes are placed within **~/.suckless/themes/**, divided into folders and defined in the configuration file for each given theme. In a nutshell they're read from this [script](https://gitlab.com/nihilism/freebsd/blob/master/.scripts/sys-themes-apply) that generates a C header file the suckless utils inherit for their appearance, alongside any other arbitrarily placed scripts to run - I wont go into great detail with what happens as it's self-explanatory in the script. A brief rundown would be: you pass in the theme **zen/glace** (theme group/theme) to ``sys-themes-apply`` and checks if it (**~/.suckless/themes/zen/glace.conf**) exists else it'll quit. The contents of that file is:
 ```sh
 accent=#AFBEDE
 background=#021B21
@@ -101,7 +101,7 @@ From this, the header file is created and outputted to **~/.suckless/themes/them
 | `dwm_vertpadpx` | Vertical padding for statusbar | 15
 | `dwm_tagind` | Current tag indicator | 1
 | `st_padding_px` | Inner-padding for st | 15
-| `st_colors` | Array of colors for st | [see here](https://gitlab.com/vulc/freebsd/blob/master/.scripts/sys-themes-apply#L28)
+| `st_colors` | Array of colors for st | [see here](https://gitlab.com/nihilism/freebsd/blob/master/.scripts/sys-themes-apply#L28)
 
 Play around with these. You can get some nice looking setups from this - trial and error, basically. To add your own theme it's very trivial to do: create a file in **~/.suckless/themes/[group]/[theme].conf** then away you go. Use the current themes as a reference if needed.
 

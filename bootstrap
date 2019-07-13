@@ -1,23 +1,14 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2015
 
-# bootstrap --- vulcan's FreeBSD setup.
-# Copyright (C) 2019 vulcan
-
-# Author: vulcan <vulcan@wired.sh>
-# URL: https://gitlab.com/vulc/freebsd/bootstrap
-# Version:
-SCRIPT_VERSION="2.26"
-
-# Global variables.
-
 # Script metadata:
+SCRIPT_VERSION="2.27"
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
-SCRIPT_REPO="https://gitlab.com/vulc/freebsd"
+SCRIPT_REPO="https://gitlab.com/nihilism/freebsd"
 SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
 
 # Key files:
-PACKAGE_FILE="./packages.full"
+PACKAGE_FILE=".packages.full"
 DATABASE_FILE="/var/db/pkg/repo-FreeBSD.sqlite"
 
 # Dialog default size(s):
@@ -36,7 +27,7 @@ exec_script()
 # Dialog to display information about the script and repository.
 about()
 {
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\nhttps://gitlab.com/vulc/freebsd" 23 $DIALOG_WIDTH 
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\n$SCRIPT_REPO" 23 $DIALOG_WIDTH 
 	exec_script
 }
 
@@ -74,8 +65,8 @@ has_package()
 	[[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]] && doas pkg install -y "$1" &>/dev/null
 }
 
-# Firstly, assuming that everything has executed correctly, the function will read the file 'packages.full' from the
-# current directory. 'packages.full' contains a list of packages to be installed, alongside a value to
+# Firstly, assuming that everything has executed correctly, the function will read the file '.packages.full' from the
+# current directory. '.packages.full' contains a list of packages to be installed, alongside a value to
 # determine if the package is enabled by default (mainly for a few extra packages such as VirtualBox and
 # the NVIDIA GPU display drivers).
 #
@@ -101,7 +92,7 @@ package_install()
 
 	local __COUNT=0
 	local __PACKAGES=()
-	local __SELECTED
+	local __SELECTED=()
 	while read -r PACKAGE OPT; do
 		((++__COUNT))
 		__PACKAGES+=("$PACKAGE" "$(pkg rquery -i "%c" "$PACKAGE")" "$OPT")
@@ -142,7 +133,7 @@ EOF
 bootstrap_files()
 {
 	local __COUNTER=0
-	local __FILE_COUNT
+	local __FILE_COUNT=0
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrapping" --gauge "" 10 55 < <(
 		mapfile -t __FILES < <(find {.config,.scripts,.suckless,.xinitrc,.tmux.conf} -type f 2>/dev/null)
 		

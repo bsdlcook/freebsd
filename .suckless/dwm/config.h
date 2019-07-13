@@ -3,8 +3,8 @@
     |    \| | | |     |
     |  |  | | | | | | |
     |____/|_____|_|_|_|
-    vulcan's FreeBSD setup
-    gitlab.com/vulc/freebsd
+    Vulcan's FreeBSD setup
+    gitlab.com/nihilism/freebsd
 */
 
 /* inherit global colorscheme */ 
