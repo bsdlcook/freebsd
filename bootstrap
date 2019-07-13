@@ -135,7 +135,7 @@ bootstrap_files()
 	local __COUNTER=0
 	local __FILE_COUNT=0
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrapping" --gauge "" 10 55 < <(
-		mapfile -t __FILES < <(find {.config,.scripts,.suckless,.xinitrc,.tmux.conf} -type f 2>/dev/null)
+		mapfile -t __FILES < <(find {.config,.scripts,.suckless,.xinitrc} -type f 2>/dev/null)
 		
 		__FILE_COUNT="${#__FILES[@]}"
 		for FILE in ${__FILES[*]}; do
