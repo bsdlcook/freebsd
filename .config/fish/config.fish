@@ -19,6 +19,7 @@ alias pupg="pupgrade"
 
 alias sysl="sys-themes"
 alias sysa="sys-themes-apply"
+alias sysf="sys-fetch"
 
 set -x fish_greeting
 set -x LC_ALL en_GB.UTF-8
