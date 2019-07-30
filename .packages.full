@@ -1,4 +1,5 @@
 devel/ccache-static on
+devel/cmake on
 emulators/virtualbox-ose-additions off
 graphics/feh on
 graphics/ImageMagick6 on
