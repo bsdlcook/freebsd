@@ -61,7 +61,7 @@ There isn't much prerequisites as the bootstrap script makes it *for the most pa
 # Setup
 
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
-- Clone this repo ``git clone https://gitlab.com/nihilism/freebsd`` and change to that given directory;
+- Clone this repo ``git clone --recursive https://gitlab.com/nihilism/freebsd`` (remove ``--recursive`` to prevent cloning my [Emacs configuration](https://gitlab.com/nihilism/emacs) repository) and change to that given directory;
 - From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
 - The default shell is changed to fish so you'll be prompted to enter your password for the chsh command;
 - Note: the **x11-fonts/nerd-fonts** package is fairly large, give it time to download and extract (be patient).
