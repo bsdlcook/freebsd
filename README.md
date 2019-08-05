@@ -58,13 +58,17 @@ There isn't much prerequisites as the bootstrap script makes it *for the most pa
 - User added to the doas config file with 'nopass' enabled for that user (makes life much easier, run this command on the root account): ``echo "permit nopass YOUR_USER as root" | tee -a /usr/local/etc/doas.conf``. This isn't a good practice allowing non-privileged users running doas as root without root password. However security isn't a number one priority in this type of environment, it's simply for the sake of convenience;
 - Everything else is pulled in by the setup script. Nothing else required - only a brain and common sense.
 
-# Setup
+# Setup and installation
 
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
 - Clone this repo ``git clone --recursive https://gitlab.com/nihilism/freebsd`` (remove ``--recursive`` to prevent cloning my [Emacs configuration](https://gitlab.com/nihilism/emacs) repository) and change to that given directory;
 - From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
 - The default shell is changed to fish so you'll be prompted to enter your password for the chsh command;
 - Note: the **x11-fonts/nerd-fonts** package is fairly large, give it time to download and extract (be patient).
+
+### Autonomous installation
+
+Since [this commit](https://gitlab.com/nihilism/freebsd/commit/f597ebceeccc6867cd7e6b8cef02afe768f41792) you can install the entire setup autonomously without needing to attend each dialog. To enable this behaviour pass ``-auto`` to the bootstrap script. If you also need to include display drivers you can provide either ``-nvidia`` or ``-virtualbox``, the according packages alongside startup services will be configured for you.
 
 *As simple as that*. You should be done now, given my mediocre scripting has worked for you. I'd suggest rebooting the system once the setup script has completed.
 
