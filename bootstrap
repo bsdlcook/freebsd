@@ -1,34 +1,80 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2015
+#shellcheck disable=SC2015
 
-# Script metadata:
-SCRIPT_VERSION="2.27"
+# Metadata.
+SCRIPT_VERSION="2.30"
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
 SCRIPT_REPO="https://gitlab.com/nihilism/freebsd"
 SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
 
-# Key files:
+# Key files.
 PACKAGE_FILE=".packages.full"
 DATABASE_FILE="/var/db/pkg/repo-FreeBSD.sqlite"
+LOG_FILE="/tmp/$(date +"%H%M%S")-bootstrap.log"
 
-# Dialog default size(s):
+# Dialog default size(s).
 DIALOG_HEIGHT=10
 DIALOG_WIDTH=50
 DIALOG_OK=0
 DIALOG_CANCEL=1
 DIALOG_EXTRA=3
 
+# Command-line options.
+AUTO=false
+NVIDIA=false
+VIRTUALBOX=false
+
+# Log colors.
+RED=$(tput AF 1)
+BLUE=$(tput AF 4)
+DEFAULT=$(tput me)
+
+# Miscellaneous logging.
+write_log() { echo "[$(date +"%T")]: $1" >> "$LOG_FILE"; } 
+log() { echo "[${BLUE}I${DEFAULT}] $*" && write_log "$*";  }
+error() { echo "[${RED}E${DEFAULT}] $*" && write_log "$*" && exit 1; }
+
+# Parse command-line options.
+# 
+# -auto: Autonomous installation;
+# -nvidia: Install and enable NVIDIA display drivers;
+# -virtualbox: Install and enable VirtualBox display drivers.
+parse_args()
+{
+    while [ "$1" != "" ]; do
+	key=$(echo "$1" | awk -F= '{print $1}')
+	case "$key" in
+	    -auto)
+		AUTO=true
+		;;
+	    -nvidia)
+		NVIDIA=true
+		;;
+	    -virtualbox)
+		VIRTUALBOX=true
+		;;
+	esac
+	shift
+    done
+}
+
+# Determine if autonomous installation.
+is_auto()
+{
+    if $AUTO; then return 0; else return 1; fi
+}
+
 # Re-execute the script, allowing user to return back to the main dialog.
 exec_script()
 {
-	exec "$0" ./"$SCRIPT_FILE"
+    exec "$0" ./"$SCRIPT_FILE"
 }
 
 # Dialog to display information about the script and repository.
 about()
 {
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\n$SCRIPT_REPO" 23 $DIALOG_WIDTH 
-	exec_script
+    dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\n$SCRIPT_REPO" 23 $DIALOG_WIDTH
+    exec_script
 }
 
 # Preliminary checks before the installer is executed.
@@ -40,29 +86,44 @@ about()
 # Granted these are met, the user can proceed with the installation.
 preinstall_check()
 {
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\nTo begin lets check the current user permissions." $DIALOG_HEIGHT $DIALOG_WIDTH 
-	
-	[[ "$(id -u)" -eq 0 ]] && {
-		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" \
-			--no-label "Exit" --yes-label "Restart" --yesno \
-			"\n\nPlease re-run this script as a non-privileged user." $DIALOG_HEIGHT $DIALOG_WIDTH
-		[[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
-	}
+    if is_auto; then
+	log "Checking user permissions."
+    else
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\nTo begin lets check the current user permissions." $DIALOG_HEIGHT $DIALOG_WIDTH;
+    fi
 
-	[[ -z "$(pkg info -x security/doas 2>/dev/null | head -n1)" ]] && {
-		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" \
-			--no-label "Exit" --yes-label "Restart" --yesno \
-			"\n\nPlease install doas by typing: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass your_user as root' | tee -s /usr/local/etc/doas.conf - then re-run the script." 0 $DIALOG_WIDTH 
-		[[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
-	}
+    [[ "$(id -u)" -eq 0 ]] && {
+	local __MESSAGE="Please re-run this script as a non-privileged user."
+	if is_auto; then
+	    error "$__MESSAGE"
+	else
+	    dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" --no-label "Exit" --yes-label "Restart" --yesno "\n\n$__MESSAGE" $DIALOG_HEIGHT $DIALOG_WIDTH
+	    [[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
+	fi
+    }
+    
+    [[ -z "$(pkg info -x security/doas 2>/dev/null | head -n1)" ]] && {
+	local __MESSAGE="Please install doas by typing: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass your_user as root' | tee -s /usr/local/etc/doas.conf - then re-run the script."
+	if is_auto; then
+	    error "$__MESSAGE"
+	else
+	    dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" --no-label "Exit" --yes-label "Restart" --yesno "\n\n$__MESSAGE" $DIALOG_HEIGHT $DIALOG_WIDTH
+	    [[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
+	fi
+    }
 
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\nPreinstall user check passed without any errors." $DIALOG_HEIGHT $DIALOG_WIDTH
+    local __MESSAGE="Preinstall user check passed without any errors."
+    if is_auto; then
+	log "$__MESSAGE"
+    else
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Preinstall check" --msgbox "\n\n$__MESSAGE" $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Function to determine and install package given from the first paramater.
 has_package()
 {
-	[[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]] && doas pkg install -y "$1" &>/dev/null
+    [[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]] && doas pkg install -y "$1" &>/dev/null
 }
 
 # Firstly, assuming that everything has executed correctly, the function will read the file '.packages.full' from the
@@ -78,186 +139,264 @@ has_package()
 # Lastly, once everything has been installed we move onto the next step - bootstrapping the files.  
 package_install()
 {
-	[[ ! -f $PACKAGE_FILE ]] && {
-		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" \
-			--no-label "Exit" --yes-label "Restart" --yesno \
-			"\n\nPackage file '$PACKAGE_FILE' not found in directory. Please ensure the integrity of the files are not missing or corrupted." 10 50
-		[[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
-	}
+    [[ ! -f $PACKAGE_FILE ]] && {
+	local __MESSAGE="Package file '$PACKAGE_FILE' not found in directory. Please ensure the integrity of the files are not missing or corrupted."
+	if is_auto; then
+	    error "$__MESSAGE"
+	else
+	    dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" --no-label "Exit" --yes-label "Restart" --yesno "\n\n$__MESSAGE" 10 50
+	    [[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
+	fi
+    }
 
-	[[ ! -f $DATABASE_FILE ]] && {
-		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Package metadata" --msgbox "\n\nBefore we begin the package repository will be updated." 10 50
-		doas pkg update -f 2>/dev/null
-	}
+    [[ ! -f $DATABASE_FILE ]] && {
+	local __MESSAGE="Before we begin the package repository will be updated."
+	if is_auto; then
+	    log "$__MESSAGE"
+	else
+	    dialog --backtitle "$SCRIPT_BACKTITLE" --title "Package metadata" --msgbox "\n\n$__MESSAGE" 10 50
+	fi
+	doas pkg update -f 2>/dev/null
+    }
 
-	local __COUNT=0
-	local __PACKAGES=()
-	local __SELECTED=()
+    local __PACKAGES=()
+    local __COUNTER=0
+    local __PACKAGE_COUNT=0
+    if is_auto; then
 	while read -r PACKAGE OPT; do
-		((++__COUNT))
-		__PACKAGES+=("$PACKAGE" "$(pkg rquery -i "%c" "$PACKAGE")" "$OPT")
+	    [[ "$OPT" == "on" ]] && __PACKAGES+=("$PACKAGE")
 	done < "$PACKAGE_FILE"
-	__SELECTED=$(dialog --backtitle "$SCRIPT_BACKTITLE" --title "Select packages" --cancel-label "Back" --checklist "" 0 0 "$__COUNT" "${__PACKAGES[@]}" --stdout)			
+
+	__PACKAGE_COUNT="${#__PACKAGES[@]}"
+	for PACKAGE in ${__PACKAGES[*]}; do
+	    STATUS=$((100*(++__COUNTER)/__PACKAGE_COUNT))
+	    log "Downloading package $PACKAGE ($__COUNTER/$__PACKAGE_COUNT)."
+	    [[ "$PACKAGE" == "x11/nvidia-driver" ]] && doas kldload linux.ko &>/dev/null
+	    has_package "$PACKAGE"
+	done
+
+	log "All $__PACKAGE_COUNT corresponding packages have been installed successfully."
+    else
+	local __COUNT=0
+	while read -r PACKAGE OPT; do
+	    ((++__COUNT))
+	    __PACKAGES+=("$PACKAGE" "$(pkg rquery -i "%c" "$PACKAGE")" "$OPT")
+	done < "$PACKAGE_FILE"
+
+	__SELECTED=$(dialog --backtitle "$SCRIPT_BACKTITLE" --title "Select packages" --cancel-label "Back" --checklist "" 0 0 "$__COUNT" "${__PACKAGES[@]}" --stdout)
 	[[ $? -eq $DIALOG_CANCEL ]] && exec_script
-	
+
 	mapfile -t __UPDATED_PACKAGES < <(printf "%s" "$__SELECTED" | tr " " "\n")
 	[[ -z "${__UPDATED_PACKAGES[*]}" ]] && {
-		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" \
-			--no-label "Exit" --yes-label "Restart" --yesno \
-			"\n\nNo packages have been selected for installation." $DIALOG_HEIGHT $DIALOG_WIDTH
-		[[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
+	    dialog --backtitle "$SCRIPT_BACKTITLE" --title "Abort" --no-label "Exit" --yes-label "Restart" --yesno "\n\nNo packages have been selected for installation." $DIALOG_HEIGHT $DIALOG_WIDTH
+	    [[ $? -eq $DIALOG_CANCEL ]] && exit || exec_script
 	}
 
-	local __COUNTER=0
-	local __PACKAGE_COUNT="${#__UPDATED_PACKAGES[@]}"
+	__PACKAGE_COUNT="${#__UPDATED_PACKAGES[@]}"
 	dialog --title "Fetching supplied packages" --backtitle "$SCRIPT_BACKTITLE" --gauge "" 10 55 < <(
-		for PACKAGE in ${__UPDATED_PACKAGES[*]}; do
-			STATUS=$((100*(++__COUNTER)/__PACKAGE_COUNT))
+	    for PACKAGE in ${__UPDATED_PACKAGES[*]}; do
+		STATUS=$((100*(++__COUNTER)/__PACKAGE_COUNT))
 		cat <<EOF
 XXX
-$STATUS
+	$STATUS
 
-Downloading package $PACKAGE ($__COUNTER/$__PACKAGE_COUNT)
+	Downloading package $PACKAGE ($__COUNTER/$__PACKAGE_COUNT)
 
-Please wait...
+	Please wait...
 XXX
 EOF
-			has_package "$PACKAGE"
-		done
-	)
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Packages installed" --msgbox "\n\nAll $__PACKAGE_COUNT corresponding packages have been installed successfully." $DIALOG_HEIGHT $DIALOG_WIDTH 
+		[[ "$PACKAGE" == "x11/nvidia-driver" ]] && doas kldload linux.ko &>/dev/null
+		has_package "$PACKAGE"
+	    done)
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Packages installed" --msgbox "\n\nAll $__PACKAGE_COUNT corresponding packages have been installed successfully." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Bootstraps into the users home directory that contains all the necessary configuration files. As with the package installer dialog,
 # each file that's copied is shown on the screen with a neat little progress-bar.
 bootstrap_files()
 {
-	local __COUNTER=0
-	local __FILE_COUNT=0
+    mapfile -t __FILES < <(find {.emacs.d,.config,.scripts,.suckless,.xinitrc} -type f 2>/dev/null)
+    local __FILE_COUNT="${#__FILES[@]}"
+    local __COUNTER=0
+
+    if is_auto; then
+	for FILE in ${__FILES[*]}; do
+	    STATUS=$((100*(++__COUNTER)/__FILE_COUNT))
+	    log "Copying file $FILE ($__COUNTER/$__FILE_COUNT)."
+	    echo "$FILE" | cpio -p -d "/usr/home/$USER" &>/dev/null
+	done
+    else
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrapping" --gauge "" 10 55 < <(
-		mapfile -t __FILES < <(find {.emacs.d,.config,.scripts,.suckless,.xinitrc} -type f 2>/dev/null)
-		
-		__FILE_COUNT="${#__FILES[@]}"
-		for FILE in ${__FILES[*]}; do
-			STATUS=$((100*(++__COUNTER)/__FILE_COUNT))
-			cat <<EOF
+	    for FILE in ${__FILES[*]}; do
+		STATUS=$((100*(++__COUNTER)/__FILE_COUNT))
+		cat <<EOF
 XXX
-$STATUS
+	$STATUS
 
-Copying file $FILE ($__COUNTER/$__FILE_COUNT)
+	Copying file $FILE ($__COUNTER/$__FILE_COUNT)
 
-Please wait...
+	Please wait...
 XXX
 EOF
-			echo "$FILE" | cpio -p -d "/usr/home/$USER" &>/dev/null
-		done
-	)
+		echo "$FILE" | cpio -p -d "/usr/home/$USER" &>/dev/null
+	    done)
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrap complete" --msgbox "\n\nConfiguration files have been copied to your home directory." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Compile the plethora of suckless utils and install them. 
 compile_utils()
 {
+    if is_auto; then
+	log "Compiling suckless utils."
+    else
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Suckless utilities" --msgbox "\n\nThe suckless utils will now be compiled and installed on your system." 10 50
-	doas make CC="ccache cc" install clean -C "$HOME/.suckless/dwm"
-	doas make CC="ccache cc" install clean -C "$HOME/.suckless/st"
-	doas make CC="ccache cc" install clean -C "$HOME/.suckless/dmenu"
+    fi
+
+    doas make CC="ccache cc" install clean -C "$HOME/.suckless/dwm"
+    doas make CC="ccache cc" install clean -C "$HOME/.suckless/st"
+    doas make CC="ccache cc" install clean -C "$HOME/.suckless/dmenu"
+
+    if is_auto; then
+	log "Compilation complete."
+    else
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Suckless utilities" --msgbox "\n\nCompilation complete." 10 50
+    fi
 }
 
 # Prompt the user if they're running within VirtualBox, if so, enable the needed services at startup.
 virtualbox_enable()
 {
+    if is_auto; then
+	[[ "$VIRTUALBOX" == "true" ]] && {
+	    log "Downloading VirtualBox display driver package."
+	    has_package emulators/virtualbox-ose-additions
+	    log "Enabling VirtualBox services."
+	    doas sysrc vboxguest_enable="YES"
+	    doas sysrc vboxservice_enable="YES"
+	}
+    else
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "VirtualBox" --yesno "\n\nAre you running this machine in VirtualBox?" $DIALOG_HEIGHT $DIALOG_WIDTH
 	[[ $? -eq $DIALOG_OK ]] && {
-		doas sysrc vboxguest_enable="YES" >/dev/null
-		doas sysrc vboxservice_enable="YES" >/dev/null
+	    doas sysrc vboxguest_enable="YES" >/dev/null
+	    doas sysrc vboxservice_enable="YES" >/dev/null
 	}
+    fi    
 }
 
 # Prompt the user if they're using a NVIDIA GPU and enable the corresponding services needed. This will also install the 'nvidia-xconfig' package
 # that'll generate the correct Xorg configuration file.
 nvidia_enable()
 {
+    if is_auto; then
+	[[ "$NVIDIA" == "true" ]] && {
+	    log "Downloading NVIDIA display driver package."
+	    has_package x11/nvidia-driver
+	    log "Enabling preliminary NVIDIA services."
+	    echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf
+    	    echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf
+	    log "Downloading NVIDIA XConfig package."
+	    has_package x11/nvidia-xconfig
+	    doas nvidia-xconfig >/dev/null
+	}
+    else
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "NVIDIA Drivers" --yesno "\n\nAre you using an NVIDIA GPU?" $DIALOG_HEIGHT $DIALOG_WIDTH
 	[[ $? -eq $DIALOG_OK ]] && {
-	        echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
-	        echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
-		has_package x11/nvidia-xconfig
-		doas nvidia-xconfig
+            echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+    	    echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+	    has_package x11/nvidia-driver
+	    has_package x11/nvidia-xconfig
+	    doas nvidia-xconfig
 	}
+    fi
 }
 
 # Prompt the user everything has completed with success, optionally being able to reboot the system (recommended) or exit the script.
 finish()
 {
-		dialog --backtitle "$SCRIPT_BACKTITLE" --title "Installation finished" \
-			--no-label "Exit" --yes-label "Reboot" --yesno \
-			"\n\nBootstrap completed. Please reboot your system to finalize the changes." $DIALOG_HEIGHT $DIALOG_WIDTH
-		[[ $? -eq $DIALOG_OK ]] && doas reboot || exit	
+    local __MESSAGE="Bootstrap completed. Please reboot your system to finalize the changes."
+    if is_auto; then
+	log "$__MESSAGE"
+    else
+	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Installation finished" --no-label "Exit" --yes-label "Reboot" --yesno "\n\n$__MESSAGE" $DIALOG_HEIGHT $DIALOG_WIDTH
+	[[ $? -eq $DIALOG_OK ]] && doas reboot || exit
+    fi
 }
 
-# Main function that prompts the user with three options:
+start()
+{
+    #Check user permissions.
+    preinstall_check
+	
+    # Install selected packages.
+    package_install	
+
+    # Set the default user-shell to fish.
+    doas chsh -s "$(command -v fish)" "$USER"
+
+    # Generate machine-id and enable dbus startup services.
+    dbus-uuidgen | doas tee /etc/machine-id >/dev/null
+    doas sysrc dbus_enable="YES" >/dev/null
+    doas sysrc hald_enable="YES" >/dev/null
+
+    # Bootstrap files to user directory.
+    bootstrap_files
+
+    # Symlink scripts to /usr/local/bin (needed for dwm keybinds).
+    doas ln -s "$HOME/.scripts/"{open-stream,screenshot} /usr/local/bin 2>/dev/null
+
+    # Compile Suckless utilities.
+    compile_utils
+
+    # Check if running in VirtualBox.
+    virtualbox_enable
+
+    # Check if using NVIDIA GPU.
+    nvidia_enable
+
+    # Finalize changes (requires hard-reboot).
+    finish
+
+    # Exit.
+    exit 0
+}
+
+# Init function that prompts the user with three options:
 # 1: Install;
 # 2: About;
 # 3: Exit.
 #
 # Depending on what option is selected, the appropriate function will be ran.
-main()
+init()
 {
-	local MENU_INSTALL=$DIALOG_OK
-	local MENU_EXIT=$DIALOG_CANCEL
-	local MENU_ABOUT=$DIALOG_EXTRA
+    parse_args "$@"
+    
+    if is_auto; then
+	start
+    fi
 
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to Vulcan's FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH 
+    local __MENU_INSTALL=$DIALOG_OK
+    local __MENU_EXIT=$DIALOG_CANCEL
+    local __MENU_ABOUT=$DIALOG_EXTRA
 
-	case $? in
-		$MENU_INSTALL)
-			# Check user permissions.
-			preinstall_check
-			
-			# Install selected packages.
-			package_install
-			
-			# Set the default user-shell to fish.
-			doas chsh -s "$(command -v fish)" "$USER"	
-			
-			# Generate machine-id and enable dbus startup services.
-			dbus-uuidgen | doas tee /etc/machine-id >/dev/null 
-			doas sysrc dbus_enable="YES" >/dev/null
-			doas sysrc hald_enable="YES" >/dev/null
-		
-			# Load the Linux module needed to install the NVIDIA driver.
-			kldload linux.ko
+    dialog --backtitle "$SCRIPT_BACKTITLE" --title "Welcome" --extra-button --extra-label "About" --ok-label "Install" --cancel-label "Exit" --yesno "\n\nWelcome to Vulcan's FreeBSD bootstrap script v$SCRIPT_VERSION! To begin the setup please select the install option." $DIALOG_HEIGHT $DIALOG_WIDTH
 
-			# Bootstrap files to user directory.
-			bootstrap_files
-
-			# Symlink scripts to /usr/local/bin (needed for dwm keybinds).
-			doas ln -s "$HOME/.scripts/"{open-stream,screenshot} /usr/local/bin 2>/dev/null
-
-			# Compile Suckless utilities.
-			compile_utils
-
-			# Check if running in VirtualBox.
-			virtualbox_enable
-			
-			# Check if running NVIDIA GPU.
-			nvidia_enable
-
-			# Finalize changes (requires hard-reboot).
-			finish
-			;;
-		$MENU_EXIT)
-		        # Exit the script and do nothing.
-		        exit 0 
-			;;
-		$MENU_ABOUT)
-			# Display the about dialog.
-			about
-			;;
-	esac
+    case $? in
+	$__MENU_INSTALL)
+	    # Start the dialog install.
+	    start
+	    ;;
+	$__MENU_EXIT)
+	    # Exit the script and do nothing.
+	    exit 0
+	    ;;
+	$__MENU_ABOUT)
+	    # Display the about dialog.
+	    about
+	    ;;
+    esac
 }
 
 # Begin the fun.
-main "$@"
+init "$@"
