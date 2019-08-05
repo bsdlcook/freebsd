@@ -6,7 +6,8 @@ This repository is my current FreeBSD setup as of June 2018 to present, which co
 - **fish**: Custom functions to easily install ports either from source or binary blobs (see ~/.config/fish/functions/ for the available commands);
 - **dwm**: dwm (short for dynamic window manager) is a bare-bones window manager written for X where you patch in the features you want;
 - **st**: The suckless terminal. A *very*, if not most minimal terminal that follows the suckless software philosophy;
-- **zathura**: A minimal pdf viewer also with vim keybindings.
+- **zathura**: A minimal pdf viewer also with vim keybindings;
+- **emacs**: More than just your usual text editor and my personal development enviroment of choice. This is included as a git submodule from [here](https://gitlab.com/nihilism/emacs); to include this you'll need to pass ``--recursive`` when cloning this repo.
 
 There's also configuration files for: dmenu; neofetch; htop and a few others that I use.
 
@@ -68,7 +69,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 
 ### Autonomous installation
 
-Since [this commit](https://gitlab.com/nihilism/freebsd/commit/f597ebceeccc6867cd7e6b8cef02afe768f41792) you can install the entire setup autonomously without needing to attend each dialog. To enable this behaviour pass ``-auto`` to the bootstrap script. If you also need to include display drivers you can provide either ``-nvidia`` or ``-virtualbox``, the according packages alongside startup services will be configured for you.
+Since [this commit](https://gitlab.com/nihilism/freebsd/commit/f597ebceeccc6867cd7e6b8cef02afe768f41792) you can install the entire setup autonomously without needing to attend each dialog. To enable this behaviour pass ``-auto`` to the bootstrap script. If you also need to include display drivers you can provide either ``-nvidia`` or ``-virtualbox``, the according packages as well as startup services will be configured for you.
 
 *As simple as that*. You should be done now, given my mediocre scripting has worked for you. I'd suggest rebooting the system once the setup script has completed.
 
