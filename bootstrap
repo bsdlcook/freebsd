@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-#shellcheck disable=SC2015
+# shellcheck disable=SC2015
 
 # Metadata.
-SCRIPT_VERSION="2.30"
+SCRIPT_VERSION="2.31"
 SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
 SCRIPT_REPO="https://gitlab.com/nihilism/freebsd"
-SCRIPT_BACKTITLE="FreeBSD bootstrap script : Version $SCRIPT_VERSION : $SCRIPT_REPO"
+SCRIPT_BACKTITLE="Vulcans FreeBSD bootstrap script, Version $SCRIPT_VERSION, $SCRIPT_REPO."
 
 # Key files.
 PACKAGE_FILE=".packages.full"
@@ -15,6 +15,8 @@ LOG_FILE="/tmp/$(date +"%H%M%S")-bootstrap.log"
 # Dialog default size(s).
 DIALOG_HEIGHT=10
 DIALOG_WIDTH=50
+
+# Dialog buttons.
 DIALOG_OK=0
 DIALOG_CANCEL=1
 DIALOG_EXTRA=3
@@ -121,9 +123,22 @@ preinstall_check()
 }
 
 # Function to determine and install package given from the first paramater.
-has_package()
+check_package()
 {
     [[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]] && doas pkg install -y "$1" &>/dev/null
+}
+
+# The NVIDIA display driver package makes linux_base-c6 a preliminary dependency, else pkg will throw an error
+# during the package install process, ultimately not installing the driver itself. Once completed the linux.ko
+# kernel driver is loaded.
+install_linux_base()
+{
+    check_package emulators/linux_base-c6
+    if [ "$(uname -p)" = "amd64" ]; then
+	doas kldload linux.ko linux64.ko &>/dev/null
+    else
+	doas kldload linux.ko &>/dev/null
+    fi
 }
 
 # Firstly, assuming that everything has executed correctly, the function will read the file '.packages.full' from the
@@ -171,8 +186,8 @@ package_install()
 	for PACKAGE in ${__PACKAGES[*]}; do
 	    STATUS=$((100*(++__COUNTER)/__PACKAGE_COUNT))
 	    log "Downloading package $PACKAGE ($__COUNTER/$__PACKAGE_COUNT)."
-	    [[ "$PACKAGE" == "x11/nvidia-driver" ]] && doas kldload linux.ko &>/dev/null
-	    has_package "$PACKAGE"
+	    [[ "$PACKAGE" == "x11/nvidia-driver" ]] && install_linux_base
+	    check_package "$PACKAGE"
 	done
 
 	log "All $__PACKAGE_COUNT corresponding packages have been installed successfully."
@@ -205,8 +220,8 @@ XXX
 	Please wait...
 XXX
 EOF
-		[[ "$PACKAGE" == "x11/nvidia-driver" ]] && doas kldload linux.ko &>/dev/null
-		has_package "$PACKAGE"
+		[[ "$PACKAGE" == "x11/nvidia-driver" ]] && install_linux_base
+		check_package "$PACKAGE"
 	    done)
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Packages installed" --msgbox "\n\nAll $__PACKAGE_COUNT corresponding packages have been installed successfully." $DIALOG_HEIGHT $DIALOG_WIDTH
     fi
@@ -270,11 +285,9 @@ virtualbox_enable()
 {
     if is_auto; then
 	[[ "$VIRTUALBOX" == "true" ]] && {
-	    log "Downloading VirtualBox display driver package."
-	    has_package emulators/virtualbox-ose-additions
-	    log "Enabling VirtualBox services."
-	    doas sysrc vboxguest_enable="YES"
-	    doas sysrc vboxservice_enable="YES"
+	    log "Downloading VirtualBox display driver package." && check_package emulators/virtualbox-ose-additions
+	    log "Enabling VirtualBox services." && doas sysrc vboxguest_enable="YES" >/dev/null &&
+		doas sysrc vboxservice_enable="YES" >/dev/null
 	}
     else
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "VirtualBox" --yesno "\n\nAre you running this machine in VirtualBox?" $DIALOG_HEIGHT $DIALOG_WIDTH
@@ -291,22 +304,23 @@ nvidia_enable()
 {
     if is_auto; then
 	[[ "$NVIDIA" == "true" ]] && {
-	    log "Downloading NVIDIA display driver package."
-	    has_package x11/nvidia-driver
-	    log "Enabling preliminary NVIDIA services."
-	    echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf
-    	    echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf
-	    log "Downloading NVIDIA XConfig package."
-	    has_package x11/nvidia-xconfig
-	    doas nvidia-xconfig >/dev/null
+	    log "Downloading Linux c6 base." && install_linux_base
+	    log "Loaded Linux kernel module."
+	    log "Downloading NVIDIA display driver package." && check_package x11/nvidia-driver
+	    log "Enabling preliminary NVIDIA services." && 
+		echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null &&
+    		echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+	    log "Downloading NVIDIA XConfig package." && check_package x11/nvidia-xconfig &&
+		doas nvidia-xconfig >/dev/null
 	}
     else
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "NVIDIA Drivers" --yesno "\n\nAre you using an NVIDIA GPU?" $DIALOG_HEIGHT $DIALOG_WIDTH
 	[[ $? -eq $DIALOG_OK ]] && {
-            echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
+	    install_linux_base
+	    echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
     	    echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
-	    has_package x11/nvidia-driver
-	    has_package x11/nvidia-xconfig
+	    check_package x11/nvidia-driver
+	    check_package x11/nvidia-xconfig
 	    doas nvidia-xconfig
 	}
     fi
