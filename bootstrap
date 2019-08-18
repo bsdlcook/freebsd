@@ -123,7 +123,7 @@ preinstall_check()
 }
 
 # Function to determine and install package given from the first paramater.
-check_package()
+install_package()
 {
     [[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]] && doas pkg install -y "$1" &>/dev/null
 }
@@ -133,7 +133,7 @@ check_package()
 # kernel driver is loaded.
 install_linux_base()
 {
-    check_package emulators/linux_base-c6
+    install_package emulators/linux_base-c6
     if [ "$(uname -p)" = "amd64" ]; then
 	doas kldload linux.ko linux64.ko &>/dev/null
     else
@@ -187,7 +187,7 @@ package_install()
 	    STATUS=$((100*(++__COUNTER)/__PACKAGE_COUNT))
 	    log "Downloading package $PACKAGE ($__COUNTER/$__PACKAGE_COUNT)."
 	    [[ "$PACKAGE" == "x11/nvidia-driver" ]] && install_linux_base
-	    check_package "$PACKAGE"
+	    install_package "$PACKAGE"
 	done
 
 	log "All $__PACKAGE_COUNT corresponding packages have been installed successfully."
@@ -221,7 +221,7 @@ XXX
 XXX
 EOF
 		[[ "$PACKAGE" == "x11/nvidia-driver" ]] && install_linux_base
-		check_package "$PACKAGE"
+		install_package "$PACKAGE"
 	    done)
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Packages installed" --msgbox "\n\nAll $__PACKAGE_COUNT corresponding packages have been installed successfully." $DIALOG_HEIGHT $DIALOG_WIDTH
     fi
@@ -285,7 +285,7 @@ virtualbox_enable()
 {
     if is_auto; then
 	[[ "$VIRTUALBOX" == "true" ]] && {
-	    log "Downloading VirtualBox display driver package." && check_package emulators/virtualbox-ose-additions
+	    log "Downloading VirtualBox display driver package." && install_package emulators/virtualbox-ose-additions
 	    log "Enabling VirtualBox services." && doas sysrc vboxguest_enable="YES" >/dev/null &&
 		doas sysrc vboxservice_enable="YES" >/dev/null
 	}
@@ -306,11 +306,11 @@ nvidia_enable()
 	[[ "$NVIDIA" == "true" ]] && {
 	    log "Downloading Linux c6 base." && install_linux_base
 	    log "Loaded Linux kernel module."
-	    log "Downloading NVIDIA display driver package." && check_package x11/nvidia-driver
+	    log "Downloading NVIDIA display driver package." && install_package x11/nvidia-driver
 	    log "Enabling preliminary NVIDIA services." && 
 		echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null &&
     		echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
-	    log "Downloading NVIDIA XConfig package." && check_package x11/nvidia-xconfig &&
+	    log "Downloading NVIDIA XConfig package." && install_package x11/nvidia-xconfig &&
 		doas nvidia-xconfig >/dev/null
 	}
     else
@@ -319,8 +319,8 @@ nvidia_enable()
 	    install_linux_base
 	    echo "linux_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
     	    echo "nvidia-modeset_load=\"YES\"" | doas tee -a /boot/loader.conf >/dev/null
-	    check_package x11/nvidia-driver
-	    check_package x11/nvidia-xconfig
+	    install_package x11/nvidia-driver
+	    install_package x11/nvidia-xconfig
 	    doas nvidia-xconfig
 	}
     fi
