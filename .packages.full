@@ -1,3 +1,5 @@
+audio/portaudio on
+audio/spotifyd on
 devel/ccache-static on
 devel/cmake on
 editors/emacs on
