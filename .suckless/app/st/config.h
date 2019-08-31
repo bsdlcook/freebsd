@@ -1,5 +1,5 @@
 /* theme settings */
-#include "../themes/theme.h"
+#include "../theme.h"
 
 static char *font = theme.font;
 static int borderpx = _paddingpx;

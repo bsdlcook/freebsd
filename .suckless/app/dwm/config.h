@@ -8,7 +8,7 @@
 */
 
 /* inherit global colorscheme */ 
-#include "../themes/theme.h"
+#include "../theme.h"
 
 /* general appearance */
 static const char *fonts[]            = { theme.font }; /* x11 bar font 	                      */
@@ -29,9 +29,6 @@ static const char *colors[][3] = {
 	[SchemeNorm] = { theme.foreground, theme.background, theme.dwm.border_inactive }, /* normal   */
 	[SchemeSel]  = { theme.accent,     theme.background, theme.dwm.border_active   }, /* selected */
 };
-
-/* tags */
-static const char *tags[] = { "MAIN", "WEB", "TERM", "DEV", "MUSIC" };
 
 /* client/master ratios */
 static const float mfact              = 0.50; /* factor of master area size [0.05..0.95]      */

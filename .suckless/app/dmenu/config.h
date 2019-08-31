@@ -1,5 +1,5 @@
 /* theme settings */
-#include "../themes/theme.h"
+#include "../theme.h"
 
 /* general appearance */
 static int topbar                  = _topbar; 	     /* -b  option; if 0, dmenu appears at bottom                                  */

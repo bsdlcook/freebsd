@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-themedir="$HOME/.suckless/themes/"
-scriptdir="$HOME/.scripts/"
-
-find "$themedir" -maxdepth 2 -type f -name "*.conf" | sed -e "s/\/home\/$USER\/.suckless\/themes\///g" -e "s/.conf//g" | \
-	sort -us | dmenu -i -p "SELECT THEME:" "$@" | $scriptdir\sys-themes-apply
