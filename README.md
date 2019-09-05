@@ -25,18 +25,9 @@ I've written some very basic fish functions that somewhat act as a wrapper for p
 
 Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to.
 
-I've made the process of changing the system theme convenient and easy, not the paradigm of 'you have to recompile dwm everytime which makes it hard' as that's simply not true (unless you lack the competence to run a simple keybind). For this to work all you need to do is press ``Mod + Shift + t`` and you'll be prompted by dmenu to choose a theme: select the theme you desire; press enter; wait a few seconds (this automatically recompiles the suckless software); dwm will restart and it's done. Your newly compiled dwm, st and dmenu now awaits with your newly set background wallpaper (alongside any other arbitrary configuration files manipulated by the script). The only caveat is any preexisting windows will be reset to tiling mode so I'd suggest choosing the theme before changing - this is not an issue, as not often you'll be messing with it - on the odd occasion you do it's trivial to move the windows back around as you see fit. =)
+### Keybindings
 
-# Screenshots
-
-![](https://s.wired.sh/misc/rice/rose.png)
-![](https://s.wired.sh/misc/rice/blossom.png)
-![](https://s.wired.sh/misc/rice/zenmint.png)
-![](https://s.wired.sh/misc/rice/zenglace.png)
-
-# Keybindings
-
-All of the key bindings for dwm are in **~/.suckless/dwm/config.h**.* The default modkey is set to the Windows metakey.
+All of the key bindings for dwm are found [here](https://gitlab.com/nihilism/freebsd/blob/master/.suckless/app/dwm/config.h#L67). The default modkey is set to the Windows metakey.
 
 | Keybinding | Action |
 | :--- | :--- |
@@ -50,6 +41,17 @@ All of the key bindings for dwm are in **~/.suckless/dwm/config.h**.* The defaul
 | `Mod + t` | Tiling layout mode
 | `Mod + f` | Floating layout mode
 
+### Customization
+
+I've made the process of changing the system theme convenient and easy, not the paradigm of 'you have to recompile dwm everytime which makes it hard' as that's simply not true (unless you lack the competence to run a simple keybind). For this to work all you need to do is press ``Mod + Shift + t`` and you'll be prompted by dmenu to choose a theme: select the theme you desire; press enter; wait a few seconds (this automatically recompiles the suckless software); dwm will restart and it's done. Your newly compiled dwm, st and dmenu now awaits with your newly set background wallpaper (alongside any other arbitrary configuration files manipulated by [dwctl](https://gitlab.com/nihilism/dwctl)). The only caveat is any preexisting windows will be reset to tiling mode so I'd suggest choosing the theme before changing - this is not an issue, as not often you'll be messing with it - on the odd occasion you do it's trivial to move the windows back around as you see fit. =)
+
+### Screenshots
+
+![](https://s.wired.sh/misc/rice/rose.png)
+![](https://s.wired.sh/misc/rice/blossom.png)
+![](https://s.wired.sh/misc/rice/zenmint.png)
+![](https://s.wired.sh/misc/rice/zenglace.png)
+
 # Prerequisites
 
 There isn't much prerequisites as the bootstrap script makes it *for the most part* autonomous. Before you continue running the setup you need to meet the following conditions:
@@ -59,7 +61,7 @@ There isn't much prerequisites as the bootstrap script makes it *for the most pa
 - User added to the doas config file with 'nopass' enabled for that user (makes life much easier, run this command on the root account): ``echo "permit nopass YOUR_USER as root" | tee -a /usr/local/etc/doas.conf``. This isn't a good practice allowing non-privileged users running doas as root without root password. However security isn't a number one priority in this type of environment, it's simply for the sake of convenience;
 - Everything else is pulled in by the setup script. Nothing else required - only a brain and common sense.
 
-# Setup and installation
+### Setup and installation
 
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
 - Clone this repo ``git clone --recursive https://gitlab.com/nihilism/freebsd`` (remove ``--recursive`` to prevent cloning my [Emacs configuration](https://gitlab.com/nihilism/emacs) repository) and change to that given directory;
