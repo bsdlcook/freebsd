@@ -11,7 +11,11 @@ This repository is my current FreeBSD setup as of June 2018 to present, which co
 
 There's also configuration files for: dmenu; neofetch; htop and a few others that I use.
 
-# fish port functions
+# Workflow
+
+Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to.
+
+### fish port functions
 
 I've written some very basic fish functions that somewhat act as a wrapper for port. By no means do you have to use these. Took me the space of 20 minutes to write all these and have been helpful, especially if you wish to install a package from source. Here's the full list below:
 - **psearch \<package\>**: Search for a package in ports; e.g. ``psearch firefox``
@@ -20,10 +24,6 @@ I've written some very basic fish functions that somewhat act as a wrapper for p
 - **pupdate**: Update the ports collection;
 - **pupgrade**: Upgrade FreeBSD, applying any new patches;
 - **pstats**: Returns info about the installed packages.
-
-# Workflow
-
-Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to.
 
 ### Keybindings
 
