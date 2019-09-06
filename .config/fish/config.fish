@@ -1,6 +1,8 @@
 status --is-login; if test -z "$DISPLAY"; exec startx; end
 
 alias ls="exa"
+alias sr="doas"
+alias sysf="sys-fetch"
 
 alias gitc="git clone"
 alias gitm="git commit -m"
@@ -16,10 +18,6 @@ alias pse="psearch"
 alias pst="pstats"
 alias pupd="pupdate"
 alias pupg="pupgrade"
-
-alias sysl="sys-themes"
-alias sysa="sys-themes-apply"
-alias sysf="sys-fetch"
 
 set -x fish_greeting
 set -x LC_ALL en_GB.UTF-8
