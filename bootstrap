@@ -269,9 +269,10 @@ compile_utils()
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Suckless utilities" --msgbox "\n\nThe suckless utils will now be compiled and installed on your system." 10 50
     fi
 
-    doas make CC="ccache cc" install clean -C "$HOME/.suckless/dwm"
-    doas make CC="ccache cc" install clean -C "$HOME/.suckless/st"
-    doas make CC="ccache cc" install clean -C "$HOME/.suckless/dmenu"
+    doas make CC="ccache cc" install clean -C "$HOME/.suckless/app/dwm"
+    doas make CC="ccache cc" install clean -C "$HOME/.suckless/app/st"
+    doas make CC="ccache cc" install clean -C "$HOME/.suckless/app/dmenu"
+    mkdir "$HOME/.suckless/wallpaper"
 
     if is_auto; then
 	log "Compilation complete."
