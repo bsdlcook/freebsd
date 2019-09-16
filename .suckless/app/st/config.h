@@ -2,7 +2,7 @@
 #include "../theme.h"
 
 static char *font = theme.font;
-static int borderpx = _paddingpx;
+static int borderpx = terminal_pad;
 
 static char *shell = "/usr/local/bin/fish";
 char *utmp = NULL;

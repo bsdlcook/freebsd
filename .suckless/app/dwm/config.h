@@ -12,13 +12,13 @@
 
 /* general appearance */
 static const char *fonts[]            = { theme.font }; /* x11 bar font 	                      */
-static const unsigned int borderpx    = _borderpx;      /* border pixel of windows                    */
+static const unsigned int borderpx    = border_pixel;   /* border pixel of windows                    */
 static const unsigned int snap        = 8;              /* snap pixel                                 */
-static const unsigned int showbar     = _showbar;       /* 0 means no bar                             */
-static const unsigned int topbar      = _topbar;        /* 0 means bottom bar                         */
-static const unsigned int horizpadbar = _horizpadbar;   /* horizontal padding for statusbar           */
-static const unsigned int vertpadbar  = _vertpadbar;    /* vertical padding for statusbar             */
-static const unsigned int tagind      = _tagind;        /* 0 means use no tag indicator		     
+static const unsigned int showbar     = show_bar;       /* 0 means no bar                             */
+static const unsigned int topbar      = top_bar;        /* 0 means bottom bar                         */
+static const unsigned int horizpadbar = horizontal_pad; /* horizontal padding for statusbar           */
+static const unsigned int vertpadbar  = vertical_pad;   /* vertical padding for statusbar             */
+static const unsigned int tagstyle    = tag_style;      /* 0 means use no tag indicator		     
 							   1 means use square tag indicator
 							   2 means use overline tag indicator             
 							   3 means use underline tag indicator        */

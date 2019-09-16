@@ -125,7 +125,7 @@ struct Monitor {
 	unsigned int tagset[2];
 	int showbar;
 	int topbar;
-	int tagind;
+	int tagstyle;
 	Client *clients;
 	Client *sel;
 	Client *stack;
@@ -637,7 +637,7 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->topbar = topbar;
-	m->tagind = tagind;
+	m->tagstyle= tagstyle;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -734,7 +734,7 @@ drawbar(Monitor *m)
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		if (occ & 1 << i) {
-			switch(m->tagind) {
+			switch(m->tagstyle) {
 			default: break;
 			case 1:
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, urg & 1 << i);
