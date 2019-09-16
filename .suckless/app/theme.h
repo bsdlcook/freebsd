@@ -26,46 +26,46 @@
 			char bright_white[8];
 		} st;
 	} Theme;
-	// mint
+	// purple
 	static const Theme theme = {
 		// general appearance
 		"Iosevka:pixelsize=17:antialias=true:autohint=true",
-		"#9DE3C0",		// accent
-		"#042327",	// background
-		"#FFFFFF",	// foreground
+		"#593C58",		// accent
+		"#190B18",	// background
+		"#BDB395",	// foreground
 		{ 
 			// dwm
-			"#9DE3C0",	// border active
-			"#183538"	// border inactive
+			"#593C58",	// border active
+			"#190F19"	// border inactive
 		},
 		{
 			// st
-			"#000B14",
-			"#608D90",
-			"#696FA2",
-			"#72F6AE",
-			"#809ABF",
-			"#9135D4",
-			"#9BF0E1",
-			"#c689e9",
+			"#0a0910",
+			"#8C78CD",
+			"#A17FCB",
+			"#BB89B5",
+			"#A28BDB",
+			"#AF97E5",
+			"#D6AEF3",
+			"#f4dbf5",
 			
-			"#8a5fa3",
-			"#608D90",
-			"#696FA2",
-			"#72F6AE",
-			"#809ABF",
-			"#9135D4",
-			"#9BF0E1",
-			"#c689e9",
+			"#aa99ab",
+			"#8C78CD",
+			"#A17FCB",
+			"#BB89B5",
+			"#A28BDB",
+			"#AF97E5",
+			"#D6AEF3",
+			"#f4dbf5",
 		}
 	};
 	// tags
 	static const char* tags[] = {  "MAIN",  "WEB",  "TERM",  "DEV",  "MUSIC",  }; 
 	// defines
-	#define _borderpx 1 // border_pixel
-	#define _paddingpx 15 // terminal_pad
-	#define _showbar 1 // show_bar 
-	#define _topbar 1 // top_bar
-	#define _horizpadbar 1 // horizontal_pad
-	#define _vertpadbar 15 // vertical_pad
-	#define _tagind 2 // tag_indicactor
+	#define border_pixel_ 1
+	#define terminal_pad 15
+	#define show_bar 1
+	#define top_bar 1
+	#define horizontal_pad 1
+	#define vertical_pad 15
+	#define tag_style 2

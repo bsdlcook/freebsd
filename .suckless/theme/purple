@@ -1,7 +1,7 @@
-name: zenpurple
+name: purple
 accent: #593C58
 background: #190B18
-solid_background: #0D060C
+solid_background: #30152F 
 tag_indicator: 2
 foreground: #BDB395
 normal_colors: [#0a0910,#8C78CD,#A17FCB,#BB89B5,#A28BDB,#AF97E5,#D6AEF3,#f4dbf5]
