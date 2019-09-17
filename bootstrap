@@ -231,7 +231,7 @@ EOF
 # each file that's copied is shown on the screen with a neat little progress-bar.
 bootstrap_files()
 {
-    mapfile -t __FILES < <(find {.emacs.d,.config,.scripts,.suckless,.xinitrc} -type f 2>/dev/null)
+    mapfile -t __FILES < <(find {.ansible,.emacs.d,.config,.scripts,.suckless,.xinitrc} -type f 2>/dev/null)
     local __FILE_COUNT="${#__FILES[@]}"
     local __COUNTER=0
 

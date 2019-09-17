@@ -19,6 +19,9 @@ alias pst="pstats"
 alias pupd="pupdate"
 alias pupg="pupgrade"
 
+alias ab="ansible"
+alias abp="ansible-playbook"
+
 set -x fish_greeting
 set -x LC_ALL en_GB.UTF-8
 set -x LC_CTYPE en_GB.UTF-8
@@ -29,3 +32,4 @@ set -x VISUAL emacs
 set -x TERM xterm-256color
 set -x GOROOT /usr/local/go
 set -x GOPATH ~/Development/.go
+set -x ANSIBLE_CONFIG ~/.ansible/config/default.cfg
