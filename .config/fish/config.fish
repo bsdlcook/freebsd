@@ -1,4 +1,4 @@
-status --is-login; if test -z "$DISPLAY"; exec startx; end
+#status --is-login; if test -z "$DISPLAY"; exec startx; end
 
 alias ls="exa"
 alias sr="doas"
@@ -21,6 +21,7 @@ alias pupg="pupgrade"
 
 alias ab="ansible"
 alias abp="ansible-playbook"
+alias abg="ansible-galaxy"
 
 set -x fish_greeting
 set -x LC_ALL en_GB.UTF-8
