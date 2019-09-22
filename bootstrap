@@ -1,30 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2015
 
-# Metadata.
-SCRIPT_VERSION="2.31"
-SCRIPT_FILE=$(basename "${BASH_SOURCE[0]}")
-SCRIPT_REPO="https://gitlab.com/nihilism/freebsd"
-SCRIPT_BACKTITLE="Vulcans FreeBSD bootstrap script, Version $SCRIPT_VERSION, $SCRIPT_REPO."
-
-# Key files.
-PACKAGE_FILE=".packages.full"
-DATABASE_FILE="/var/db/pkg/repo-FreeBSD.sqlite"
-LOG_FILE="/tmp/$(date +"%H%M%S")-bootstrap.log"
-
-# Dialog default size(s).
-DIALOG_HEIGHT=10
-DIALOG_WIDTH=50
-
-# Dialog buttons.
-DIALOG_OK=0
-DIALOG_CANCEL=1
-DIALOG_EXTRA=3
-
-# Command-line options.
-AUTO=false
-NVIDIA=false
-VIRTUALBOX=false
+. .bootstrap.subr
 
 # Log colors.
 RED=$(tput AF 1)
@@ -75,7 +52,7 @@ exec_script()
 # Dialog to display information about the script and repository.
 about()
 {
-    dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "\n\nThis repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. By running this script it'll bootstrap my setup to your user of choice: required packages are installed, configuration files are copied, the suckless utils are compiled and any subsequent services are enabled. Before running this I assume you've met the prerequisites, taking the preliminary actions needed in order to complete the setup successfully. For further information checkout the README regarding the setup.\n\n$SCRIPT_REPO" 23 $DIALOG_WIDTH
+    dialog --backtitle "$SCRIPT_BACKTITLE" --title "About" --msgbox "$SCRIPT_ABOUT" 23 $DIALOG_WIDTH
     exec_script
 }
 
