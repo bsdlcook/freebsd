@@ -3,15 +3,15 @@
 
 . .bootstrap.subr
 
-# Log colors.
-RED=$(tput AF 1)
-BLUE=$(tput AF 4)
-DEFAULT=$(tput me)
+# Miscellaneous logging
+log() {
+        printf "\033[0;34m->\033[0m $*\n"
+}
 
-# Miscellaneous logging.
-write_log() { echo "[$(date +"%T")]: $1" >> "$LOG_FILE"; } 
-log() { echo "[${BLUE}I${DEFAULT}] $*" && write_log "$*";  }
-error() { echo "[${RED}E${DEFAULT}] $*" && write_log "$*" && exit 1; }
+error() {
+        printf "\033[0;31m!>\033[0m $*\n" >&2
+        exit 1
+}
 
 # Parse command-line options.
 # 
