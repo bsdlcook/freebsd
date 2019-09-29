@@ -1,4 +1,4 @@
-#status --is-login; if test -z "$DISPLAY"; exec startx; end
+status --is-login; if test -z "$DISPLAY"; exec startx; end
 
 alias ls="exa"
 alias sr="doas"
