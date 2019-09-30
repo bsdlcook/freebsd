@@ -2,7 +2,6 @@ status --is-login; if test -z "$DISPLAY"; exec startx; end
 
 alias ls="exa"
 alias sr="doas"
-alias sysf="sys-fetch"
 
 alias gitc="git clone"
 alias gitm="git commit -m"
