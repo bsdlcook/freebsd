@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
-#--------------------- Variables.
+#shellcheck disable=SC2015
 declare -A streams
-declare -A streamtype
-#--------------------- Read each stream. 
-while read -r stream url type; do
-	streams[$stream]=$url
-	streamtype[$stream]=$type
+declare -A type
+
+while read -r label url type; do
+	[[ -z "$label" || -z "$url" || -z "$type" ]] && continue || {
+		streams[$label]=$url
+		type[$label]=$type
+	}
 done < <(sed "/^#/d" "$HOME/.config/streams")
-#--------------------- Select stream via dmenu.
-stream=$(for i in "${!streams[@]}"; do echo "$i"; done | sort -us | dmenu -i -p "SELECT STREAM:" "$@")
-#--------------------- Check stream type then play via mpv.
-case "${streamtype[${stream}]}" in
-	video)
-		mpv --background="$(grep -owE "#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})" "$HOME/.suckless/app/theme.h" | sed -n 2p)" "${streams[$stream]}"
-		;;
-	music)
-		st -e mpv "${streams[$stream]}"	
-		;;
-	*)
-		exit 1
-		;;
-esac
-#---------------------
+
+[[ "${#streams[@]}" -eq 0 ]] && exit 0 || {
+	label=$(for label in "${!streams[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "SELECT STREAM:" "$@")
+	case ${type[${label}]} in
+		video)
+			mpv --background="$(awk -F\" '/#([A-Fa-f0-9]).*background$/{if(length($2)>=4)print$2}' "$HOME/.suckless/app/theme.h")" "${streams[$label]}" &>/dev/null &
+			;;
+		music)
+			st -e mpv "${streams[$label]}" &>/dev/null &
+			;;
+		*)
+			exit 0
+			;;
+	esac
+}
