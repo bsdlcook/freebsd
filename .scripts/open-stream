@@ -3,7 +3,10 @@
 declare -A streams
 declare -A type
 
-while read -r label url type; do
+[[ "$#" -eq 2 ]] && {
+	streams[key]=$2
+	type[key]=$1
+} || while read -r label url type; do
 	[[ -z "$label" || -z "$url" || -z "$type" ]] && continue || {
 		streams[$label]=$url
 		type[$label]=$type
@@ -11,13 +14,13 @@ while read -r label url type; do
 done < <(sed "/^#/d" "$HOME/.config/streams")
 
 [[ "${#streams[@]}" -eq 0 ]] && exit 0 || {
-	label=$(for label in "${!streams[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "SELECT STREAM:" "$@")
-	case ${type[${label}]} in
-		video)
+	[[ -z "${type[key]}" ]] && label=$(for label in "${!streams[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "open stream:") || label=key
+	case "${type[${label}]}" in
+		v|video)
 			mpv --background="$(awk -F\" '/#([A-Fa-f0-9]).*background$/{if(length($2)>=4)print$2}' "$HOME/.suckless/app/theme.h")" "${streams[$label]}" &>/dev/null &
 			;;
-		music)
-			st -e mpv "${streams[$label]}" &>/dev/null &
+		a|audio)
+			st -e mpv --video=no "${streams[$label]}" &>/dev/null &
 			;;
 		*)
 			exit 0

@@ -1,15 +1,13 @@
 # label		url						type
-
 # twitch
 destiny		https://twitch.tv/destiny			video
 greekgod	https://twitch.tv/greekgodx			video
-
 # somafm
-defcon		http://ice1.somafm.com/defcon-256-mp3		music
-groovesalad	http://ice1.somafm.com/groovesalad-256-mp3	music
-deepspace	http://ice1.somafm.com/deepspaceone-128-mp3	music
-indiepop	http://ice1.somafm.com/indiepop-128-mp3		music
-spacestation	http://ice1.somafm.com/spacestation-128-mp3	music
-fluid		http://ice1.somafm.com/fluid-128-mp3		music
-sonicuniverse	http://ice1.somafm.com/sonicuniverse-256-mp3	music
-thetrip		http://ice1.somafm.com/thetrip-128-mp3		music
+defcon		http://ice1.somafm.com/defcon-256-mp3		audio
+groovesalad	http://ice1.somafm.com/groovesalad-256-mp3	audio
+deepspace	http://ice1.somafm.com/deepspaceone-128-mp3	audio
+indiepop	http://ice1.somafm.com/indiepop-128-mp3		audio
+spacestation	http://ice1.somafm.com/spacestation-128-mp3	audio
+fluid		http://ice1.somafm.com/fluid-128-mp3		audio
+sonicuniverse	http://ice1.somafm.com/sonicuniverse-256-mp3	audio
+thetrip		http://ice1.somafm.com/thetrip-128-mp3		audio
