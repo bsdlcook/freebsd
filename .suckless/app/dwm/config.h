@@ -37,9 +37,9 @@ static const unsigned int resizehints = 0;    /* 1 means respect size hints in t
 
 /* layouts */
 static const Layout layouts[] = {
-	/* symbol     arrange function					 */
-	{ "[T]",      tile },        /* tiling layout behavior (default) */
-	{ "[F]",      NULL }        /* floating window behavior         */
+/*	arrange function					*/
+	{ tile },        /* tiling layout behavior (default) 	*/
+	{ NULL }         /* floating window behavior         	*/
 };
 
 /* key definitions */
