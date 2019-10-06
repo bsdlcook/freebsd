@@ -706,7 +706,7 @@ dirtomon(int dir)
 void
 drawbar(Monitor *m)
 {
-	int x, w, sw = 0;
+	int x, w, ta, sw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
@@ -726,6 +726,7 @@ drawbar(Monitor *m)
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
+		if (tag_active != NULL) ta = TEXTW(tag_active);
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
@@ -741,7 +742,8 @@ drawbar(Monitor *m)
 			case 3:
 				drw_rect(drw, x + boxw, 25, w - (2 * boxw + 1), boxw - 2, urg & 1 << i);
 				break;
-			}	
+			}
+			if (tag_active != NULL) drw_text(drw, x, 0, ta, bh, lrpad / 2, tag_active, urg & 1 << i);
 		}
 		x += w;
 	}
