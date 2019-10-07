@@ -9,7 +9,7 @@ declare -A type
 } || while read -r label url type; do
 	[[ -z "$label" || -z "$url" || -z "$type" ]] && continue || {
 		streams[$label]=$url
-		type[$label]=$type
+		type[$label]=${type,,}
 	}
 done < <(sed "/^#/d" "$HOME/.config/streams")
 
