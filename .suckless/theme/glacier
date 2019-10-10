@@ -1,12 +1,20 @@
-name: glacier
-accent: #AFBEDE
-background: #021B21
-foreground: #E4DBD3
-solid_background: #043845
-border_active: @accent
-border_inactive: @background
-normal_colors: [#152323,#61C3BC,#72B6C6,#71CECD,#60D0CD,#86BAC6,#8ECED3,#c9e8eb]
-bright_colors: [#8ca2a4,#61C3BC,#72B6C6,#71CECD,#60D0CD,#86BAC6,#8ECED3,#c9e8eb]
-tag_indicator: 2
-border_pixel: 2
-terminal_pad: 25
+::general {
+	name: glacier
+	accent: #AFBEDE
+	background: #021B21
+	background.solid: #043845
+	foreground: #E4DBD3
+}
+
+::dwm {
+	tag.style: @overline
+	border.active: @accent
+	border.inactive: @background
+	border.pixel: 2
+}
+
+::st {
+	pad.inner: 25
+	colors.normal: [#152323,#61C3BC,#72B6C6,#71CECD,#60D0CD,#86BAC6,#8ECED3,#c9e8eb]
+	colors.bright: [#8ca2a4,#61C3BC,#72B6C6,#71CECD,#60D0CD,#86BAC6,#8ECED3,#c9e8eb]
+}

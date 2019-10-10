@@ -1,13 +1,20 @@
-name: suckless
-accent: #F0C674
-background: #1D1F21
-font: Terminus:pixelsize=19:antialias=true:autohint=true
-solid_background: @background
-foreground: #595B5B
-border_active: @accent
-border_inactive: #282A2E
-vertical_pad: 5
-horizontal_pad: 5
-tags: [main,dev,web,chat,music]
-normal_colors: [#010101,#37485D,#4A4B4F,#5B5D6F,#7A7D79,#8F4F28,#98901A,#a4abbe]
-bright_colors: [#727785,#37485D,#4A4B4F,#5B5D6F,#7A7D79,#8F4F28,#98901A,#a4abbe]
+::general {
+	name: suckless
+	font: Terminus:pixelsize=19:antialias=true:autohint=true
+	accent: #F0C674
+	background: #1D1F21
+	background.solid: @background
+	foreground: #595B5B
+}
+
+::dwm {
+	border.active: @accent
+	border.inactive: #282A2E
+	pad.vertical: 5
+	pad.horizontal: 5
+}
+
+::st {
+	colors.normal: [#010101,#37485D,#4A4B4F,#5B5D6F,#7A7D79,#8F4F28,#98901A,#a4abbe]
+	colors.bright: [#727785,#37485D,#4A4B4F,#5B5D6F,#7A7D79,#8F4F28,#98901A,#a4abbe]
+}
