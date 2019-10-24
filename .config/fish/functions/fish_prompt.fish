@@ -5,7 +5,7 @@ function git_dir; echo (command git rev-parse --show-prefix ^/dev/null); end
 function git_hash; echo (command git rev-parse --short HEAD ^/dev/null); end
 
 function fish_prompt
-	set -l delim "λ"
+	set -l delim "ζ"
 	set -l host (hostname)
 	set -l user (whoami)
 	set -l basedir (basename (prompt_pwd))
@@ -55,7 +55,12 @@ function fish_prompt
 			set pwd $white"["$normal$basedir$normal$white"] "
 		end
 	end
-	
+
+	# if active ssh session, append to prompt
+	if test -n "$SSH_CLIENT"
+		echo -esn "$bwhite""ssh:"
+	end
+
 	# prompt
 	echo -esn "$bred$user$bwhite@$bgreen$host$normal$white" " "$normal$pwd $git $bgreen$delim" "
 end
