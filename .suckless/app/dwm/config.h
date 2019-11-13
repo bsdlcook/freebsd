@@ -4,7 +4,7 @@
     |  |  | | | | | | |
     |____/|_____|_|_|_|
     Vulcan's FreeBSD setup
-    gitlab.com/nihilism/freebsd
+    gitlab.com/lcook/freebsd
 */
 
 /* inherit global colorscheme */ 
