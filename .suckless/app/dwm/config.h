@@ -13,6 +13,7 @@
 /* general appearance */
 static const char *fonts[]            = { theme.font }; /* x11 bar font 	                      */
 static const unsigned int borderpx    = border_pixel_;  /* border pixel of windows                    */
+static const unsigned int gappx       = 7 ;             /* window gap pixel                           */
 static const unsigned int snap        = 8;              /* snap pixel                                 */
 static const unsigned int showbar     = show_bar;       /* 0 means no bar                             */
 static const unsigned int topbar      = top_bar;        /* 0 means bottom bar                         */
