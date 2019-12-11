@@ -26,47 +26,47 @@
 			char bright_white[8];
 		} st;
 	} Theme;
-	// purple
+	// minty
 	static const Theme theme = {
 		// general appearance
 		"Iosevka:pixelsize=17:antialias=true:autohint=true",
-		"#4E2F97",		// accent
-		"#190B18",	// background
+		"#9DE3C0",		// accent
+		"#03191C",	// background
 		"#BDB395",	// foreground
 		{ 
 			// dwm
-			"#4E2F97",	// border active
-			"#190F19"	// border inactive
+			"#9DE3C0",	// border active
+			"#183538"	// border inactive
 		},
 		{
 			// st
-			"#100a18",
-			"#6431A6",
-			"#463CCF",
-			"#4245C8",
-			"#5851DC",
-			"#BC65A1",
-			"#76898A",
-			"#d3c8c5", // normal colors
+			"#152323",
+			"#61C3BC",
+			"#72B6C6",
+			"#71CECD",
+			"#60D0CD",
+			"#86BAC6",
+			"#8ECED3",
+			"#c9e8eb", // normal colors
 			
-			"#938c89",
-			"#6431A6",
-			"#463CCF",
-			"#4245C8",
-			"#5851DC",
-			"#BC65A1",
-			"#76898A",
-			"#d3c8c5", // bright colors
+			"#8ca2a4",
+			"#61C3BC",
+			"#72B6C6",
+			"#71CECD",
+			"#60D0CD",
+			"#86BAC6",
+			"#8ECED3",
+			"#c9e8eb", // bright colors
 		}
 	};
 	// tags
-	static const char* tags[]     = {  "〇",  "〇",  "〇",  "〇",  "〇",  }; 
-	static const char* tag_active = { "⬤" };
+	static const char* tags[]     = {  "main",  "web",  "term",  "dev",  }; 
+	static const char* tag_active = { NULL };
 	// defines
 	#define border_pixel_ 1
-	#define terminal_pad 15
+	#define terminal_pad 10
 	#define show_bar 1
 	#define top_bar 1
-	#define horizontal_pad 1
-	#define vertical_pad 15
-	#define tag_style 1
+	#define horizontal_pad 5
+	#define vertical_pad 5
+	#define tag_style 2
