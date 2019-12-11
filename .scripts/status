@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-#--------------------- Set DWM statusbar to the current localtime. 
-while true; do 
-	xsetroot -name "$(date +"%r")"
-	sleep 1
-done
-#---------------------
