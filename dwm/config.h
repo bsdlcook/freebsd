@@ -57,7 +57,7 @@ static const char *browser[]  = { "firefox", NULL           };
 static const char *editor[]   = { "emacsclient", "-c", NULL };
 
 /* commands */
-static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "RUN:", NULL };
+static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
 static const char *screenshot[]	= { "screenshot", NULL 		          };
 static const char *themer[]	= { "dmenu_theme", NULL                   };
 static const char *streams[]	= { "open-stream", NULL			  };
