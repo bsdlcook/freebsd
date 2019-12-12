@@ -67,7 +67,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 
 ## Suckless
 
-As of [this commit](https://gitlab.com/lcook/freebsd/commit/cf36358c370a0ed05339924ea83afad848021890) the Suckless tools (dwm, dmenu and st) have been moved to the [suckless branch](https://gitlab.com/lcook/freebsd/tree/suckless)—independent of the master branch. The reasoning for this is that I've individually packaged up them into their own ports, so in order to install them, you'll have build the ports from my custom adhoc tree.
+As of [this commit](https://gitlab.com/lcook/freebsd/commit/cf36358c370a0ed05339924ea83afad848021890) the Suckless tools (dwm, dmenu and st) have been moved to the [suckless branch](https://gitlab.com/lcook/freebsd/tree/suckless)—independent of the master branch. The reasoning for this is that I've individually packaged up them into their own ports, so in order to install them, you'll have to build the ports from my custom adhoc tree.
 
 - Assuming you've followed the previous steps and cloned this repo recursively the custom ports tree will already be there;
 - Switch to ``sh`` and type ``for port in $(find ports/x11*/zen-* -type d -depth 0); do doas make install clean -C $port; done``.
