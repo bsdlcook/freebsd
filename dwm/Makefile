@@ -27,8 +27,7 @@ clean:
 
 dist: clean
 	mkdir -p dwm-${VERSION}
-	cp -R Makefile config.h config.mk \
-		dwm.1 drw.h util.h ${SRC} transient.c dwm-${VERSION}
+	cp -R Makefile config.h config.mk drw.h util.h ${SRC} dwm-${VERSION}
 	tar -cf dwm-${VERSION}.tar dwm-${VERSION}
 	gzip dwm-${VERSION}.tar
 	rm -rf dwm-${VERSION}
