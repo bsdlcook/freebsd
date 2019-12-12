@@ -1275,15 +1275,8 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
 		gapincr = gapoffset = 0;
 	} else {
-		/* Remove border if only one client */
-		if (n == 1) {
-			gapoffset = 0;
-			gapincr = -2 * borderpx;
-			wc.border_width = 0;
-		} else {
-			gapoffset = gappx;
-			gapincr = 2 * gappx;
-		}
+		gapoffset = gappx;
+		gapincr = 2 * gappx;
 	}
 
 	c->oldx = c->x; c->x = wc.x = x + gapoffset;
