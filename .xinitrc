@@ -1,6 +1,6 @@
 setxkbmap gb
 
-~/.scripts/background
-~/.scripts/status &
+~/.scripts/init/background
+~/.scripts/init/status &
 
 exec dwm
