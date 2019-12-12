@@ -208,7 +208,7 @@ EOF
 # each file that's copied is shown on the screen with a neat little progress-bar.
 bootstrap_files()
 {
-    mapfile -t __FILES < <(find {.ansible,.emacs.d,.config,.scripts,.suckless,.xinitrc} -type f 2>/dev/null)
+    mapfile -t __FILES < <(find {.ansible,.emacs.d,.config,.scripts,.xinitrc} -type f 2>/dev/null)
     local __FILE_COUNT="${#__FILES[@]}"
     local __COUNTER=0
 
@@ -234,27 +234,6 @@ EOF
 		echo "$FILE" | cpio -p -d "/usr/home/$USER" &>/dev/null
 	    done)
 	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Bootstrap complete" --msgbox "\n\nConfiguration files have been copied to your home directory." $DIALOG_HEIGHT $DIALOG_WIDTH
-    fi
-}
-
-# Compile the plethora of suckless utils and install them. 
-compile_utils()
-{
-    if is_auto; then
-	log "Compiling suckless utils."
-    else
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Suckless utilities" --msgbox "\n\nThe suckless utils will now be compiled and installed on your system." 10 50
-    fi
-
-    doas make CC="ccache cc" install clean -C "$HOME/.suckless/app/dwm"
-    doas make CC="ccache cc" install clean -C "$HOME/.suckless/app/st"
-    doas make CC="ccache cc" install clean -C "$HOME/.suckless/app/dmenu"
-    mkdir "$HOME/.suckless/wallpaper"
-
-    if is_auto; then
-	log "Compilation complete."
-    else
-	dialog --backtitle "$SCRIPT_BACKTITLE" --title "Suckless utilities" --msgbox "\n\nCompilation complete." 10 50
     fi
 }
 
@@ -337,9 +316,6 @@ start()
 
     # Symlink scripts to /usr/local/bin (needed for dwm keybinds).
     doas ln -s "$HOME/.scripts/"{open-stream,screenshot,spotifyd-notif,spotifyd-start} /usr/local/bin 2>/dev/null
-
-    # Compile Suckless utilities.
-    compile_utils
 
     # Check if running in VirtualBox.
     virtualbox_enable

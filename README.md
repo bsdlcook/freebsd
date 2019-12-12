@@ -27,7 +27,7 @@ I've written some very basic fish functions that somewhat act as a wrapper for p
 
 ### Keybindings
 
-All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebsd/blob/master/.suckless/app/dwm/config.h#L67). The default modkey is set to the Windows metakey.
+All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebsd/blob/suckless/dwm/config.h#L68). The default modkey is set to the Windows metakey.
 
 | Keybinding | Action |
 | :--- | :--- |
@@ -40,10 +40,6 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 | `Mod + Space` | Program launcher
 | `Mod + t` | Tiling layout mode
 | `Mod + f` | Floating layout mode
-
-### Customization
-
-I've made the process of changing the system theme convenient and easy, not the paradigm of 'you have to recompile dwm everytime which makes it hard' as that's simply not true (unless you lack the competence to run a simple keybind). For this to work all you need to do is press ``Mod + Shift + t`` and you'll be prompted by dmenu to choose a theme: select the theme you desire; press enter; wait a few seconds (this automatically recompiles the suckless software); dwm will restart and it's done. Your newly compiled dwm, st and dmenu now awaits with your newly set background wallpaper (alongside any other arbitrary configuration files manipulated by [slctl](https://gitlab.com/lcook/slctl)). The only caveat is any preexisting windows will be reset to tiling mode so I'd suggest choosing the theme before changing - this is not an issue, as not often you'll be messing with it - on the odd occasion you do it's trivial to move the windows back around as you see fit. =)
 
 ### Screenshots
 
@@ -68,6 +64,13 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 - From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
 - The default shell is changed to fish so you'll be prompted to enter your password for the chsh command;
 - Note: the **x11-fonts/nerd-fonts** package is fairly large, give it time to download and extract (be patient).
+
+## Suckless
+
+As of [this commit](https://gitlab.com/lcook/freebsd/commit/cf36358c370a0ed05339924ea83afad848021890) the Suckless tools (dwm, dmenu and st) have been moved to the [suckless](https://gitlab.com/lcook/freebsd/tree/suckless)—independent of the master branch. The reasoning for this is that I've individually packaged up them into their own ports, so in order to install them, you'll have to clone my adhoc ports tree.
+
+- Clone custom adhoc port branch ``git clone https://gitlab.com/lcook/ports -b adhoc``;
+- Switch to ``sh`` and type ``for port in $(find ports/x11*/zen-* -type d -depth 0); do doas make install clean -C $port; done``.
 
 ### Autonomous installation
 
