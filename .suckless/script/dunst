@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-accent="$1"
-background="$2"
-foreground="$3"
-dunstrc="$HOME/.config/dunst/dunstrc"
-sed -i "" "s/background.*/background = \"$background\"/g" "$dunstrc"
-sed -i "" "s/foreground.*/foreground = \"$foreground\"/g" "$dunstrc"
-sed -i "" "s/frame_color.*/frame_color = \"$accent\"/g" "$dunstrc"
-killall dunst

@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-themedir="$HOME/.suckless/theme/"
-
-find "$themedir" -maxdepth 2 -type f | sed -e "s/\/home\/$USER\/.suckless\/theme\///g" | \
-	sort -us | dmenu -i -p "SELECT THEME:" "$@" | xargs slctl
