@@ -5,11 +5,6 @@ function git_dir; echo (command git rev-parse --show-prefix ^/dev/null); end
 function git_hash; echo (command git rev-parse --short HEAD ^/dev/null); end
 
 function fish_prompt
-	set -l delim "ζ"
-	set -l host (hostname)
-	set -l user (whoami)
-	set -l basedir (basename (prompt_pwd))
-	
 	# colors
 	set -l normal (set_color normal)
 	set -l yellow (set_color yellow)
@@ -28,6 +23,9 @@ function fish_prompt
 	set -l bgreen (set_color -o green)
 	set -l bwhite (set_color -o white)
 
+	set -l delim $bwhite"ζ"
+	set -l basedir (basename (prompt_pwd))
+
 	# git status
 	set -l git ""
 	set -l git_branch (git_branch)
@@ -36,9 +34,9 @@ function fish_prompt
 		set -l git_dir (git_dir)
 		set -l git_hash	(git_hash)
 		if test -n "$git_hash"
-			set git $white"["$bpurple$git_branch$white:$bblue$git_hash$normal$white"] ""["$bgreen$git_repo/$git_dir$normal$white"] "
+			set git $purple$git_repo/$git_dir$normal $bgreen$git_branch$normal$white":"$bcyan$git_hash
 		else
-			set git $white"["$bpurple$git_branch$normal$white"] ""["$bgreen$git_repo/$git_dir$normal$white"] "
+			set git $purple$git_repo/$git_dir$normal $bgreen$git_branch$normal
 		end
 	end
 
@@ -47,20 +45,20 @@ function fish_prompt
 	if test -z "$git"
 		set -l home (echo (pwd) | grep ~)
 		if test -n "$home"
-			set pwd $white"[$normal$basedir$normal$white] "
+			set pwd $purple$basedir$normal
 		else
-			set pwd "[$white/$normal] "
+			set pwd $purple"/"$normal
 		end
 		if test (echo (pwd)) != ~ -a (echo (pwd)) != /
-			set pwd $white"["$normal$basedir$normal$white"] "
+			set pwd $purple$basedir$normal
 		end
 	end
 
 	# if active ssh session, append to prompt
 	if test -n "$SSH_CLIENT"
-		echo -esn "$bwhite""ssh:"
+		echo -esn $bwhite"ssh:"
 	end
 
 	# prompt
-	echo -esn "$bred$user$bwhite@$bgreen$host$normal$white" " "$normal$pwd $git $bgreen$delim" "
+	echo -esn "$pwd$git $delim "
 end
