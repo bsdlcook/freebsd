@@ -10,7 +10,7 @@ horizontal_padding = 32
 frame_width = 2
 sort = no
 idle_threshold = 120
-font = Iosevka 9
+font = Victor Mono 10
 line_height = 4
 markup = full
 format = %s\n%b
@@ -37,18 +37,18 @@ context = ctrl+shift+period
 
 [urgency_low]
 timeout = 3
-background = "#042327"
+background = "#03191C"
 foreground = "#BDB395"
 frame_color = "#9DE3C0"
 
 [urgency_normal]
 timeout = 3
-background = "#042327"
+background = "#03191C"
 foreground = "#BDB395"
 frame_color = "#9DE3C0"
 
 [urgency_critical]
 timeout = 3
-background = "#042327"
+background = "#03191C"
 foreground = "#BDB395"
 frame_color = "#9DE3C0"
