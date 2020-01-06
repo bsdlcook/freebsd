@@ -17,7 +17,7 @@ done < <(sed "/^#/d" "$HOME/.config/streams")
 	[[ -z "${type[key]}" ]] && label=$(for label in "${!streams[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "open stream:") || label=key
 	case "${type[${label}]}" in
 		v|video)
-			mpv --background="$(awk -F\" '/#([A-Fa-f0-9]).*background$/{if(length($2)>=4)print$2}' "$HOME/.suckless/app/theme.h")" "${streams[$label]}" &>/dev/null &
+			mpv --background="#03191C" "${streams[$label]}" &>/dev/null &
 			;;
 		a|audio)
 			st -e mpv --video=no "${streams[$label]}" &>/dev/null &
