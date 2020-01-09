@@ -1,5 +1,6 @@
 audio/portaudio on
 audio/spotifyd on
+audio/spotify-tui on
 devel/ccache-static on
 devel/cmake on
 editors/emacs on

@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-doas spotifyd --verbose --no-daemon --config ~/.config/spotifyd/spotifyd.conf --onevent "env LOCAL_USER=$USER TOKEN=$1 spotifyd-notif"
