@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+source "$HOME/.config/gitlab"
+
+open_project() {
+	local project
+
+	project=$(
+		for project in $(find "$GITLABDIR" -type d -depth 1 | sed -e "s|$GITLABDIR/||g"); \
+		do echo "$project"; done | dmenu -i -p "open gitlab ($GITLABUSER) project:"
+	)
+
+	$EDITOR "$GITLABDIR/$project" &
+}
+
+main() {
+	open_project
+}
+
+main

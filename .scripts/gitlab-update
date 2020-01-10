@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+source "$HOME/.config/gitlab"
+
+update_projects() {
+	if [ ! -d "$GITLABDIR" ]; then
+		mkdir -p "$GITLABDIR"
+	fi
+
+	for project in $(fetch -qo - "$GITLABPROJECTS" | jq -r '.[].path'); do
+		cd "$GITLABDIR"
+		if [ ! -d "$DEVELDIR/$GITLABUSER/$project" ]; then
+			git clone "$GITLABREPO/$project" &>/dev/null
+		else
+			cd "$project"; git pull &>/dev/null
+		fi
+	done
+}
+
+main() {
+	update_projects
+}
+
+main
