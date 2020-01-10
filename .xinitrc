@@ -1,6 +1,4 @@
-setxkbmap gb
-
+~/.scripts/init/meta
 ~/.scripts/init/background
 ~/.scripts/init/status &
-
-exec dwm
+~/.scripts/init/wm
