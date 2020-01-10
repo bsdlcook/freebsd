@@ -1,29 +1,49 @@
 #!/usr/bin/env bash
-#shellcheck disable=SC2015
-declare -A streams
-declare -A type
 
-[[ "$#" -eq 2 ]] && {
-	streams[key]=$2
-	type[key]=$1
-} || while read -r label url type; do
-	[[ -z "$label" || -z "$url" || -z "$type" ]] && continue || {
-		streams[$label]=$url
-		type[$label]=${type,,}
-	}
-done < <(sed "/^#/d" "$HOME/.config/streams")
+declare -A STREAMS
+declare -A TYPE
 
-[[ "${#streams[@]}" -eq 0 ]] && exit 0 || {
-	[[ -z "${type[key]}" ]] && label=$(for label in "${!streams[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "open stream:") || label=key
-	case "${type[${label}]}" in
+CONFIGDIR="$HOME/.config"
+CONFIGFILE="$CONFIGDIR/streams"
+
+parse_streams() {
+	if [[ "$#" -eq 2 ]]; then
+		STREAMS[key]="$2"
+		TYPE[key]="${1,,}"
+	else
+		while read -r label url TYPE; do
+			if [[ -n "$label" && -n "$url" && -n "$TYPE" ]]; then
+				STREAMS[$label]=$url
+				TYPE[$label]=${TYPE,,}
+			fi
+		done < <(sed "/^#/d" "$CONFIGFILE")
+	fi
+}
+
+open_stream() {
+	local label
+
+	[[ "${#STREAMS[@]}" -gt 0 ]] && {
+		[[ -n "${TYPE[key]}" ]] && \
+			label=key || label=$(for label in "${!STREAMS[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "open stream:")
+	} || exit 0
+
+	case "${TYPE[${label}]}" in
 		v|video)
-			mpv --background="#03191C" "${streams[$label]}" &>/dev/null &
+			mpv --background="#03191C" "${STREAMS[$label]}" &>/dev/null &
 			;;
 		a|audio)
-			st -e mpv --video=no "${streams[$label]}" &>/dev/null &
+			st -e mpv --video=no "${STREAMS[$label]}" &>/dev/null &
 			;;
 		*)
 			exit 0
 			;;
 	esac
 }
+
+main() {
+	parse_streams "$@"
+	open_stream
+}
+
+main "$@"
