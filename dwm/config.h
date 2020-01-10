@@ -60,7 +60,9 @@ static const char *editor[]   = { "emacsclient", "-c", NULL };
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
 static const char *screenshot[]	= { "screenshot", NULL 		          };
 static const char *themer[]	= { "dmenu_theme", NULL                   };
-static const char *streams[]	= { "open-stream", NULL			  };
+static const char *streams[]	= { "open-stream", NULL		          };
+static const char *projects[]   = { "gl-project", NULL                    };
+
 
 /* key bindings */
 #include "src/movestack.c"
@@ -77,7 +79,8 @@ static Key keys[] = {
 	{ MODKEY, 			XK_s,	   spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
 	{ MODKEY|ShiftMask,		XK_t,	   spawn,	   {.v = themer}     },	 /* change theme 				*/
 	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = streams}    },	 /* select stream with dmenu 			*/
-	/*							   bindings:								*/
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = projects}   },  /* select gitlab project with dmenu            */
+ 	/*							   bindings:								*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },	         /* toggle bar		                        */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1}    },       /* focus to next client                     	*/
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1}    },	 /* focus to previous client       		*/
