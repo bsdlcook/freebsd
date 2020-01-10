@@ -1,0 +1,8 @@
+export EDITOR="emacs"
+export DEVELDIR="$HOME/Development/gitlab"
+export GITLABUSER="lcook"
+export GITLABDIR="$DEVELDIR/$GITLABUSER"
+export GITLABURL="https://gitlab.com"
+export GITLABAPI="$GITLABURL/api/v4/users"
+export GITLABPROJECTS="$GITLABAPI/$GITLABUSER/projects"
+export GITLABREPO="$GITLABURL/$GITLABUSER"
