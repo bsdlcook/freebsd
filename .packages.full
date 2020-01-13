@@ -19,6 +19,7 @@ www/firefox on
 x11-drivers/xf86-video-intel off
 x11-drivers/xf86-video-vmware off
 x11-fonts/nerd-fonts on
+x11-fonts/victor-mono-ttf on
 x11/nvidia-driver off
 x11/nvidia-xconfig off
 x11/setxkbmap on
