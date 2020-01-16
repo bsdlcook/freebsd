@@ -59,7 +59,6 @@ static const char *editor[]   = { "emacsclient", "-c", NULL };
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
 static const char *screenshot[]	= { "screenshot", NULL 		          };
-static const char *themer[]	= { "dmenu_theme", NULL                   };
 static const char *streams[]	= { "open-stream", NULL		          };
 static const char *projects[]   = { "gl-project", NULL                    };
 static const char *manuals[]    = { "open-manual", NULL			  };
@@ -77,7 +76,6 @@ static Key keys[] = {
 	/*							   commands:								*/
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenu}      },	 /* spawn dmenu 		   		*/
 	{ MODKEY, 			XK_s,	   spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
-	{ MODKEY|ShiftMask,		XK_t,	   spawn,	   {.v = themer}     },	 /* change theme 				*/
 	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = streams}    },	 /* select stream with dmenu 			*/
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = projects}   },  /* select gitlab project with dmenu            */
 	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = manuals}    },  /* select manual with dmenu                    */
