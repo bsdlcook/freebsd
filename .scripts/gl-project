@@ -10,6 +10,8 @@ open_project() {
 		do echo "$project"; done | dmenu -i -p "open gitlab ($GITLABUSER) project:"
 	)
 
+	[[ -z "$project" ]] && exit 0
+
 	$EDITOR "$GITLABDIR/$project" &
 }
 
