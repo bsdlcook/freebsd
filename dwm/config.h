@@ -62,7 +62,7 @@ static const char *screenshot[]	= { "screenshot", NULL 		          };
 static const char *themer[]	= { "dmenu_theme", NULL                   };
 static const char *streams[]	= { "open-stream", NULL		          };
 static const char *projects[]   = { "gl-project", NULL                    };
-
+static const char *manuals[]    = { "open-manual", NULL			  };
 
 /* key bindings */
 #include "src/movestack.c"
@@ -80,6 +80,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_t,	   spawn,	   {.v = themer}     },	 /* change theme 				*/
 	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = streams}    },	 /* select stream with dmenu 			*/
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = projects}   },  /* select gitlab project with dmenu            */
+	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = manuals}    },  /* select manual with dmenu                    */
  	/*							   bindings:								*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },	         /* toggle bar		                        */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1}    },       /* focus to next client                     	*/
