@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+source "$HOME/.config/common"
+
+open_manual() {
+	local manual 
+
+	if [ ! -d "$MANDIR" ]; then
+		mkdir -p "$MANDIR"
+		exit 0
+	fi
+
+	manual=$(
+		for manual in $(find "$MANDIR" -type f | sed -e "s|$MANDIR/||g"); \
+		do echo "$manual"; done | dmenu -i -p "open manual:"
+	)
+
+	[[ -z "$manual" ]] && exit 0
+	
+	$MANVIEW "$MANDIR/$manual" &
+}
+
+main() {
+	open_manual
+}
+
+main

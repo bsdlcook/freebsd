@@ -315,7 +315,7 @@ start()
     bootstrap_files
 
     # Symlink scripts to /usr/local/bin (needed for dwm keybinds).
-    doas ln -s "$HOME/.scripts/"{open-stream,screenshot,gl-update,gl-project} /usr/local/bin 2>/dev/null
+    doas ln -s "$HOME/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project} /usr/local/bin 2>/dev/null
 
     # Check if running in VirtualBox.
     virtualbox_enable
