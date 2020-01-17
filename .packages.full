@@ -1,31 +1,25 @@
-audio/portaudio on
-audio/spotifyd on
-audio/spotify-tui on
-devel/ccache-static on
-devel/cmake on
-editors/emacs on
-emulators/virtualbox-ose-additions off
-graphics/feh on
-graphics/ImageMagick6 on
-graphics/zathura on
-graphics/zathura-pdf-mupdf on
-multimedia/mpv on
-shells/fish on
-sysutils/dunst on
-sysutils/exa on
-sysutils/htop on 
-textproc/jq on
-www/chromium off
-www/firefox on
-x11-drivers/xf86-video-intel off
-x11-drivers/xf86-video-vmware off
-x11-fonts/nerd-fonts on
-x11-fonts/victor-mono-ttf on
-x11/xclip on
-x11/nvidia-driver off
-x11/nvidia-xconfig off
-x11/setxkbmap on
-x11/xdotool on
-x11/xorg-minimal on
-x11/xsetroot on
-x11/xset on
+audio/portaudio
+audio/spotifyd
+audio/spotify-tui
+devel/ccache-static
+devel/cmake
+editors/emacs
+graphics/feh
+graphics/ImageMagick6
+graphics/zathura
+graphics/zathura-pdf-mupdf
+multimedia/mpv
+shells/fish
+sysutils/dunst
+sysutils/exa
+sysutils/htop
+textproc/jq
+www/firefox
+x11-fonts/nerd-fonts
+x11-fonts/victor-mono-ttf
+x11/xclip
+x11/setxkbmap
+x11/xdotool
+x11/xorg-minimal
+x11/xsetroot
+x11/xset
