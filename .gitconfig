@@ -1,0 +1,5 @@
+[user]
+	email = vulcan@wired.sh
+	name = Lewis Cook
+[credential]
+	helper = store --file ~/.git-credentials
