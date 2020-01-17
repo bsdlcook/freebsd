@@ -27,7 +27,7 @@ I've written some very basic fish functions that somewhat act as a wrapper for p
 
 ### Keybindings
 
-All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebsd/blob/suckless/dwm/config.h#L68). The default modkey is set to the Windows metakey.
+All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebsd/blob/suckless/dwm/config.h). The default modkey is set to the Windows metakey.
 
 | Keybinding | Action |
 | :--- | :--- |
@@ -36,7 +36,9 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 | `Mod + Shift + j` | Move client stack forward
 | `Mod + Shift + k` | Move client stack backward
 | `Mod + Enter` | Open terminal
-| `Mod + Shift + t` | Theme chooser dmenu prompt
+| `Mod + Shift + p` | Gitlab project launcher
+| `Mod + Shift + s` | Video/audio stream launcher
+| `Mod + Shift + m` | Manual launcher
 | `Mod + Space` | Program launcher
 | `Mod + t` | Tiling layout mode
 | `Mod + f` | Floating layout mode
