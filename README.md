@@ -47,10 +47,9 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 
 ### Screenshots
 
-![](https://s.wired.sh/misc/rice/rose.png)
-![](https://s.wired.sh/misc/rice/blossom.png)
-![](https://s.wired.sh/misc/rice/zenmint.png)
-![](https://s.wired.sh/misc/rice/zenglace.png)
+![](https://s.wired.sh/~vulcan/setup/zen-1.png)
+![](https://s.wired.sh/~vulcan/setup/zen-2.png)
+![](https://s.wired.sh/~vulcan/setup/zen-3.png)
 
 # Prerequisites
 
