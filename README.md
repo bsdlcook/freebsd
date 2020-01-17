@@ -65,7 +65,9 @@ There isn't much prerequisites as the bootstrap script makes it *for the most pa
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
 - Clone this repo ``git clone --recursive https://gitlab.com/lcook/freebsd`` (remove ``--recursive`` to prevent cloning my [Emacs configuration](https://gitlab.com/lcook/emacs) and [custom ports](https://gitlab.com/lcook/ports/tree/adhoc) (needed for the Suckless utils) repository) and change to that given directory;
 - From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
-- The default shell is changed to fish so you'll be prompted to enter your password for the chsh command;
+- The default shell is changed to fish, as well as configuration files copied to the home directory;
+- There's different *phases* of the bootstrapping process that have a set of given tasks, feel free to peek into the script;
+- Once these phases have completed it's suggested your reboot your computer;
 - Note: the **x11-fonts/nerd-fonts** package is fairly large, give it time to download and extract (be patient).
 
 ## Suckless
@@ -76,9 +78,3 @@ As of [this commit](https://gitlab.com/lcook/freebsd/commit/cf36358c370a0ed05339
 - Switch to ``sh`` and type ``for port in $(find ports/x11*/zen-* -type d -depth 0); do doas make install clean -C $port; done``.
 
 You'll now have them installed but as packages, to what I believe is the more sane way of handling them.
-
-### Autonomous installation
-
-Since [this commit](https://gitlab.com/lcook/freebsd/commit/f597ebceeccc6867cd7e6b8cef02afe768f41792) you can install the entire setup autonomously without needing to attend each dialog. To enable this behaviour pass ``-auto`` to the bootstrap script. If you also need to include display drivers you can provide either ``-nvidia`` or ``-virtualbox``, the according packages as well as startup services will be configured for you.
-
-*As simple as that*. You should be done now, given my mediocre scripting has worked for you. I'd suggest rebooting the system once the setup script has completed.
