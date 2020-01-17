@@ -15,6 +15,8 @@ There's also configuration files for: dmenu; neofetch; htop and a few others tha
 
 Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to.
 
+*I'd like to heavily emphasize on the fact this repo contains configuration files specific to me and myself only, you'll have to manually edit them to suit your needs - by no means is this repo for other than to keep track of my setup and my setup alone.*
+
 ### fish port functions
 
 I've written some very basic fish functions that somewhat act as a wrapper for port. By no means do you have to use these. Took me the space of 20 minutes to write all these and have been helpful, especially if you wish to install a package from source. Here's the full list below:
