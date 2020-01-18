@@ -1,136 +1,116 @@
 #!/usr/bin/env bash
 
-PACKAGE_FILE=".packages.full"
-DATABASE_FILE="/var/db/pkg/repo-FreeBSD.sqlite"
-
-log()
-{
-    printf "\033[0;34m->\033[0m %s\n" "$*"
+log() {
+	printf "%s\n" "$*"
 }
 
-log_phase()
-{
-    log "=======================<phase: $*    >============================"
+error() {
+	log "$*" >&2
+	exit 1
 }
 
-error()
-{
-    printf "\033[0;31m!>\033[0m %s\n" "$*" >&2
-    exit 1
+phase() {
+	log "=======================<phase: $*>============================"
 }
 
-preinstall_check()
-{
-    log_phase "${FUNCNAME[0]}"
+user_check() {
+	phase "${FUNCNAME[0]}"
 
-    log "Checking user permissions."
-    if [[ "$(id -u)" -eq 0 ]]; then
-	error "Please re-run this script as a non-privileged user."
-    fi
+	log "Checking user permissions."
+	if [[ "$(id -u)" -eq 0 ]]; then
+		error "Please re-run this script as a non-privileged user."
+	fi
 
-    log "Checking for doas."
-    if [[ -z "$(pkg info -x security/doas 2>/dev/null)" ]]; then
-	error "Please install doas by typing: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass your_user as root' | tee -a /usr/local/etc/doas.conf - then re-run the script."
-    fi
-
-    log "==========================================================================="
+	log "Checking for doas."
+	if [[ -z "$(pkg info -x security/doas 2> /dev/null)" ]]; then
+		error "Please install doas by typing: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass your_user as root' | tee -a /usr/local/etc/doas.conf - then re-run the script."
+	fi
 }
 
-install_package()
-{
-    if [[ -z "$(pkg info -x "$1" 2>/dev/null | head -n1)" ]]; then
-	doas pkg install -y "$1" &>/dev/null
-    fi
+check_package() {
+	if [[ -z "$(pkg info -x "$1" 2> /dev/null | head -n1)" ]]; then
+		doas pkg install -y "$1" &> /dev/null
+	fi
 }
 
-package_install()
-{
-    log_phase "${FUNCNAME[0]}"
+download_packages() {
+	phase "${FUNCNAME[0]}"
 
-    log "Checking for package file."
-    if [[ ! -f $PACKAGE_FILE ]]; then
-	error "Package file '$PACKAGE_FILE' not found in directory. Please ensure the integrity of the files are not missing or corrupted."
-    fi
+	local PKGFILE=".packages.full"
+	local DATABASE="/var/db/pkg/repo-FreeBSD.sqlite"
 
-    log "Checking for package repository database."
-    if [[ ! -f $DATABASE_FILE ]]; then
-	log "Before we begin the package repository will be updated."
-	doas pkg update -f 2>/dev/null
-    fi
+	log "Checking for package file."
+	if [[ ! -f $PKGFILE ]]; then
+		error "Package file '$PKGFILE' not found in directory. Please ensure the integrity of the files are not missing or corrupted."
+	fi
 
-    local __PACKAGES=()
-    local __COUNTER=0
-    local __PACKAGE_COUNT=0
-    
-    log "Reading package file '$PACKAGE_FILE'."
-    while read -r PACKAGE OPT; do
-	__PACKAGES+=("$PACKAGE")
-    done < "$PACKAGE_FILE"
+	log "Checking for package repository database."
+	if [[ ! -f $DATABASE ]]; then
+		log "Before we begin the package repository will be updated."
+		doas pkg update -f 2> /dev/null
+	fi
 
-    log "Installing packages."
-    __PACKAGE_COUNT="${#__PACKAGES[@]}"
-    for PACKAGE in ${__PACKAGES[*]}; do
-	((++__COUNTER))
-	log "Downloading package $PACKAGE ($__COUNTER/$__PACKAGE_COUNT)."
-	install_package "$PACKAGE"
-    done
+	local PACKAGES=()
+	local COUNTER=0
+	local PKGCOUNT=0
 
-    log "==========================================================================="
+	log "Reading package file '$PKGFILE'."
+	while read -r PACKAGE; do
+		PACKAGES+=("$PACKAGE")
+	done < "$PKGFILE"
+
+	log "Installing packages."
+	PKGCOUNT="${#PACKAGES[@]}"
+	for PACKAGE in ${PACKAGES[*]}; do
+		((++COUNTER))
+		log "Downloading package $PACKAGE ($COUNTER/$PKGCOUNT)."
+		check_package "$PACKAGE"
+	done
 }
 
-change_shell()
-{
-    log_phase "${FUNCNAME[0]}"
-    
-    log "Changing default shell to $(command -v fish)."
-    doas chsh -s "$(command -v fish)" "$USER" &>/dev/null
+change_shell() {
+	phase "${FUNCNAME[0]}"
 
-    log "==========================================================================="
+	log "Changing default shell to $(command -v fish)."
+	doas chsh -s "$(command -v fish)" "$USER" &> /dev/null
 }
 
-dbus_service()
-{
-    log_phase "${FUNCNAME[0]}"
-    
-    log "Generating machine-id."
-    dbus-uuidgen | doas tee /etc/machine-id >/dev/null
-    
-    log "Enabling dbus and hald."
-    doas sysrc dbus_enable="YES" >/dev/null
-    doas sysrc hald_enable="YES" >/dev/null
+dbus_service() {
+	phase "${FUNCNAME[0]}"
 
-    log "==========================================================================="
+	log "Generating machine-id."
+	dbus-uuidgen | doas tee /etc/machine-id > /dev/null
+
+	log "Enabling dbus and hald."
+	doas sysrc dbus_enable="YES" > /dev/null
+	doas sysrc hald_enable="YES" > /dev/null
 }
 
-bootstrap_files()
-{
-    log_phase "${FUNCNAME[0]}"
-    
-    mapfile -t __FILES < <(find {.gitconfig,.git-credentials,.ansible,.emacs.d,.config,.scripts,.xinitrc} -type f 2>/dev/null)
-    local __FILE_COUNT="${#__FILES[@]}"
-    local __COUNTER=0
+bootstrap_files() {
+	phase "${FUNCNAME[0]}"
 
-    for FILE in ${__FILES[*]}; do
-        ((++__COUNTER))
-	log "Copying file $FILE ($__COUNTER/$__FILE_COUNT)."
-	echo "$FILE" | cpio -p -d "/usr/home/$USER" &>/dev/null
-    done
+	mapfile -t FILES < <(find {.gitconfig,.git-credentials,.ansible,.emacs.d,.config,.scripts,.xinitrc} -type f 2> /dev/null)
+	local FILECOUNT="${#FILES[@]}"
+	local COUNTER=0
 
-    log "Symlinking scripts to /usr/local/bin."
-    doas ln -s "$HOME/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project} /usr/local/bin 2>/dev/null
-    
-    log "==========================================================================="
+	for FILE in ${FILES[*]}; do
+		((++COUNTER))
+		log "Copying file $FILE ($COUNTER/$FILECOUNT)."
+		echo "$FILE" | cpio -p -d "/usr/home/$USER" &> /dev/null
+	done
+
+	log "Symlinking scripts to /usr/local/bin."
+	doas ln -s "$HOME/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project} /usr/local/bin 2> /dev/null
 }
 
-main()
-{
-    preinstall_check
-    package_install
-    change_shell
-    dbus_service
-    bootstrap_files
-    
-    log "Bootstrap completed. Please reboot your system to finalize the changes."
+main() {
+	user_check
+	download_packages
+	change_shell
+	dbus_service
+	bootstrap_files
+
+	log "*** Bootstrap completed. Please reboot your system to finalize the changes. ***"
 }
 
 main
