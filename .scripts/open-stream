@@ -24,16 +24,16 @@ open_stream() {
 	local label
 
 	[[ "${#STREAMS[@]}" -gt 0 ]] && {
-		[[ -n "${TYPE[key]}" ]] && \
-			label=key || label=$(for label in "${!STREAMS[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "open stream:")
+		[[ -n "${TYPE[key]}" ]] \
+			&& label=key || label=$(for label in "${!STREAMS[@]}"; do echo "$label"; done | sort -us | dmenu -i -p "open stream:")
 	} || exit 0
 
 	case "${TYPE[${label}]}" in
-		v|video)
-			mpv --background="#03191C" "${STREAMS[$label]}" &>/dev/null &
+		v | video)
+			mpv --background="#03191C" "${STREAMS[$label]}" &> /dev/null &
 			;;
-		a|audio)
-			st -e mpv --video=no "${STREAMS[$label]}" &>/dev/null &
+		a | audio)
+			st -e mpv --video=no "${STREAMS[$label]}" &> /dev/null &
 			;;
 		*)
 			exit 0

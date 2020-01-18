@@ -6,8 +6,7 @@ open_project() {
 	local project
 
 	project=$(
-		for project in $(find "$GITLABDIR" -type d -depth 1 | sed -e "s|$GITLABDIR/||g"); \
-		do echo "$project"; done | dmenu -i -p "open gitlab ($GITLABUSER) project:"
+		for project in $(find "$GITLABDIR" -type d -depth 1 | sed -e "s|$GITLABDIR/||g"); do echo "$project"; done | dmenu -i -p "open gitlab ($GITLABUSER) project:"
 	)
 
 	[[ -z "$project" ]] && exit 0

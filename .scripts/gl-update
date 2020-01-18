@@ -10,9 +10,10 @@ update_projects() {
 	for project in $(fetch -qo - "$GITLABPROJECTS" | jq -r '.[].path'); do
 		cd "$GITLABDIR"
 		if [ ! -d "$DEVELDIR/$GITLABUSER/$project" ]; then
-			git clone "$GITLABREPO/$project" &>/dev/null
+			git clone "$GITLABREPO/$project" &> /dev/null
 		else
-			cd "$project"; git pull &>/dev/null
+			cd "$project"
+			git pull &> /dev/null
 		fi
 	done
 }
