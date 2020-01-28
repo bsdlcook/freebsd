@@ -89,7 +89,7 @@ dbus_service() {
 bootstrap_files() {
 	phase "${FUNCNAME[0]}"
 
-	mapfile -t FILES < <(find {.gitconfig,.git-credentials,.ansible,.emacs.d,.config,.scripts,.xinitrc,.porttools} -type f 2> /dev/null)
+	mapfile -t FILES < <(find {.gitconfig,.git-credentials,.gitmessage,.ansible,.emacs.d,.config,.scripts,.xinitrc,.porttools} -type f 2> /dev/null)
 	local FILECOUNT="${#FILES[@]}"
 	local COUNTER=0
 
