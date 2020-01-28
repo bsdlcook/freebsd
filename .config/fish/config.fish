@@ -1,5 +1,12 @@
 status --is-login; if test -z "$DISPLAY"; exec startx; end
 
+if test -z (pgrep ssh-agent | head -n1)
+   eval (ssh-agent -c) 1>/dev/null
+   eval (ssh-add 2>/dev/null)
+   set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+   set -Ux SSH_AGENT_PID $SSH_AGENT_PID
+end
+
 alias ls="exa"
 alias sr="doas"
 
