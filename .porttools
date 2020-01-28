@@ -1,0 +1,6 @@
+EMAIL="vulcan@wired.sh"
+FULLNAME="Lewis Cook"
+DIFF_MODE="SVN"
+DIFF_VIEWER="more"
+PORTLINT_FLAGS="AC"
+PORTSDIR="/home/lcook/Development/ports"
