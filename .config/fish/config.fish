@@ -42,3 +42,5 @@ set -x TERM xterm-256color
 set -x GOROOT /usr/local/go
 set -x GOPATH ~/Development/.go
 set -x ANSIBLE_CONFIG ~/.ansible/config/default.cfg
+
+set -Ux GPG_TTY (tty)

@@ -9,6 +9,7 @@ graphics/ImageMagick6
 graphics/zathura
 graphics/zathura-pdf-mupdf
 multimedia/mpv
+security/pinentry-gtk2
 shells/fish
 sysutils/dunst
 sysutils/exa
