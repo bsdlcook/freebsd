@@ -14,7 +14,7 @@ open_manual() {
 		for manual in $(find "$MANDIR" -type f | sed -e "s|$MANDIR/||g"); do echo "$manual"; done | dmenu -i -p "open manual:"
 	)
 
-	[[ -z "$manual" ]] && exit 0
+	[[ -z "$manual" || ! -f "$manual" ]] && exit 0
 
 	$MANVIEW "$MANDIR/$manual" &
 }

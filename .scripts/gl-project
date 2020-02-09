@@ -9,7 +9,7 @@ open_project() {
 		for project in $(find "$GITLABDIR" -type d -depth 1 | sed -e "s|$GITLABDIR/||g"); do echo "$project"; done | dmenu -i -p "open gitlab ($GITLABUSER) project:"
 	)
 
-	[[ -z "$project" ]] && exit 0
+	[[ -z "$project" || ! -d "$project" ]] && exit 0
 
 	$EDITOR "$GITLABDIR/$project" &
 }
