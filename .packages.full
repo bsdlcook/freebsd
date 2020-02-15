@@ -8,6 +8,7 @@ graphics/feh
 graphics/ImageMagick6
 graphics/zathura
 graphics/zathura-pdf-mupdf
+misc/freebsd-doc-en
 multimedia/mpv
 security/pinentry-gtk2
 shells/fish

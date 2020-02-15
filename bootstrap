@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+readonly PREFIX="/usr/local"
+readonly DOCDIR="${PREFIX}/share/doc/freebsd/en/books"
+readonly DEVDIR="/usr/home/${USER}/Development"
+readonly MANDIR="${DEVDIR}/manual"
+
 log() {
 	printf "%s\n" "$*"
 }
@@ -23,7 +28,7 @@ user_check() {
 
 	log "Checking for doas."
 	if [[ -z "$(pkg info -x security/doas 2> /dev/null)" ]]; then
-		error "Please install doas by typing: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass your_user as root' | tee -a /usr/local/etc/doas.conf - then re-run the script."
+		error "Please install doas by running: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass ${USER} as root' | tee -a /usr/local/etc/doas.conf - then re-run the script."
 	fi
 }
 
@@ -40,12 +45,12 @@ download_packages() {
 	local DATABASE="/var/db/pkg/repo-FreeBSD.sqlite"
 
 	log "Checking for package file."
-	if [[ ! -f $PKGFILE ]]; then
-		error "Package file '$PKGFILE' not found in directory. Please ensure the integrity of the files are not missing or corrupted."
+	if [[ ! -f "${PKGFILE}" ]]; then
+		error "Package file '${PKGFILE}' not found in directory. Please ensure the integrity of the files are not missing or corrupted."
 	fi
 
 	log "Checking for package repository database."
-	if [[ ! -f $DATABASE ]]; then
+	if [[ ! -f "${DATABASE}" ]]; then
 		log "Before we begin the package repository will be updated."
 		doas pkg update -f 2> /dev/null
 	fi
@@ -54,17 +59,17 @@ download_packages() {
 	local COUNTER=0
 	local PKGCOUNT=0
 
-	log "Reading package file '$PKGFILE'."
+	log "Reading package file '${PKGFILE}'."
 	while read -r PACKAGE; do
-		PACKAGES+=("$PACKAGE")
-	done < "$PKGFILE"
+		PACKAGES+=("${PACKAGE}")
+	done < "${PKGFILE}"
 
 	log "Installing packages."
 	PKGCOUNT="${#PACKAGES[@]}"
 	for PACKAGE in ${PACKAGES[*]}; do
 		((++COUNTER))
-		log "Downloading package $PACKAGE ($COUNTER/$PKGCOUNT)."
-		check_package "$PACKAGE"
+		log "Downloading package ${PACKAGE} (${COUNTER}/${PKGCOUNT})."
+		check_package "${PACKAGE}"
 	done
 }
 
@@ -72,7 +77,7 @@ change_shell() {
 	phase "${FUNCNAME[0]}"
 
 	log "Changing default shell to $(command -v fish)."
-	doas chsh -s "$(command -v fish)" "$USER" &> /dev/null
+	doas chsh -s "$(command -v fish)" "${USER}" &> /dev/null
 }
 
 dbus_service() {
@@ -86,6 +91,25 @@ dbus_service() {
 	doas sysrc hald_enable="YES" > /dev/null
 }
 
+bootstrap_manuals() {
+	phase "${FUNCNAME[0]}"
+
+	if [[ ! -d "${MANDIR}" ]]; then
+		mkdir -p "${MANDIR}"
+	fi
+
+	mapfile -t MANUALS < <(find "${DOCDIR}" -type f -name "*.pdf")
+	local FILECOUNT="${#MANUALS[@]}"
+	local COUNTER=0
+
+	for MANUAL in ${MANUALS[*]}; do
+		((++COUNTER))
+		DEST="$(echo "${MANUAL}" | sed -e "s|${DOCDIR}||" | awk -F/ '{printf "%s.pdf\n", $2}')"
+		log "Copying manual ${DEST} (${COUNTER}/${FILECOUNT})"
+		cp -f "${MANUAL}" "${MANDIR}/${DEST}"
+	done
+}
+
 bootstrap_files() {
 	phase "${FUNCNAME[0]}"
 
@@ -95,12 +119,12 @@ bootstrap_files() {
 
 	for FILE in ${FILES[*]}; do
 		((++COUNTER))
-		log "Copying file $FILE ($COUNTER/$FILECOUNT)."
-		echo "$FILE" | cpio -p -d "/usr/home/$USER" &> /dev/null
+		log "Copying file $FILE (${COUNTER}/${FILECOUNT})."
+		echo "${FILE}" | cpio -p -d "/usr/home/${USER}" &> /dev/null
 	done
 
 	log "Symlinking scripts to /usr/local/bin."
-	doas ln -s "$HOME/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project} /usr/local/bin 2> /dev/null
+	doas ln -s "/usr/home/${USER}/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project} /usr/local/bin 2> /dev/null
 }
 
 main() {
@@ -108,8 +132,10 @@ main() {
 	download_packages
 	change_shell
 	dbus_service
+	bootstrap_manuals
 	bootstrap_files
 
+	log
 	log "*** Bootstrap completed. Please reboot your system to finalize the changes. ***"
 }
 
