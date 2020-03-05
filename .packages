@@ -1,6 +1,6 @@
 audio/portaudio
-audio/spotifyd
 audio/spotify-tui
+audio/spotifyd
 devel/ccache-static
 devel/cmake
 editors/emacs
@@ -10,6 +10,7 @@ graphics/zathura
 graphics/zathura-pdf-mupdf
 misc/freebsd-doc-en
 multimedia/mpv
+security/gnupg
 security/pinentry-gtk2
 shells/fish
 sysutils/dunst
@@ -19,9 +20,9 @@ textproc/jq
 www/firefox
 x11-fonts/nerd-fonts
 x11-fonts/victor-mono-ttf
-x11/xclip
 x11/setxkbmap
+x11/xclip
 x11/xdotool
 x11/xorg-minimal
-x11/xsetroot
 x11/xset
+x11/xsetroot

@@ -41,8 +41,8 @@ check_package() {
 download_packages() {
 	phase "${FUNCNAME[0]}"
 
-	local PKGFILE=".packages.full"
-	local DATABASE="/var/db/pkg/repo-FreeBSD.sqlite"
+	local readonly PKGFILE=".packages"
+	local readonly DATABASE="/var/db/pkg/repo-FreeBSD.sqlite"
 
 	log "Checking for package file."
 	if [[ ! -f "${PKGFILE}" ]]; then
@@ -56,16 +56,16 @@ download_packages() {
 	fi
 
 	local PACKAGES=()
-	local COUNTER=0
-	local PKGCOUNT=0
 
 	log "Reading package file '${PKGFILE}'."
 	while read -r PACKAGE; do
 		PACKAGES+=("${PACKAGE}")
 	done < "${PKGFILE}"
 
+	local readonly PKGCOUNT="${#PACKAGES[@]}"
+	local COUNTER=0
+
 	log "Installing packages."
-	PKGCOUNT="${#PACKAGES[@]}"
 	for PACKAGE in ${PACKAGES[*]}; do
 		((++COUNTER))
 		log "Downloading package ${PACKAGE} (${COUNTER}/${PKGCOUNT})."
@@ -99,7 +99,7 @@ bootstrap_manuals() {
 	fi
 
 	mapfile -t MANUALS < <(find "${DOCDIR}" -type f -name "*.pdf")
-	local FILECOUNT="${#MANUALS[@]}"
+	local readonly FILECOUNT="${#MANUALS[@]}"
 	local COUNTER=0
 
 	for MANUAL in ${MANUALS[*]}; do
@@ -114,7 +114,7 @@ bootstrap_files() {
 	phase "${FUNCNAME[0]}"
 
 	mapfile -t FILES < <(find {.gitconfig,.git-credentials,.gitmessage,.ansible,.emacs.d,.config,.scripts,.xinitrc,.porttools} -type f 2> /dev/null)
-	local FILECOUNT="${#FILES[@]}"
+	local readonly FILECOUNT="${#FILES[@]}"
 	local COUNTER=0
 
 	for FILE in ${FILES[*]}; do
