@@ -1,0 +1,84 @@
+#!/bin/sh
+
+readonly PREFIX=/usr/local
+readonly SVN=${PREFIX}/bin/svn
+readonly XQ=${PREFIX}/bin/xq
+readonly MKDIR=/bin/mkdir
+readonly XARGS=/usr/bin/xargs
+
+usage() {
+	echo "usage: gl-port [-u update | -a add] [-p port] [-c category] [-d port-dir]"
+	exit 1
+}
+
+if [ $# -lt 2 ]; then
+	usage
+fi
+
+DIR=/usr/home/${USER}/Development/gitlab/${USER}/ports
+while getopts "p:c:d:ua" OPT; do
+	case "${OPT}" in
+		p) readonly PORT="${OPTARG}" ;;
+		c) readonly CATEGORY="${OPTARG}" ;;
+		d) readonly DIR="${OPTARG}" ;;
+		u) readonly UPDATE=true ;;
+		a) readonly ADD=true ;;
+		h|\?) usage ;;
+	esac
+done
+
+if [ -z "${UPDATE}" ] && [ -z "${ADD}" ]; then
+	usage
+fi
+
+if [ ! -d "${DIR}" ]; then
+	echo "'${DIR}' is not a valid directory"
+	exit 1
+fi
+
+readonly PORTPATH="${DIR}/${CATEGORY}/${PORT}"
+if [ "${UPDATE}" = true ] && [ ! -d "${PORTPATH}" ]; then
+	echo "'${CATEGORY}/${PORT}' is not a valid port"
+	exit 1
+fi
+
+readonly TMP=$(mktemp -d)
+readonly PATCH="${TMP}/${PORT}.diff"
+(
+	cd "${TMP}" || exit
+	${SVN} checkout --depth empty "https://svn.FreeBSD.org/ports/head/${CATEGORY}/${PORT}" "${TMP}" 1> /dev/null
+	if [ "${UPDATE}" = true ]; then
+		${SVN} log -l2 --xml | ${XQ} -r '.[].logentry[1]."@revision"' | ${XARGS} -I % svn diff -r %:HEAD > "${PATCH}"
+	else
+		${SVN} diff -r PREV:COMMITTED > "${PATCH}"
+	fi
+)
+
+if [ "${ADD}" = true ]; then
+	${MKDIR} -p "${PORTPATH}"
+fi
+(
+	cd "${PORTPATH}" || exit
+	patch -s < "${PATCH}"
+	rm -rf ./*.orig
+)
+
+readonly REVISION=$(cd "${TMP}" && ${SVN} log -l1 --xml | ${XQ} -r '.log.logentry."@revision"')
+readonly PORTSET="https://svnweb.freebsd.org/ports?view=revision&revision=${REVISION}"
+readonly VERSION=$(awk '/(DIST|PORT)VERSION=.*/{print $2}' "${PORTPATH}/Makefile")
+readonly SIGNED=$(cat "/usr/home/${USER}/.gitmessage")
+readonly FULLPORT="${CATEGORY}/${PORT}"
+
+if [ "${UPDATE}" = true ]; then
+	readonly MESSAGE="${FULLPORT}: Update to ${VERSION} ${PORTSET}"
+else
+	readonly MESSAGE="New port: ${FULLPORT} ${PORTSET}"
+fi
+(
+	cd "${PORTPATH}" || exit
+	git add .
+	git commit -S -m "${MESSAGE}
+			  ${SIGNED}"
+)
+
+rm -rf "${TMP}"
