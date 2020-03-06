@@ -1,26 +1,29 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-source "$HOME/.config/common"
+# shellcheck source=/dev/null
+. "/usr/home/${USER}/.config/common"
 
-open_manual() {
-	local manual
+readonly PREFIX=/usr/local
+readonly DMENU=${PREFIX}/bin/dmenu
 
-	if [ ! -d "$MANDIR" ]; then
-		mkdir -p "$MANDIR"
-		exit 0
-	fi
+readonly FIND=/usr/bin/find
+readonly MKDIR=/bin/mkdir
+readonly SED=/usr/bin/sed
 
-	manual=$(
-		for manual in $(find "$MANDIR" -type f | sed -e "s|$MANDIR/||g"); do echo "$manual"; done | dmenu -i -p "open manual:"
-	)
+if [ ! -d "${MANDIR}" ]; then
+	${MKDIR} -p "${MANDIR}"
+	exit 1
+fi
 
-	[[ -z "$manual" || ! -f "$manual" ]] && exit 0
+readonly MANUAL=$(
+	for manual in $(${FIND} "${MANDIR}" -type f | ${SED} -e "s|${MANDIR}/||g"); do
+		echo "${manual}"
+	done | ${DMENU} -i -p "open manual:"
+)
 
-	$MANVIEW "$MANDIR/$manual" &
-}
+readonly MANUALPATH="${MANDIR}/${MANUAL}"
+if [ -z "${MANUAL}" ] || [ ! -f "${MANUALPATH}" ]; then
+	exit 1
+fi
 
-main() {
-	open_manual
-}
-
-main
+${MANVIEW} "${MANUALPATH}" &
