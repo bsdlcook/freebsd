@@ -1,25 +1,27 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-source "$HOME/.config/gitlab"
+# shellcheck source=/dev/null
+. "/usr/home/${USER}/.config/gitlab"
 
-update_projects() {
-	if [ ! -d "$GITLABDIR" ]; then
-		mkdir -p "$GITLABDIR"
+readonly PREFIX=/usr/local
+readonly JQ=${PREFIX}/bin/jq
+readonly GIT=${PREFIX}/bin/git
+
+readonly FETCH=/usr/bin/fetch
+readonly MKDIR=/bin/mkdir
+
+set -x
+
+if [ ! -d "${GITLABIR}" ]; then
+	${MKDIR} -p ${GITLABDIR}
+fi
+
+for project in $(${FETCH} -qo - "${GITLABPROJECTS}" | ${JQ} -r '.[].path'); do
+	cd "${GITLABDIR}"
+	if [ ! -d "${project}" ]; then
+		${GIT} clone "${GITLABREPO}/${project}" >/dev/null 2>&1
+	else
+		cd "${project}" || exit
+		${GIT} pull >/dev/null 2>&1
 	fi
-
-	for project in $(fetch -qo - "$GITLABPROJECTS" | jq -r '.[].path'); do
-		cd "$GITLABDIR"
-		if [ ! -d "$DEVELDIR/$GITLABUSER/$project" ]; then
-			git clone "$GITLABREPO/$project" &> /dev/null
-		else
-			cd "$project"
-			git pull &> /dev/null
-		fi
-	done
-}
-
-main() {
-	update_projects
-}
-
-main
+done

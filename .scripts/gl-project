@@ -1,21 +1,24 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-source "$HOME/.config/gitlab"
+# shellcheck source=/dev/null
+. "/usr/home/${USER}/.config/gitlab"
 
-open_project() {
-	local project
+readonly PREFIX=/usr/local
+readonly DMENU=${PREFIX}/bin/dmenu
 
-	project=$(
-		for project in $(find "$GITLABDIR" -type d -depth 1 | sed -e "s|$GITLABDIR/||g"); do echo "$project"; done | dmenu -i -p "open gitlab ($GITLABUSER) project:"
-	)
+readonly ECHO=/bin/echo
+readonly FIND=/usr/bin/find
+readonly SED=/usr/bin/sed
 
-	[[ -z "$project" || ! -d "$project" ]] && exit 0
+readonly PROJECT=$(
+	for project in $(${FIND} "${GITLABDIR}" -type d -depth 1 | ${SED} -e "s|${GITLABDIR}/||g"); do
+		${ECHO} "${project}"
+	done | ${DMENU} -i -p "open gitlab ($GITLABUSER) project:"
+)
 
-	$EDITOR "$GITLABDIR/$project" &
-}
+readonly PROJECTPATH="${GITLABDIR}/${PROJECT}"
+if [ -z "${PROJECT}" ] || [ ! -d "${PROJECTPATH}" ]; then
+	exit 1
+fi
 
-main() {
-	open_project
-}
-
-main
+${EDITOR} "${PROJECTPATH}" &
