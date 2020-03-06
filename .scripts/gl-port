@@ -14,7 +14,7 @@ readonly PATCH=/usr/bin/patch
 readonly XARGS=/usr/bin/xargs
 
 usage() {
-	${ECHO} "usage: gl-port [-u update | -a add] [-p port] [-c category] [-d port-dir]"
+	${ECHO} "usage: gl-port [-u update | -a add] [-p port] [-c category] [-m commit-message] [-d port-dir]"
 	exit 1
 }
 
@@ -23,10 +23,11 @@ if [ $# -lt 2 ]; then
 fi
 
 DIR=/usr/home/${USER}/Development/gitlab/${USER}/ports
-while getopts "p:c:d:ua" OPT; do
+while getopts "p:c:m:d:ua" OPT; do
 	case "${OPT}" in
 		p) readonly PORT="${OPTARG}" ;;
 		c) readonly CATEGORY="${OPTARG}" ;;
+		m) readonly COMMIT="${OPTARG}" ;;
 		d) readonly DIR="${OPTARG}" ;;
 		u) readonly UPDATE=true ;;
 		a) readonly ADD=true ;;
@@ -76,15 +77,17 @@ readonly VERSION=$(${AWK} "/(DIST|PORT)VERSION=.*/{print $2}" "${PORTPATH}/Makef
 readonly SIGNED=$(${CAT} "/usr/home/${USER}/.gitmessage")
 readonly FULLPORT="${CATEGORY}/${PORT}"
 
-if [ "${UPDATE}" = true ]; then
-	readonly MESSAGE="${FULLPORT}: Update to ${VERSION} ${PORTSET}"
+if [ -n "${COMMIT}" ]; then
+	readonly MESSAGE="${FULLPORT}: ${COMMIT}"
+elif [ "${UPDATE}" = true ]; then
+	readonly MESSAGE="${FULLPORT}: Update to ${VERSION}"
 else
-	readonly MESSAGE="New port: ${FULLPORT} ${PORTSET}"
+	readonly MESSAGE="New port: ${FULLPORT}"
 fi
 (
 	cd "${PORTPATH}" || exit
 	${GIT} add .
-	${GIT} commit -S -m "${MESSAGE}
+	${GIT} commit -S -m "${MESSAGE} ${PORTSET}
                              ${SIGNED}"
 )
 
