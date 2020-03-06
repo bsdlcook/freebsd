@@ -1,9 +1,9 @@
-source "$HOME/.config/common"
+. /usr/home/${USER}/.config/common
 
-export GITLABDEVEL="$DEVELDIR/gitlab"
-export GITLABUSER="lcook"
-export GITLABDIR="$GITLABDEVEL/$GITLABUSER"
-export GITLABURL="https://gitlab.com"
-export GITLABAPI="$GITLABURL/api/v4/users"
-export GITLABPROJECTS="$GITLABAPI/$GITLABUSER/projects"
-export GITLABREPO="$GITLABURL/$GITLABUSER"
+readonly GITLABDEVEL="$DEVELDIR/gitlab"
+readonly GITLABUSER="lcook"
+readonly GITLABDIR="$GITLABDEVEL/$GITLABUSER"
+readonly GITLABURL="https://gitlab.com"
+readonly GITLABAPI="$GITLABURL/api/v4/users"
+readonly GITLABPROJECTS="$GITLABAPI/$GITLABUSER/projects"
+readonly GITLABREPO="$GITLABURL/$GITLABUSER"

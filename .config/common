@@ -1,4 +1,4 @@
-export EDITOR="emacs"
-export DEVELDIR="$HOME/Development"
-export MANDIR="$DEVELDIR/manual"
-export MANVIEW="zathura"
+readonly EDITOR="emacs"
+readonly DEVELDIR="$HOME/Development"
+readonly MANDIR="$DEVELDIR/manual"
+readonly MANVIEW="zathura"
