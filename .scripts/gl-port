@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# shellcheck source=/dev/null
+. "/usr/home/${USER}/.config/gitlab"
+
 readonly PREFIX=/usr/local
 readonly GIT=${PREFIX}/bin/git
 readonly SVN=${PREFIX}/bin/svn
@@ -22,7 +25,7 @@ if [ $# -lt 2 ]; then
 	usage
 fi
 
-DIR=/usr/home/${USER}/Development/gitlab/${USER}/ports
+DIR=${GITLABDIR}/ports
 while getopts "p:c:m:d:ua" OPT; do
 	case "${OPT}" in
 		p) readonly PORT="${OPTARG}" ;;
@@ -31,7 +34,7 @@ while getopts "p:c:m:d:ua" OPT; do
 		d) readonly DIR="${OPTARG}" ;;
 		u) readonly UPDATE=true ;;
 		a) readonly ADD=true ;;
-		h | \?) usage ;;
+		*) usage ;;
 	esac
 done
 
@@ -73,7 +76,7 @@ fi
 
 readonly REVISION=$(cd "${TMP}" && ${SVN} log -l1 --xml | ${XQ} -r '.log.logentry."@revision"')
 readonly PORTSET="https://svnweb.freebsd.org/ports?view=revision&revision=${REVISION}"
-readonly VERSION=$(${AWK} "/(DIST|PORT)VERSION=.*/{print $2}" "${PORTPATH}/Makefile")
+readonly VERSION=$(${AWK} '/(DIST|PORT)VERSION=.*/{print $2}' "${PORTPATH}/Makefile")
 readonly SIGNED=$(${CAT} "/usr/home/${USER}/.gitmessage")
 readonly FULLPORT="${CATEGORY}/${PORT}"
 
