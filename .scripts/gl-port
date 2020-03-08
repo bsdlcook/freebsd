@@ -61,7 +61,7 @@ readonly DIFF="${TMP}/${PORT}.diff"
 	if [ "${UPDATE}" = true ]; then
 		${SVN} log -l2 --xml | ${XQ} -r '.[].logentry[1]."@revision"' | ${XARGS} -I % svn diff -r %:HEAD > "${DIFF}"
 	else
-		${SVN} diff -r PREV:COMMITTED > "${DIFF}"
+		${SVN} diff -r 0:HEAD > "${DIFF}"
 	fi
 )
 
