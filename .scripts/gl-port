@@ -74,7 +74,11 @@ fi
 	${RM} -rf ./*.orig
 )
 
-readonly REVISION=$(cd "${TMP}" && ${SVN} log -l1 --xml | ${XQ} -r '.log.logentry."@revision"')
+if [ "${ADD}" = true ]; then
+	readonly REVISION=$(cd "${TMP}" && ${SVN} log -r 0:HEAD -l1 --xml | ${XQ} -r '.log.logentry."@revision"')
+else
+	readonly REVISION=$(cd "${TMP}" && ${SVN} log -l1 --xml | ${XQ} -r '.log.logentry."@revision"')
+fi
 readonly PORTSET="https://svnweb.freebsd.org/ports?view=revision&revision=${REVISION}"
 readonly VERSION=$(${AWK} '/(DIST|PORT)VERSION=.*/{print $2}' "${PORTPATH}/Makefile")
 readonly SIGNED=$(${CAT} "/usr/home/${USER}/.gitmessage")
