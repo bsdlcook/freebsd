@@ -13,6 +13,7 @@ readonly CAT=/bin/cat
 readonly ECHO=/bin/echo
 readonly RM=/bin/rm
 readonly AWK=/usr/bin/awk
+readonly FIND=/usr/bin/find
 readonly PATCH=/usr/bin/patch
 readonly XARGS=/usr/bin/xargs
 
@@ -70,8 +71,8 @@ if [ "${ADD}" = true ]; then
 fi
 (
 	cd "${PORTPATH}" || exit
-	${PATCH} -s < "${DIFF}"
-	${RM} -rf ./*.orig
+	${PATCH} -p0 -s < "${DIFF}"
+	${FIND} . -name "*.orig" -exec rm -f {} \;
 )
 
 if [ "${ADD}" = true ]; then
