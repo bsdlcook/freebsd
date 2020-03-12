@@ -18,7 +18,7 @@ readonly PATCH=/usr/bin/patch
 readonly XARGS=/usr/bin/xargs
 
 usage() {
-	${ECHO} "usage: gl-port [-u update | -a add] [-p port] [-c category] [-m commit-message] [-d port-dir]"
+	${ECHO} "usage: gl-port [-u update | -a add] [-p port] [-c category] [-l log-limit] [-e log-entry] [-m commit-message] [-d port-dir]"
 	exit 1
 }
 
@@ -27,10 +27,14 @@ if [ $# -lt 2 ]; then
 fi
 
 DIR=${GITLABDIR}/ports
-while getopts "p:c:m:d:ua" OPT; do
+ENTRY=1
+LIMIT=2
+while getopts "p:c:l:e:m:d:ua" OPT; do
 	case "${OPT}" in
 		p) readonly PORT="${OPTARG}" ;;
 		c) readonly CATEGORY="${OPTARG}" ;;
+		l) readonly LIMIT="${OPTARG}" ;;
+		e) readonly ENTRY="${OPTARG}" ;;
 		m) readonly COMMIT="${OPTARG}" ;;
 		d) readonly DIR="${OPTARG}" ;;
 		u) readonly UPDATE=true ;;
@@ -60,7 +64,7 @@ readonly DIFF="${TMP}/${PORT}.diff"
 	cd "${TMP}" || exit
 	${SVN} checkout --depth empty "https://svn.FreeBSD.org/ports/head/${CATEGORY}/${PORT}" . 1> /dev/null
 	if [ "${UPDATE}" = true ]; then
-		${SVN} log -l2 --xml | ${XQ} -r '.[].logentry[1]."@revision"' | ${XARGS} -I % svn diff -r %:HEAD > "${DIFF}"
+		${SVN} log -l"${LIMIT}" --xml | ${XQ} -r '.[].logentry['"${ENTRY}"']."@revision"' | ${XARGS} -I % svn diff -r %:HEAD > "${DIFF}"
 	else
 		${SVN} diff -r 0:HEAD > "${DIFF}"
 	fi
