@@ -18,7 +18,7 @@ readonly PATCH=/usr/bin/patch
 readonly XARGS=/usr/bin/xargs
 
 usage() {
-	${ECHO} "usage: gl-port [-u update | -a add] [-p port] [-c category] [-l log-limit] [-e log-entry] [-m commit-message] [-d port-dir]"
+	${ECHO} "usage: gl-port [-u update | -a add] [-s show-diff] [-p port] [-c category] [-l log-limit] [-e log-entry] [-m commit-message] [-d port-dir]"
 	exit 1
 }
 
@@ -29,7 +29,7 @@ fi
 DIR=${GITLABDIR}/ports
 ENTRY=1
 LIMIT=2
-while getopts "p:c:l:e:m:d:ua" OPT; do
+while getopts "p:c:l:e:m:d:uas" OPT; do
 	case "${OPT}" in
 		p) readonly PORT="${OPTARG}" ;;
 		c) readonly CATEGORY="${OPTARG}" ;;
@@ -39,6 +39,7 @@ while getopts "p:c:l:e:m:d:ua" OPT; do
 		d) readonly DIR="${OPTARG}" ;;
 		u) readonly UPDATE=true ;;
 		a) readonly ADD=true ;;
+		s) readonly SHOW=true ;;
 		*) usage ;;
 	esac
 done
@@ -69,6 +70,11 @@ readonly DIFF="${TMP}/${PORT}.diff"
 		${SVN} diff -r 0:HEAD > "${DIFF}"
 	fi
 )
+
+if [ "${SHOW}" = true ]; then
+	${CAT} "${DIFF}"
+	exit 0
+fi
 
 if [ "${ADD}" = true ]; then
 	${MKDIR} -p "${PORTPATH}"
