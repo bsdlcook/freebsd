@@ -1,2 +1,2 @@
-#!/usr/bin/env sh
-feh --bg-fill "$HOME/.config/.background.png"
+#!/bin/sh
+xsetroot -solid "#031B1F"

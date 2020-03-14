@@ -1,3 +1,3 @@
-#!/usr/bin/env sh
+#!/bin/sh
 setxkbmap gb
 xset r rate 190 35
