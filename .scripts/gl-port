@@ -15,6 +15,8 @@ readonly RM=/bin/rm
 readonly AWK=/usr/bin/awk
 readonly FIND=/usr/bin/find
 readonly PATCH=/usr/bin/patch
+readonly READ=/usr/bin/read
+readonly TR=/usr/bin/tr
 readonly XARGS=/usr/bin/xargs
 
 usage() {
@@ -107,6 +109,13 @@ fi
 	${GIT} add .
 	${GIT} commit -S -m "${MESSAGE} ${PORTSET}
                              ${SIGNED}"
+
+	${ECHO}
+	${READ} -rp "Push commit to master? (yes/no) [no]: " OPTION
+	OPTION=$(${ECHO} "${OPTION}" | ${TR} "[:upper:]" "[:lower:]")
+	if [ "${OPTION}" = yes ]; then
+		${GIT} push origin master
+	fi
 )
 
 ${RM} -rf "${TMP}"
