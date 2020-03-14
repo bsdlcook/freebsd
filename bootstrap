@@ -124,7 +124,7 @@ bootstrap_files() {
 	done
 
 	log "Symlinking scripts to /usr/local/bin."
-	doas ln -s "/usr/home/${USER}/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project,gl-port-update} /usr/local/bin 2> /dev/null
+	doas ln -s "/usr/home/${USER}/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project,gl-port} /usr/local/bin 2> /dev/null
 }
 
 main() {
