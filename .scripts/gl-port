@@ -15,6 +15,7 @@ readonly RM=/bin/rm
 readonly AWK=/usr/bin/awk
 readonly FIND=/usr/bin/find
 readonly PATCH=/usr/bin/patch
+readonly MKTEMP=/usr/bin/mktemp
 readonly READ=/usr/bin/read
 readonly TR=/usr/bin/tr
 readonly XARGS=/usr/bin/xargs
@@ -61,7 +62,7 @@ if [ "${UPDATE}" = true ] && [ ! -d "${PORTPATH}" ]; then
 	exit 1
 fi
 
-readonly TMP=$(mktemp -d)
+readonly TMP=$(${MKTEMP} -d)
 readonly DIFF="${TMP}/${PORT}.diff"
 (
 	cd "${TMP}" || exit
