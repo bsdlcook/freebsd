@@ -14,11 +14,14 @@ readonly ECHO=/bin/echo
 readonly RM=/bin/rm
 readonly AWK=/usr/bin/awk
 readonly FIND=/usr/bin/find
-readonly PATCH=/usr/bin/patch
 readonly MKTEMP=/usr/bin/mktemp
-readonly READ=/usr/bin/read
+readonly PATCH=/usr/bin/patch
 readonly TR=/usr/bin/tr
+readonly WC=/usr/bin/wc
 readonly XARGS=/usr/bin/xargs
+
+readonly BLUE="\033[34m"
+readonly RESET="\033[0m"
 
 usage() {
 	${ECHO} "usage: gl-port [-u update | -a add] [-s show-diff] [-p port] [-c category] [-l log-limit] [-e log-entry] [-m commit-message] [-d port-dir]"
@@ -47,6 +50,12 @@ while getopts "p:c:l:e:m:d:uas" OPT; do
 	esac
 done
 
+print_info() {
+	if [ -z "${SHOW}" ]; then
+		printf "INFO: %b%s%b\n" "${BLUE}" "$*" "${RESET}"
+	fi
+}
+
 if [ -z "${UPDATE}" ] && [ -z "${ADD}" ]; then
 	usage
 fi
@@ -66,12 +75,18 @@ readonly TMP=$(${MKTEMP} -d)
 readonly DIFF="${TMP}/${PORT}.diff"
 (
 	cd "${TMP}" || exit
+
+	print_info "Checking out latest SVN revision @ ${CATEGORY}/${PORT}"
 	${SVN} checkout --depth empty "https://svn.FreeBSD.org/ports/head/${CATEGORY}/${PORT}" . 1> /dev/null
+
+	REVISION=0
 	if [ "${UPDATE}" = true ]; then
-		${SVN} log -l"${LIMIT}" --xml | ${XQ} -r '.[].logentry['"${ENTRY}"']."@revision"' | ${XARGS} -I % svn diff -r %:HEAD > "${DIFF}"
+		REVISION=$(${SVN} log -l"${LIMIT}" --xml | ${XQ} -r '.[].logentry['"${ENTRY}"']."@revision"')
+		${ECHO} "${REVISION}" | ${XARGS} -I % svn diff -r %:HEAD > "${DIFF}"
 	else
 		${SVN} diff -r 0:HEAD > "${DIFF}"
 	fi
+	print_info "Generating diff via commit(s) ${REVISION}:HEAD"
 )
 
 if [ "${SHOW}" = true ]; then
@@ -84,6 +99,8 @@ if [ "${ADD}" = true ]; then
 fi
 (
 	cd "${PORTPATH}" || exit
+
+	print_info "Patching ${CATEGORY}/${PORT}"
 	${PATCH} -p0 -s < "${DIFF}"
 	${FIND} . -name "*.orig" -exec rm -f {} \;
 )
@@ -105,18 +122,27 @@ elif [ "${UPDATE}" = true ]; then
 else
 	readonly MESSAGE="New port: ${FULLPORT}"
 fi
+readonly EMAIL=$(${GIT} config user.email)
+readonly NAME=$(${GIT} config user.name)
 (
 	cd "${PORTPATH}" || exit
+
 	${GIT} add .
+	CHANGES=$(${GIT} diff --cached --name-only | ${WC} -l | ${TR} -d ' ')
+	print_info "Adding ${CHANGES} change(s) to repository"
+	print_info "Commiting from user ${NAME} <${EMAIL}>"
+	${ECHO}
 	${GIT} commit -S -m "${MESSAGE} ${PORTSET}
                              ${SIGNED}"
 
 	${ECHO}
-	${READ} -rp "Push commit to master? (yes/no) [no]: " OPTION
+	read -rp "Push commit to master? (yes/no) [no]: " OPTION
 	OPTION=$(${ECHO} "${OPTION}" | ${TR} "[:upper:]" "[:lower:]")
-	if [ "${OPTION}" = yes ]; then
+	if [ "${OPTION}" = yes ] || [ "${OPTION}" = y ]; then
 		${GIT} push origin master
 	fi
+	${ECHO}
 )
 
+print_info "Cleaning up temp directory"
 ${RM} -rf "${TMP}"
