@@ -56,7 +56,7 @@ print_info() {
 	fi
 }
 
-if [ -z "${UPDATE}" ] && [ -z "${ADD}" ]; then
+if [ -z "${UPDATE}" ] && [ -z "${ADD}" ] || [ -z "${PORT}" ] || [ -z "${CATEGORY}" ]; then
 	usage
 fi
 
