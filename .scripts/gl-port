@@ -129,7 +129,7 @@ fi
 
 if [ "${SHOW}" = true ]; then
 	${CAT} "${DIFF}"
-	exit 0
+	cleanup
 fi
 
 if [ "${ADD}" = true ]; then
@@ -164,6 +164,7 @@ else
 fi
 readonly EMAIL=$(${GIT} config user.email)
 readonly NAME=$(${GIT} config user.name)
+readonly COMMIT=$(printf "%s\n\nsvn-id: %s\n%s" "${MESSAGE}" "${PORTSET}" "${SIGNED}")
 (
 	cd "${PORTPATH}" || exit
 
@@ -172,8 +173,7 @@ readonly NAME=$(${GIT} config user.name)
 	print_info "Adding ${CHANGES} change(s) to repository"
 	print_info "Commiting from user ${NAME} <${EMAIL}>"
 	${ECHO}
-	${GIT} commit -S -m "${MESSAGE} ${PORTSET}
-                             ${SIGNED}"
+	${GIT} commit -S -m "${COMMIT}"
 
 	${ECHO}
 	# shellcheck disable=SC2039
