@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 readonly PREFIX="/usr/local"
 readonly DOCDIR="${PREFIX}/share/doc/freebsd/en/books"
@@ -9,7 +9,7 @@ log() {
 	printf "%s\n" "$*"
 }
 
-error() {
+die() {
 	log "$*" >&2
 	exit 1
 }
@@ -19,124 +19,128 @@ phase() {
 }
 
 user_check() {
-	phase "${FUNCNAME[0]}"
+	phase "user_check"
 
-	log "Checking user permissions."
-	if [[ "$(id -u)" -eq 0 ]]; then
-		error "Please re-run this script as a non-privileged user."
+	log "=> Checking user permissions."
+	if [ "$(id -u)" -eq 0 ]; then
+		die "Please re-run this script as a non-privileged user."
 	fi
 
-	log "Checking for doas."
-	if [[ -z "$(pkg info -x security/doas 2> /dev/null)" ]]; then
-		error "Please install doas by running: 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass ${USER} as root' | tee -a /usr/local/etc/doas.conf - then re-run the script."
+	log "=> Checking for doas."
+	if [ -z "$(pkg info -x security/doas 2> /dev/null)" ]; then
+		die "Please install doas by running 'pkg install security/doas' with a privileged user; after add your user account with the command: echo 'permit nopass ${USER} as root' | tee -a ${PREFIX}/etc/doas.conf - then re-run the script."
 	fi
 }
 
 check_package() {
-	if [[ -z "$(pkg info -x "$1" 2> /dev/null | head -n1)" ]]; then
-		doas pkg install -y "$1" &> /dev/null
+	if [ -z "$(pkg info -x "$1" 2> /dev/null | head -n1)" ]; then
+		doas pkg install -y "$1" > /dev/null 2>&1
 	fi
 }
 
 download_packages() {
-	phase "${FUNCNAME[0]}"
+	phase "download_packages"
 
-	local readonly PKGFILE=".packages"
-	local readonly DATABASE="/var/db/pkg/repo-FreeBSD.sqlite"
+	readonly PKGFILE=".packages"
+	readonly DATABASE="/var/db/pkg/repo-FreeBSD.sqlite"
 
-	log "Checking for package file."
-	if [[ ! -f "${PKGFILE}" ]]; then
-		error "Package file '${PKGFILE}' not found in directory. Please ensure the integrity of the files are not missing or corrupted."
+	log "=> Checking for package file."
+	if [ ! -f "${PKGFILE}" ]; then
+		die "Package file '${PKGFILE}' not found in directory. Please check the integrity of the files and are not missing or corrupted."
 	fi
 
-	log "Checking for package repository database."
-	if [[ ! -f "${DATABASE}" ]]; then
+	log "=> Checking for package repository database."
+	if [ ! -f "${DATABASE}" ]; then
 		log "Before we begin the package repository will be updated."
-		doas pkg update -f 2> /dev/null
+		doas pkg update -f > /dev/null 2>&1
 	fi
 
-	local PACKAGES=()
+	readonly PKGCOUNT=$(wc -l "${PKGFILE}" | awk '{print $1}')
 
-	log "Reading package file '${PKGFILE}'."
-	while read -r PACKAGE; do
-		PACKAGES+=("${PACKAGE}")
-	done < "${PKGFILE}"
+	log "=> Installing packages."
+	(
+		COUNTER=0
 
-	local readonly PKGCOUNT="${#PACKAGES[@]}"
-	local COUNTER=0
-
-	log "Installing packages."
-	for PACKAGE in ${PACKAGES[*]}; do
-		((++COUNTER))
-		log "Downloading package ${PACKAGE} (${COUNTER}/${PKGCOUNT})."
-		check_package "${PACKAGE}"
-	done
+		while read -r PKG; do
+			COUNTER=$((COUNTER + 1))
+			log "Downloading package ${PKG} (${COUNTER}/${PKGCOUNT})."
+			check_package "${PKG}"
+		done < "${PKGFILE}"
+	)
 }
 
 change_shell() {
-	phase "${FUNCNAME[0]}"
+	phase "change_shell"
 
-	log "Changing default shell to $(command -v fish)."
-	doas chsh -s "$(command -v fish)" "${USER}" &> /dev/null
+	log "=> Changing default shell to fish."
+	(
+		doas chsh -s "$(command -v fish)" "${USER}" > /dev/null 2>&1
+	)
 }
 
 dbus_service() {
-	phase "${FUNCNAME[0]}"
+	phase "dbus_service"
 
-	log "Generating machine-id."
-	dbus-uuidgen | doas tee /etc/machine-id > /dev/null
+	log "=> Generating machine-id."
+	(
+		dbus-uuidgen | doas tee /etc/machine-id > /dev/null
+	)
 
-	log "Enabling dbus and hald."
-	doas sysrc dbus_enable="YES" > /dev/null
-	doas sysrc hald_enable="YES" > /dev/null
+	log "=> Enabling dbus and hald."
+	(
+		doas sysrc dbus_enable="YES" > /dev/null
+		doas sysrc hald_enable="YES" > /dev/null
+	)
 }
 
 bootstrap_manuals() {
-	phase "${FUNCNAME[0]}"
+	phase "bootstrap_manuals"
 
-	if [[ ! -d "${MANDIR}" ]]; then
+	if [ ! -d "${MANDIR}" ]; then
 		mkdir -p "${MANDIR}"
 	fi
 
-	mapfile -t MANUALS < <(find "${DOCDIR}" -type f -name "*.pdf")
-	local readonly FILECOUNT="${#MANUALS[@]}"
-	local COUNTER=0
+	log "=> Bootstrapping manuals."
+	(
+		COUNTER=0
 
-	for MANUAL in ${MANUALS[*]}; do
-		((++COUNTER))
-		DEST="$(echo "${MANUAL}" | sed -e "s|${DOCDIR}||" | awk -F/ '{printf "%s.pdf\n", $2}')"
-		log "Copying manual ${DEST} (${COUNTER}/${FILECOUNT})"
-		cp -f "${MANUAL}" "${MANDIR}/${DEST}"
-	done
+		for MANUAL in $(find "${DOCDIR}" -type f -name "*.pdf"); do
+			COUNTER=$((COUNTER + 1))
+			PDF="$(echo "${MANUAL}" | sed -e "s|${DOCDIR}||" | awk -F/ '{printf "%s.pdf\n", $2}')"
+			log "Copying manual ${PDF}."
+			cp -f "${MANUAL}" "${MANDIR}/${PDF}"
+		done
+	)
 }
 
 bootstrap_files() {
-	phase "${FUNCNAME[0]}"
+	phase "bootstrap_files"
 
-	mapfile -t FILES < <(find {.gitconfig,.git-credentials,.gitmessage,.ansible,.emacs.d,.config,.scripts,.xinitrc,.porttools} -type f 2> /dev/null)
-	local readonly FILECOUNT="${#FILES[@]}"
-	local COUNTER=0
+	readonly DIRS=".gitconfig .git-credentials .gitmessage .ansible .emacs.d .config .scripts .xinitrc .porttools"
 
-	for FILE in ${FILES[*]}; do
-		((++COUNTER))
-		log "Copying file $FILE (${COUNTER}/${FILECOUNT})."
-		echo "${FILE}" | cpio -p -d "/usr/home/${USER}" &> /dev/null
-	done
+	log "=> Bootstrapping files."
+	(
+		for DIR in ${DIRS}; do
+			for FILE in $(find "${DIR}" -type f); do
+				log "Copying file ${FILE}."
+				echo "${FILE}" | cpio -p -d "/usr/home/${USER}" > /dev/null 2>&1
+			done
+		done
+	)
 
-	log "Symlinking scripts to /usr/local/bin."
-	doas ln -s "/usr/home/${USER}/.scripts/"{open-stream,open-manual,screenshot,gl-update,gl-project,gl-port} /usr/local/bin 2> /dev/null
+	readonly SCRIPTS="open-stream open-manual screenshot gl-update gl-project gl-port"
+
+	log "=> Symlinking scripts to ${PREFIX}/bin."
+	(
+		echo "${SCRIPTS}" | xargs -n1 -I % doas ln -s /usr/home/"${USER}"/.scripts/% ${PREFIX}/bin 2> /dev/null
+	)
 }
 
-main() {
-	user_check
-	download_packages
-	change_shell
-	dbus_service
-	bootstrap_manuals
-	bootstrap_files
+user_check
+download_packages
+change_shell
+dbus_service
+bootstrap_manuals
+bootstrap_files
 
-	log
-	log "*** Bootstrap completed. Please reboot your system to finalize the changes. ***"
-}
-
-main
+log "*** Bootstrap completed. Please reboot your system to finalize the changes. ***"
