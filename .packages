@@ -17,8 +17,8 @@ sysutils/exa
 sysutils/htop
 textproc/jq
 www/firefox
+x11-fonts/iosevka
 x11-fonts/nerd-fonts
-x11-fonts/victor-mono-ttf
 x11/setxkbmap
 x11/xclip
 x11/xdotool
