@@ -29,7 +29,7 @@
 	// minty
 	static const Theme theme = {
 		// general appearance
-		"Victor Mono:pixelsize=17:antialias=true:autohint=true",
+		"Iosevka:pixelsize=16:antialias=true:autohint=true",
 		"#9DE3C0",		// accent
 		"#03191C",	// background
 		"#BDB395",	// foreground
