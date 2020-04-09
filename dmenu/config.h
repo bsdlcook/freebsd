@@ -9,7 +9,7 @@ static unsigned int lines          = 5;              /* -l  option; if nonzero, 
 static unsigned int lineheight     = 28;             /* -h  option; minimum height of a menu line                                   */
 static const char worddelimiters[] = " ";
 static int min_width               = 500;
-static unsigned int border_width   = 1;
+static unsigned int border_width   = 2;
 
 /* colors */
 static const char *colors[SchemeLast][2] = {
