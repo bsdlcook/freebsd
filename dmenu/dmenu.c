@@ -89,6 +89,15 @@ calcoffsets(void)
 			break;
 }
 
+static int
+max_textw(void)
+{
+	int len = 0;
+	for (struct item *item = items; item && item->text; item++)
+		len = MAX(TEXTW(item->text), len);
+	return len;
+}
+
 static void
 cleanup(void)
 {
@@ -267,6 +276,13 @@ match(void)
 		matchend = substrend;
 	}
 	curr = sel = matches;
+	
+	if(matches && matches==matchend && !lsubstr) {
+		puts(matches->text);
+		cleanup();
+		exit(0);
+	}
+
 	calcoffsets();
 }
 
@@ -617,6 +633,7 @@ setup(void)
 	bh = MAX(bh,lineheight);	/* make a menu line AT LEAST 'lineheight' tall */
 	lines = MAX(lines, 0);
 	mh = (lines + 1) * bh;
+	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
 #ifdef XINERAMA
 	i = 0;
 	if (parentwin == root && (info = XineramaQueryScreens(dpy, &n))) {
@@ -643,9 +660,10 @@ setup(void)
 				if (INTERSECT(x, y, 1, 1, info[i]))
 					break;
 
-		x = info[i].x_org;
-		y = info[i].y_org + (topbar ? 0 : info[i].height - mh);
-		mw = info[i].width;
+		mw = MIN(MAX(max_textw() + promptw, min_width), info[i].width);
+		x = info[i].x_org + ((info[i].width  - mw) / 2);
+		y = info[i].y_org + ((info[i].height - mh) / 2);
+
 		XFree(info);
 	} else
 #endif
@@ -653,11 +671,11 @@ setup(void)
 		if (!XGetWindowAttributes(dpy, parentwin, &wa))
 			die("could not get embedding window attributes: 0x%lx",
 			    parentwin);
-		x = 0;
-		y = topbar ? 0 : wa.height - mh;
-		mw = wa.width;
+
+		mw = MIN(MAX(max_textw() + promptw, min_width), wa.width);
+		x = (wa.width  - mw) / 2;
+		y = (wa.height - mh) / 2;
 	}
-	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
 	inputw = MIN(inputw, mw/3);
 	match();
 
@@ -665,9 +683,10 @@ setup(void)
 	swa.override_redirect = True;
 	swa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
 	swa.event_mask = ExposureMask | KeyPressMask | VisibilityChangeMask;
-	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, 0,
+	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, border_width,
 	                    CopyFromParent, CopyFromParent, CopyFromParent,
 	                    CWOverrideRedirect | CWBackPixel | CWEventMask, &swa);
+	XSetWindowBorder(dpy, win, scheme[SchemeSel][ColBg].pixel);
 	XSetClassHint(dpy, win, &ch);
 
 	/* open input methods */
