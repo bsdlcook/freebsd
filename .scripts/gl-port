@@ -72,9 +72,10 @@ if [ ! -d "${DIR}" ]; then
 	print_error "'${DIR}' is not a valid directory"
 fi
 
-readonly PORTPATH="${DIR}/${CATEGORY}/${PORT}"
+readonly PORTFULL="${CATEGORY}/${PORT}"
+readonly PORTPATH="${DIR}/${PORTFULL}"
 if [ "${UPDATE}" = true ] && [ ! -d "${PORTPATH}" ]; then
-	print_error "'${CATEGORY}/${PORT}' is not a valid port"
+	print_error "'${PORTFULL}' is not a valid port"
 fi
 
 readonly TMP=$(${MKTEMP} -d)
@@ -91,13 +92,13 @@ readonly DIFF="${TMP}/${PORT}.diff"
 (
 	cd "${TMP}" || exit
 
-	print_info "Checking out latest SVN revision @ ${CATEGORY}/${PORT}"
-	${SVN} checkout --depth empty "https://svn.FreeBSD.org/ports/head/${CATEGORY}/${PORT}" . > /dev/null 2>&1
+	print_info "Checking out latest SVN revision @ ${PORTFULL}"
+	${SVN} checkout --depth empty "https://svn.FreeBSD.org/ports/head/${PORTFULL}" . > /dev/null 2>&1
 
 	STATUS=$?
 	if [ "${STATUS}" != 0 ]; then
 		${ECHO} ${STATUS} > "${RC}"
-		print_error "Unable to checkout, is '${PORT}/${CATEGORY}' a valid port?"
+		print_error "Unable to checkout, is '${PORTFULL}' a valid port?"
 	fi
 
 	# shellcheck disable=SC2030
@@ -108,7 +109,7 @@ readonly DIFF="${TMP}/${PORT}.diff"
 	else
 		if [ -d "${PORTPATH}" ]; then
 			${ECHO} 1 > "${RC}"
-			print_error "'${CATEGORY}/${PORT}' already exists in repository"
+			print_error "'${PORTFULL}' already exists in repository"
 		fi
 
 		${SVN} diff -r 0:HEAD > "${DIFF}"
@@ -138,9 +139,9 @@ fi
 (
 	cd "${PORTPATH}" || exit
 
-	print_info "Patching ${CATEGORY}/${PORT}"
+	print_info "Patching ${PORTFULL}"
 	${PATCH} -p0 -s < "${DIFF}"
-	${FIND} . -name "*.orig" -o -name "*.rej" -exec rm -f {} \;
+	${FIND} . -type f \( -name "*.orig" -o -name "*.rej" \) -delete
 )
 
 if [ "${ADD}" = true ]; then
@@ -153,14 +154,13 @@ readonly PORTSET="https://svnweb.freebsd.org/ports?view=revision&revision=${REVI
 # shellcheck disable=SC2016
 readonly VERSION=$(${AWK} '/(DIST|PORT)VERSION=.*/{print $2}' "${PORTPATH}/Makefile")
 readonly SIGNED=$(${CAT} "/usr/home/${USER}/.gitmessage")
-readonly FULLPORT="${CATEGORY}/${PORT}"
 
 if [ -n "${COMMIT}" ]; then
-	readonly MESSAGE="${FULLPORT}: ${COMMIT}"
+	readonly MESSAGE="${PORTFULL}: ${COMMIT}"
 elif [ "${UPDATE}" = true ]; then
-	readonly MESSAGE="${FULLPORT}: Update to ${VERSION}"
+	readonly MESSAGE="${PORTFULL}: Update to ${VERSION}"
 else
-	readonly MESSAGE="New port: ${FULLPORT}"
+	readonly MESSAGE="New port: ${PORTFULL}"
 fi
 readonly EMAIL=$(${GIT} config user.email)
 readonly NAME=$(${GIT} config user.name)
