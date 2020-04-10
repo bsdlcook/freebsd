@@ -140,7 +140,7 @@ fi
 
 	print_info "Patching ${CATEGORY}/${PORT}"
 	${PATCH} -p0 -s < "${DIFF}"
-	${FIND} . -name "*.orig" -exec rm -f {} \;
+	${FIND} . -name "*.orig" -o -name "*.rej" -exec rm -f {} \;
 )
 
 if [ "${ADD}" = true ]; then
@@ -170,6 +170,10 @@ readonly COMMIT=$(printf "%s\n\nsvn-id: %s\n%s" "${MESSAGE}" "${PORTSET}" "${SIG
 
 	${GIT} add .
 	CHANGES=$(${GIT} diff --cached --name-only | ${WC} -l | ${TR} -d ' ')
+	if [ "${CHANGES}" -lt 1 ]; then
+		print_error "No changes to be commited"
+	fi
+
 	print_info "Adding ${CHANGES} change(s) to repository"
 	print_info "Commiting from user ${NAME} <${EMAIL}>"
 	${ECHO}
