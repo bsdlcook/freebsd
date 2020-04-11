@@ -127,12 +127,12 @@ bootstrap_files() {
 			done
 		done
 	)
-
-	readonly SCRIPTS="open-stream open-manual screenshot gl-update gl-project gl-port"
-
+	
+	readonly SCRIPTS=$(find .scripts -type f -depth 1 -print)
+	
 	log "=> Symlinking scripts to ${PREFIX}/bin."
 	(
-		echo "${SCRIPTS}" | xargs -n1 -I % doas ln -s /usr/home/"${USER}"/.scripts/% ${PREFIX}/bin 2> /dev/null
+		echo "${SCRIPTS}" | xargs -n1 -I % doas ln -s /usr/home/"${USER}"/% ${PREFIX}/bin 2> /dev/null
 	)
 }
 
