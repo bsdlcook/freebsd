@@ -39,7 +39,7 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 | `Mod + Shift + k` | Move client stack backward
 | `Mod + Enter` | Open terminal
 | `Mod + Shift + p` | Gitlab project launcher
-| `Mod + Shift + s` | Video/audio stream launcher
+| `Mod + Shift + s` | SomaFM launcher
 | `Mod + Shift + m` | Manual launcher
 | `Mod + Space` | Program launcher
 | `Mod + t` | Tiling layout mode
@@ -56,7 +56,7 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 There isn't much prerequisites as the bootstrap script makes it *for the most part* autonomous. Before you continue running the setup you need to meet the following conditions:
 - Basic UNIX/BSD* knowledge;
 - Freshly installed FreeBSD system;
-- Git, bash and doas installed ``pkg install git-lite bash doas``. I'd like to make bash redundant but the bourne shell doesn't support arrays ~~damn POSIX~~;
+- Git and doas installed ``pkg install git-lite  doas``;
 - User added to the doas config file with 'nopass' enabled for that user (makes life much easier, run this command on the root account): ``echo "permit nopass YOUR_USER as root" | tee -a /usr/local/etc/doas.conf``. This isn't a good practice allowing non-privileged users running doas as root without root password. However security isn't a number one priority in this type of environment, it's simply for the sake of convenience;
 - Everything else is pulled in by the setup script. Nothing else required - only a brain and common sense.
 
@@ -75,7 +75,7 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 As of [this commit](https://gitlab.com/lcook/freebsd/commit/cf36358c370a0ed05339924ea83afad848021890) the Suckless tools (dwm, dmenu and st) have been moved to the [suckless branch](https://gitlab.com/lcook/freebsd/tree/suckless)—independent of the master branch. The reasoning for this is that I've individually packaged up them into their own ports, so in order to install them, you'll have to build the ports from my custom adhoc tree.
 
 - Assuming you've followed the previous steps and cloned this repo recursively the custom ports tree will already be there;
-- Switch to ``/bin/sh`` and type ``find ports/x11*/zen-* -type d -depth 0 | xargs -n1 doas make clean install -C``;
+- Switch to ``/bin/sh`` and run ``find ports/x11*/zen-* -type d -depth 0 | xargs -n1 doas make clean install -C``;
 - Make sure the packages installed by running ``pkg info | awk '/zen/{print $1}'``, you should see: ``zen-dmenu``, ``zen-dwm`` and ``zen-sterm``.
 
 You'll now have them installed but as packages, to what I believe is the more sane way of handling them.
