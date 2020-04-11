@@ -3,17 +3,10 @@
 # shellcheck source=/dev/null
 . "/usr/home/${USER}/.config/gitlab"
 
-readonly PREFIX=/usr/local
-readonly DMENU=${PREFIX}/bin/dmenu
-
-readonly ECHO=/bin/echo
-readonly FIND=/usr/bin/find
-readonly SED=/usr/bin/sed
-
 readonly PROJECT=$(
-	for project in $(${FIND} "${GITLABDIR}" -type d -depth 1 | ${SED} -e "s|${GITLABDIR}/||g"); do
-		${ECHO} "${project}"
-	done | ${DMENU} -i -p "open gitlab ($GITLABUSER) project:"
+	for project in $(find "${GITLABDIR}" -type d -depth 1 | sed -e "s|${GITLABDIR}/||g"); do
+		echo "${project}"
+	done | dmenu -i -p "open gitlab (${GITLABUSER}) project:"
 )
 
 readonly PROJECTPATH="${GITLABDIR}/${PROJECT}"

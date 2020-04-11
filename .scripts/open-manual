@@ -3,22 +3,15 @@
 # shellcheck source=/dev/null
 . "/usr/home/${USER}/.config/common"
 
-readonly PREFIX=/usr/local
-readonly DMENU=${PREFIX}/bin/dmenu
-
-readonly FIND=/usr/bin/find
-readonly MKDIR=/bin/mkdir
-readonly SED=/usr/bin/sed
-
 if [ ! -d "${MANDIR}" ]; then
-	${MKDIR} -p "${MANDIR}"
+	mkdir -p "${MANDIR}"
 	exit 1
 fi
 
 readonly MANUAL=$(
-	for manual in $(${FIND} "${MANDIR}" -type f | ${SED} -e "s|${MANDIR}/||g"); do
+	for manual in $(find "${MANDIR}" -type f | sed -e "s|${MANDIR}/||g"); do
 		echo "${manual}"
-	done | ${DMENU} -i -p "open manual:"
+	done | dmenu -i -p "open manual:"
 )
 
 readonly MANUALPATH="${MANDIR}/${MANUAL}"
