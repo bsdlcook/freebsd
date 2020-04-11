@@ -3,29 +3,12 @@
 # shellcheck source=/dev/null
 . "/usr/home/${USER}/.config/gitlab"
 
-readonly PREFIX=/usr/local
-readonly GIT=${PREFIX}/bin/git
-readonly SVN=${PREFIX}/bin/svn
-readonly XQ=${PREFIX}/bin/xq
-
-readonly MKDIR=/bin/mkdir
-readonly CAT=/bin/cat
-readonly ECHO=/bin/echo
-readonly RM=/bin/rm
-readonly AWK=/usr/bin/awk
-readonly FIND=/usr/bin/find
-readonly MKTEMP=/usr/bin/mktemp
-readonly PATCH=/usr/bin/patch
-readonly TR=/usr/bin/tr
-readonly WC=/usr/bin/wc
-readonly XARGS=/usr/bin/xargs
-
 readonly BLUE="\033[34m"
 readonly RED="\033[31m"
 readonly RESET="\033[0m"
 
 usage() {
-	${ECHO} "usage: gl-port [-u update | -a add] [-s show-diff] [-p port] [-c category] [-l log-limit] [-e log-entry] [-m commit-message] [-d port-dir]"
+	echo "usage: gl-port [-u update | -a add] [-s show-diff] [-p port] [-c category] [-l log-limit] [-e log-entry] [-m commit-message] [-d port-dir]"
 	exit 1
 }
 
@@ -33,7 +16,7 @@ if [ $# -lt 2 ]; then
 	usage
 fi
 
-DIR=${GITLABDIR}/ports
+DIR="${GITLABDIR}/ports"
 ENTRY=1
 LIMIT=2
 while getopts "p:c:l:e:m:d:uas" OPT; do
@@ -78,82 +61,83 @@ if [ "${UPDATE}" = true ] && [ ! -d "${PORTPATH}" ]; then
 	print_error "'${PORTFULL}' is not a valid port"
 fi
 
-readonly TMP=$(${MKTEMP} -d)
+readonly TMP=$(mktemp -d)
 cleanup() {
 	print_info "Cleaning up temp directory"
-	${RM} -rf "${TMP}"
+	rm -rf "${TMP}"
 	exit 0
 }
 
-readonly RC=${TMP}/status
-${ECHO} 0 > "${RC}"
+readonly RC="${TMP}/status"
+echo 0 > "${RC}"
 
 readonly DIFF="${TMP}/${PORT}.diff"
 (
+	set -x
 	cd "${TMP}" || exit
 
 	print_info "Checking out latest SVN revision @ ${PORTFULL}"
-	${SVN} checkout --depth empty "https://svn.FreeBSD.org/ports/head/${PORTFULL}" . > /dev/null 2>&1
+	svn checkout --depth empty "https://svn.FreeBSD.org/ports/head/${PORTFULL}" . > /dev/null 2>&1
 
 	STATUS=$?
 	if [ "${STATUS}" != 0 ]; then
-		${ECHO} ${STATUS} > "${RC}"
+		echo ${STATUS} > "${RC}"
 		print_error "Unable to checkout, is '${PORTFULL}' a valid port?"
 	fi
 
 	# shellcheck disable=SC2030
 	REVISION=0
 	if [ "${UPDATE}" = true ]; then
-		REVISION=$(${SVN} log -l"${LIMIT}" --xml 2> /dev/null | ${XQ} -r '.[].logentry['"${ENTRY}"']."@revision"' 2> /dev/null)
-		${ECHO} "${REVISION}" | ${XARGS} -I % svn diff -r %:HEAD 2> /dev/null > "${DIFF}"
+		REVISION=$(svn log -l"${LIMIT}" --xml 2> /dev/null | xq -r '.[].logentry['"${ENTRY}"']."@revision"' 2> /dev/null)
+		echo "${REVISION}" | xargs -I % svn diff -r %:HEAD 2> /dev/null > "${DIFF}"
 	else
 		if [ -d "${PORTPATH}" ]; then
-			${ECHO} 1 > "${RC}"
+			echo 1 > "${RC}"
 			print_error "'${PORTFULL}' already exists in repository"
 		fi
 
-		${SVN} diff -r 0:HEAD > "${DIFF}"
+		svn diff -r 0:HEAD > "${DIFF}"
 	fi
 
 	STATUS=$?
 	if [ "${STATUS}" != 0 ]; then
-		${ECHO} ${STATUS} > "${RC}"
+		echo ${STATUS} > "${RC}"
 		print_error "Could not generate patch"
 	fi
 
 	print_info "Generating diff via commit(s) ${REVISION}:HEAD"
 )
 
-if [ "$(${CAT} "${RC}")" != 0 ]; then
+if [ "$(cat "${RC}")" != 0 ]; then
 	cleanup
 fi
 
 if [ "${SHOW}" = true ]; then
-	${CAT} "${DIFF}"
+	cat "${DIFF}"
 	cleanup
 fi
 
 if [ "${ADD}" = true ]; then
-	${MKDIR} -p "${PORTPATH}"
+	mkdir -p "${PORTPATH}"
 fi
 (
 	cd "${PORTPATH}" || exit
 
 	print_info "Patching ${PORTFULL}"
-	${PATCH} -p0 -s < "${DIFF}"
-	${FIND} . -type f \( -name "*.orig" -o -name "*.rej" \) -delete
+	patch -p0 -s < "${DIFF}"
+	find . -type f \( -name "*.orig" -o -name "*.rej" \) -delete
 )
 
 if [ "${ADD}" = true ]; then
 	# shellcheck disable=SC2031
-	readonly REVISION=$(cd "${TMP}" && ${SVN} log -r 0:HEAD -l1 --xml | ${XQ} -r '.log.logentry."@revision"')
+	readonly REVISION=$(cd "${TMP}" && svn log -r 0:HEAD -l1 --xml | xq -r '.log.logentry."@revision"')
 else
-	readonly REVISION=$(cd "${TMP}" && ${SVN} log -l1 --xml | ${XQ} -r '.log.logentry."@revision"')
+	readonly REVISION=$(cd "${TMP}" && svn log -l1 --xml | xq -r '.log.logentry."@revision"')
 fi
 readonly PORTSET="https://svnweb.freebsd.org/ports?view=revision&revision=${REVISION}"
 # shellcheck disable=SC2016
-readonly VERSION=$(${AWK} '/(DIST|PORT)VERSION=.*/{print $2}' "${PORTPATH}/Makefile")
-readonly SIGNED=$(${CAT} "/usr/home/${USER}/.gitmessage")
+readonly VERSION=$(awk '/(DIST|PORT)VERSION=.*/{print $2}' "${PORTPATH}/Makefile")
+readonly SIGNED=$(cat "/usr/home/${USER}/.gitmessage")
 
 if [ -n "${COMMIT}" ]; then
 	readonly MESSAGE="${PORTFULL}: ${COMMIT}"
@@ -162,31 +146,31 @@ elif [ "${UPDATE}" = true ]; then
 else
 	readonly MESSAGE="New port: ${PORTFULL}"
 fi
-readonly EMAIL=$(${GIT} config user.email)
-readonly NAME=$(${GIT} config user.name)
+readonly EMAIL=$(git config user.email)
+readonly NAME=$(git config user.name)
 readonly COMMIT=$(printf "%s\n\nsvn-id: %s\n%s" "${MESSAGE}" "${PORTSET}" "${SIGNED}")
 (
 	cd "${PORTPATH}" || exit
 
-	${GIT} add .
-	CHANGES=$(${GIT} diff --cached --name-only | ${WC} -l | ${TR} -d ' ')
+	git add .
+	CHANGES=$(git diff --cached --name-only | wc -l | tr -d ' ')
 	if [ "${CHANGES}" -lt 1 ]; then
 		print_error "No changes to be commited"
 	fi
 
 	print_info "Adding ${CHANGES} change(s) to repository"
 	print_info "Commiting from user ${NAME} <${EMAIL}>"
-	${ECHO}
-	${GIT} commit -S -m "${COMMIT}"
+	echo
+	git commit -S -m "${COMMIT}"
 
-	${ECHO}
+	echo
 	# shellcheck disable=SC2039
 	read -rp "Push commit to master? (yes/no) [no]: " OPTION
-	OPTION=$(${ECHO} "${OPTION}" | ${TR} "[:upper:]" "[:lower:]")
+	OPTION=$(echo "${OPTION}" | tr "[:upper:]" "[:lower:]")
 	if [ "${OPTION}" = yes ] || [ "${OPTION}" = y ]; then
-		${GIT} push origin master
+		git push origin master
 	fi
-	${ECHO}
+	echo
 )
 
 cleanup
