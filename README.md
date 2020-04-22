@@ -47,14 +47,13 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 
 ### Screenshots
 
-![](https://space.wired.sh/~vulcan/setup/zen-1.png)
-![](https://space.wired.sh/~vulcan/setup/zen-2.png)
-![](https://space.wired.sh/~vulcan/setup/zen-3.png)
+![](https://space.wired.sh/~lcook/setup/zen-1.png)
+![](https://space.wired.sh/~lcook/setup/zen-2.png)
+![](https://space.wired.sh/~lcook/setup/zen-3.png)
 
 # Prerequisites
 
 There isn't much prerequisites as the bootstrap script makes it *for the most part* autonomous. Before you continue running the setup you need to meet the following conditions:
-- Basic UNIX/BSD* knowledge;
 - Freshly installed FreeBSD system;
 - Git and doas installed ``pkg install git-lite  doas``;
 - User added to the doas config file with 'nopass' enabled for that user (makes life much easier, run this command on the root account): ``echo "permit nopass YOUR_USER as root" | tee -a /usr/local/etc/doas.conf``. This isn't a good practice allowing non-privileged users running doas as root without root password. However security isn't a number one priority in this type of environment, it's simply for the sake of convenience;
