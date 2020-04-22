@@ -25,7 +25,7 @@ while getopts "p:c:l:e:m:d:uas" OPT; do
 		c) readonly CATEGORY="${OPTARG}" ;;
 		l) readonly LIMIT="${OPTARG}" ;;
 		e) readonly ENTRY="${OPTARG}" ;;
-		m) readonly COMMIT="${OPTARG}" ;;
+		m) readonly COMMITMSG="${OPTARG}" ;;
 		d) readonly DIR="${OPTARG}" ;;
 		u) readonly UPDATE=true ;;
 		a) readonly ADD=true ;;
@@ -139,8 +139,8 @@ readonly PORTSET="https://svnweb.freebsd.org/ports?view=revision&revision=${REVI
 readonly VERSION=$(awk '/(DIST|PORT)VERSION=.*/{print $2}' "${PORTPATH}/Makefile")
 readonly SIGNED=$(cat "/usr/home/${USER}/.gitmessage")
 
-if [ -n "${COMMIT}" ]; then
-	readonly MESSAGE="${PORTFULL}: ${COMMIT}"
+if [ -n "${COMMITMSG}" ]; then
+	readonly MESSAGE="${PORTFULL}: ${COMMITMSG}"
 elif [ "${UPDATE}" = true ]; then
 	readonly MESSAGE="${PORTFULL}: Update to ${VERSION}"
 else
