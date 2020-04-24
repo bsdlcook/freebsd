@@ -60,7 +60,7 @@
 		}
 	};
 	// tags
-	static const char* tags[]     = {  "main",  "web",  "term",  "dev",  }; 
+	static const char* tags[]     = {  "main", "dev",  "web", "music", "chat" };
 	static const char* tag_active = { NULL };
 	// defines
 	#define border_pixel_ 2 

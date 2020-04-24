@@ -47,9 +47,7 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} },
 
 /* applications */
 static const char *terminal[] = { "st", NULL                };
@@ -102,10 +100,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },		 /* quit dwm 					*/
 	/*							   workspace bindings:							*/
 	TAGKEYS(                        XK_1,                      0)			 /* workspace 1: main				*/
-	TAGKEYS(                        XK_2,                      1)			 /* workspace 2: web			  	*/
-	TAGKEYS(                        XK_3,                      2)			 /* workspace 3: term				*/
-	TAGKEYS(                        XK_4,                      3)			 /* workspace 4: dev				*/
-	TAGKEYS(                        XK_5,                      4)			 /* workspace 5: music				*/
+	TAGKEYS(                        XK_2,                      1)			 /* workspace 2: dev			  	*/
+	TAGKEYS(                        XK_3,                      2)			 /* workspace 3: web				*/
+	TAGKEYS(                        XK_4,                      3)			 /* workspace 4: music				*/
+	TAGKEYS(                        XK_5,                      4)			 /* workspace 5: chat				*/
 	/*																*/
 };
 
