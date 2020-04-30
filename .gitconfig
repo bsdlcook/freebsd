@@ -1,7 +1,7 @@
 [user]
 	email = vulcan@wired.sh
 	name = Lewis Cook
-	signingkey = B1A9E0C9681C17DF
+	signingkey = 2A2AFC451E1EC726
 [commit]
 	gpgsign = true
 	template = ~/.gitmessage
