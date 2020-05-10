@@ -3,7 +3,7 @@
     |    \| | | |     |
     |  |  | | | | | | |
     |____/|_____|_|_|_|
-    Vulcan's FreeBSD setup
+    Lewis' FreeBSD setup
     gitlab.com/lcook/freebsd
 */
 
@@ -11,18 +11,18 @@
 #include "../theme.h"
 
 /* general appearance */
-static const char *fonts[]            = { theme.font }; /* x11 bar font 	                      */
-static const unsigned int borderpx    = border_pixel_;  /* border pixel of windows                    */
-static const unsigned int gappx       = 7 ;             /* window gap pixel                           */
-static const unsigned int snap        = 8;              /* snap pixel                                 */
-static const unsigned int showbar     = show_bar;       /* 0 means no bar                             */
-static const unsigned int topbar      = top_bar;        /* 0 means bottom bar                         */
-static const unsigned int horizpadbar = horizontal_pad; /* horizontal padding for statusbar           */
-static const unsigned int vertpadbar  = vertical_pad;   /* vertical padding for statusbar             */
-static const unsigned int tagstyle    = tag_style;      /* 0 means use no tag indicator		     
-							   1 means use square tag indicator
-							   2 means use overline tag indicator             
-							   3 means use underline tag indicator        */
+static const char *fonts[]            = { theme.font };   /* x11 bar font 	                        */
+static const unsigned int borderpx    = DWM_BORDER_PIXEL; /* border pixel of windows                    */
+static const unsigned int gappx       = DWM_GAP_PIXEL;    /* window gap pixel                           */
+static const unsigned int snap        = DWM_SNAP_PIXEL;   /* snap pixel                                 */
+static const unsigned int showbar     = DWM_SHOW_BAR;     /* 0 means no bar                             */
+static const unsigned int topbar      = DWM_TOP_BAR;      /* 0 means bottom bar                         */
+static const unsigned int horizpadbar = DWM_HORIZ_PAD;    /* horizontal padding for statusbar           */
+static const unsigned int vertpadbar  = DWM_VERT_PAD;     /* vertical padding for statusbar             */
+static const unsigned int tagstyle    = DWM_TAG_STYLE;    /* 0 means use no tag indicator		     
+							     1 means use square tag indicator
+							     2 means use overline tag indicator             
+							     3 means use underline tag indicator        */
 
 /* colors */
 static const char *colors[][3] = {
