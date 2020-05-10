@@ -60,13 +60,13 @@
 		}
 	};
 	// tags
-	static const char* tags[]     = {  "main", "dev",  "web", "music", "chat" };
+	static const char* tags[]     = { "main", "dev",  "web", "music", "chat" };
 	static const char* tag_active = { NULL };
 	// defines
-	#define border_pixel_ 2 
-	#define terminal_pad 10
+	#define border_pixel_ 1
+	#define terminal_pad 5
 	#define show_bar 1
 	#define top_bar 1
-	#define horizontal_pad 5
-	#define vertical_pad 5
+	#define horizontal_pad 7
+	#define vertical_pad 7
 	#define tag_style 2
