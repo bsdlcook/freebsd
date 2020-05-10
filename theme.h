@@ -75,7 +75,7 @@ static const char* tags[]     = { "main", "dev",  "web", "music", "chat" };
 static const char* tag_active = { NULL };
 
 // dmenu
-#define DMENU_BORDER_WIDTH 2
+#define DMENU_BORDER_WIDTH 1
 #define DMENU_MIN_WIDTH 500
 #define DMENU_TOP_BAR 1
 #define DMENU_LINES 5
