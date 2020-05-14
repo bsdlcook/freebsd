@@ -31,10 +31,12 @@ function fish_prompt
     set -l bgreen (set_color -o green)
     set -l bwhite (set_color -o white)
 
-    set -l lbracket $red"["$normal
-    set -l rbracket $red"]"$normal
-    set -l delim $bwhite">>>"
-    set -l date (date +"%R %p %a")
+    set -l lgbracket $red"["$normal
+    set -l rgbracket $red"]"$normal
+
+    set -l lbracket $red"("$normal
+    set -l rbracket $red")"$normal
+    set -l delim $bwhite"%"
     set -l basedir (basename (prompt_pwd))
 
     # git status
@@ -45,9 +47,9 @@ function fish_prompt
         set -l git_dir (git_dir)
         set -l git_hash (git_hash)
         if test -n "$git_hash"
-            set git $lbracket$bgreen$git_branch$normal$white":"$cyan$git_hash$normal$rbracket
+            set git $lbracket$white"git"$rbracket$lgbracket$bgreen$git_branch$normal$white":"$cyan$git_hash$normal$rgbracket
         else
-            set git $lbracket$bgreen$git_branch$normal$rbracket
+            set git $lbracket$white"git"$rbracket$lbgracket$bgreen$git_branch$normal$rgbracket
         end
     end
 
@@ -70,8 +72,7 @@ function fish_prompt
     end
 
     set -l host $lbracket$bpurple$user@$hostname$normal:$pwd$rbracket
-    set -l date $lbracket$cyan$date$rbracket
 
     # prompt
-    echo -esn "$host $date $git\n$delim "
+    echo -esn "$host $git\n$delim "
 end
