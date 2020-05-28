@@ -57,9 +57,9 @@ static const char *editor[]   = { "emacsclient", "-c", NULL };
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
 static const char *screenshot[]	= { "screenshot", NULL 		          };
-static const char *soma[]	= { "st", "-e", "somfa-stream", NULL	  };
-static const char *projects[]   = { "gl-project", NULL                    };
+static const char *projects[]   = { "glproject", NULL                     };
 static const char *manview[]    = { "manview", NULL			  };
+static const char* sshmenu[]    = { "sshmenu", NULL                       };
 
 /* key bindings */
 #include "src/movestack.c"
@@ -73,10 +73,10 @@ static Key keys[] = {
 	{ MODKEY,			XK_e,	   spawn,	   {.v = editor}     },	 /* spawn editor 				*/
 	/*							   commands:								*/
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenu}      },	 /* spawn dmenu 		   		*/
-	{ MODKEY, 			XK_s,	   spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
-	{ MODKEY|ShiftMask,		XK_s,	   spawn,	   {.v = soma}       },	 /* select somafm stream with dmenu 		*/
+	{ MODKEY, 			XK_Print,  spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = projects}   },  /* select gitlab project with dmenu            */
 	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = manview}    },  /* select manual with dmenu                    */
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = sshmenu}    },  /* select ssh host with dmenu                  */
  	/*							   bindings:								*/
 	{ MODKEY,                       XK_b,      togglebar,      {0} },	         /* toggle bar		                        */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1}    },       /* focus to next client                     	*/
