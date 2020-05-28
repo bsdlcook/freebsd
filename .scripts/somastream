@@ -16,14 +16,13 @@ list_channels() {
 }
 
 play_channel() {
-	readonly CHANNEL=$(jq < "${SOMACACHE}" -r ".channels[].id" | dmenu -i -p "open channel:")
+	readonly CHANNEL=$(jq < "${SOMACACHE}" -r ".channels[].id" | fzf --prompt="open channel: " --border --cycle)
 	readonly URL=$(jq < "${SOMACACHE}" -r ".channels | map(select(.id == \"${CHANNEL}\")) | .[].playlists | map(select(.quality == \"highest\")) | limit(1;.[]) | .url")
 
 	if [ -z "${CHANNEL}" ] || [ -z "${URL}" ]; then
 		exit 1
 	fi
-
-	mpv --no-config "${URL}" 2> /dev/null \
+	clear; mpv --no-config "${URL}" 2> /dev/null \
 		| awk -v c="${CHANNEL}" -v r="${RED}" -v b="${BLUE}" -v e="${RESET}" '/title/ { s = ""; for (i = 2; i <= NF; i++) s = s $i " "; cmd="(date +'%H:%M:%S')"; cmd | getline d; print d,"|",r,c,e,"| Now playing",b,s,e; close(cmd) }'
 }
 
