@@ -1,6 +1,6 @@
 #!/bin/sh
 
-readonly CACHE="/usr/home/${USER}/.local/cache"
+readonly CACHE="~/.local/cache"
 readonly SOMACACHE="${CACHE}/soma"
 
 readonly BLUE="\033[34m"
