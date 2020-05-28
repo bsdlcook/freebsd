@@ -123,7 +123,7 @@ bootstrap_files() {
 		for DIR in ${DIRS}; do
 			for FILE in $(find "${DIR}" -type f); do
 				log "Copying file ${FILE}."
-				echo "${FILE}" | cpio -p -d "$HOME" > /dev/null 2>&1
+				echo "${FILE}" | cpio -p -d "/usr/home/${USER}" > /dev/null 2>&1
 			done
 		done
 	)
