@@ -1,14 +1,14 @@
 #!/bin/sh
 
 # shellcheck source=/dev/null
-. "~/.config/gitlab"
+. "$HOME/.config/gitlab"
 
 if [ ! -d "${GITLABIR}" ]; then
-	mkdir -p ${GITLABDIR}
+	mkdir -p "${GITLABDIR}"
 fi
 
 for project in $(fetch -qo - "${GITLABPROJECTS}" | jq -r '.[].path'); do
-	cd "${GITLABDIR}"
+	cd "${GITLABDIR}" || exit
 	if [ ! -d "${project}" ]; then
 		git clone "${GITLABREPO}/${project}" > /dev/null 2>&1
 	else
