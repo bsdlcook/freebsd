@@ -186,7 +186,7 @@ readonly COMMIT=$(printf "%s\n\nsvn-id: %s\n%s" "${MESSAGE}" "${PORTSET}" "${SIG
 
 	echo
 	# shellcheck disable=SC2039
-	read -rp "Push commit to master? (yes/no) [no]: " OPTION
+	read -rp "Push commit to master? (y/N) " OPTION
 	OPTION=$(echo "${OPTION}" | tr "[:upper:]" "[:lower:]")
 	if [ "${OPTION}" = yes ] || [ "${OPTION}" = y ]; then
 		git push origin master
