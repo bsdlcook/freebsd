@@ -1,0 +1,13 @@
+#!/bin/sh
+
+readonly HOST=$(
+	for host in $(awk '/^Host.*$/{print $2}' "$HOME/.ssh/config"); do
+		echo "${host}"
+	done | dmenu -i -p "host:"
+)
+
+if [ -z "${HOST}" ]; then
+	exit 1
+fi
+
+st ssh "${HOST}" &
