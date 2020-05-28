@@ -2,7 +2,7 @@
 
 readonly PREFIX="/usr/local"
 readonly DOCDIR="${PREFIX}/share/doc/freebsd/en/books"
-readonly DEVDIR="/usr/home/${USER}/Development"
+readonly DEVDIR="$HOME/Development"
 readonly MANDIR="${DEVDIR}/manual"
 
 log() {
@@ -123,7 +123,7 @@ bootstrap_files() {
 		for DIR in ${DIRS}; do
 			for FILE in $(find "${DIR}" -type f); do
 				log "Copying file ${FILE}."
-				echo "${FILE}" | cpio -p -d "/usr/home/${USER}" > /dev/null 2>&1
+				echo "${FILE}" | cpio -p -d "$HOME" > /dev/null 2>&1
 			done
 		done
 	)
@@ -132,7 +132,7 @@ bootstrap_files() {
 	
 	log "=> Symlinking scripts to ${PREFIX}/bin."
 	(
-		echo "${SCRIPTS}" | xargs -n1 -I % doas ln -s /usr/home/"${USER}"/% ${PREFIX}/bin 2> /dev/null
+		echo "${SCRIPTS}" | xargs -n1 -I % doas ln -s "$HOME/%" ${PREFIX}/bin 2> /dev/null
 	)
 }
 
