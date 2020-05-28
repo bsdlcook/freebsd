@@ -15,6 +15,7 @@ shells/fish
 sysutils/dunst
 sysutils/exa
 sysutils/htop
+textproc/fzf
 textproc/jq
 www/firefox
 x11-fonts/iosevka
