@@ -8,7 +8,7 @@ readonly RED="\033[31m"
 readonly RESET="\033[0m"
 
 usage() {
-	echo "usage: gl-port [-u update | -a add] [-s show-diff] [-r show-svn-revisions] [-p port] [-c category] [-l log-limit, default: 1] [-e log-entry, default: 2] [-m commit-message] [-d ports-dir] [-v version, default: HEAD] [-n svn-revisions]"
+	echo "usage: gl-port [-u update | -a add] [-s show-diff] [-r show-svn-revisions] [-p port] [-c category] [-l log-limit, default: 1] [-e log-entry, default: 2] [-m commit-message] [-d ports-dir] [-v version, default: HEAD] [-n svn-revisions, ARG0:ARG1]"
 	exit 1
 }
 
@@ -103,7 +103,7 @@ readonly DIFF="${TMP}/${PORT}.diff"
 	if [ "${UPDATE}" = true ]; then
 		# Edge cases where e.g. PORTREVISION is bumped multiple times, port is updated and not in sync with the git repo
 		if [ -n "${REVISIONS}" ]; then
-			svn diff -r "${REVISIONS}" 2> /dev/null > "${DIFF}"
+			svn diff -r"${REVISIONS}" 2> /dev/null > "${DIFF}"
 		else
 			# Typically used in cases where it's a simple version bump
 			REVISION=$(svn log "${LIMIT}" --xml 2> /dev/null | xq -r '.[].logentry['"${ENTRY}"']."@revision"' 2> /dev/null)
