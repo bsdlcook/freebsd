@@ -30,49 +30,52 @@ typedef struct {
 // minty theme
 static const Theme theme = {
 	// general appearance
-	"Iosevka:pixelsize=16:antialias=true:autohint=true",
-	"#9DE3C0",		// accent
-	"#03191C",	// background
-	"#BDB395",	// foreground
+	"Fira Code:pixelsize=15:antialias=true:autohint=true",
+	"#7B3D44",	// accent
+	"#1b1b1b",	// background
+	"#9e9e9e",	// foreground
 	{ 
 		// dwm
-		"#9DE3C0",	// border active
-		"#183538"	// border inactive
+		"#7B3D44",	// border active
+		"#1b1b1b"	// border inactive
 	},
 	{
 		// st
-		"#152323",
-		"#61C3BC",
-		"#72B6C6",
-		"#71CECD",
-		"#60D0CD",
-		"#86BAC6",
-		"#8ECED3",
-		"#c9e8eb", // normal colors
+		"#1b1b1b", // black
+		"#6E282E", // red
+		"#90a959", // green
+		"#f4bf75", // yellow
+		"#6a9fb5", // blue
+		"#aa759f", // magenta
+		"#75b5aa", // cyan
+		"#8F8F8F", // normal colors
 		
-		"#8ca2a4",
-		"#61C3BC",
-		"#72B6C6",
-		"#71CECD",
-		"#60D0CD",
-		"#86BAC6",
-		"#8ECED3",
-		"#c9e8eb", // bright colors
+		"#262626",
+		"#7D2E34",
+		"#5d742a",
+		"#754e2a",
+		"#2a4e74",
+		"#703664",
+		"#297366",
+		"#9e9e9e", // bright colors
 	}
 };
 
 // dwm
-#define DWM_BORDER_PIXEL 1
+#define DWM_BORDER_PIXEL 2
 #define DWM_SHOW_BAR 1
 #define DWM_TOP_BAR 1
-#define DWM_HORIZ_PAD 7
-#define DWM_VERT_PAD 7
-#define DWM_TAG_STYLE 2
-#define DWM_GAP_PIXEL 8
+#define DWM_HORIZ_PAD 5
+#define DWM_VERT_PAD 5
+#define DWM_TAG_STYLE 0
+#define DWM_GAP_PIXEL 0
 #define DWM_SNAP_PIXEL 7
 
-static const char* tags[]     = { "main", "dev",  "web", "music", "chat" };
-static const char* tag_active = { NULL };
+#define UNICODE "\u25B1"
+#define UNICODE_ACTIVE "\u25B0"
+
+static const char* tags[]     = { UNICODE, UNICODE, UNICODE, UNICODE, UNICODE };
+static const char* tag_active = { UNICODE_ACTIVE };
 
 // dmenu
 #define DMENU_BORDER_WIDTH 1
