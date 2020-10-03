@@ -1,10 +1,8 @@
-# st - simple terminal
-# See LICENSE file for copyright and license details.
 .POSIX:
 
 include config.mk
 
-SRC = st.c x.c
+SRC = st.c x.c hb.c
 OBJ = $(SRC:.c=.o)
 
 all: options st
@@ -19,7 +17,8 @@ options:
 	$(CC) $(STCFLAGS) -c $<
 
 st.o: config.h st.h win.h
-x.o: arg.h st.h win.h
+x.o: arg.h config.h st.h win.h
+hb.o: st.h
 
 $(OBJ): config.h config.mk
 
@@ -31,8 +30,7 @@ clean:
 
 dist: clean
 	mkdir -p st-$(VERSION)
-	cp -R Makefile config.mk config.h arg.h st.h win.h $(SRC)\
-		st-$(VERSION)
+	cp -R Makefile config.mk arg.h st.h win.h $(SRC) st-$(VERSION)
 	tar -cf - st-$(VERSION) | gzip > st-$(VERSION).tar.gz
 	rm -rf st-$(VERSION)
 
@@ -40,7 +38,6 @@ install: st
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	cp -f st $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/st
-	@echo Please see the README file regarding the terminfo entry of st.
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/st
