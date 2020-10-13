@@ -13,3 +13,10 @@
 	pager = cat
 [diff]
 	noprefix = true
+[alias]
+        co = checkout
+        br = branch
+        ci = commit
+        st = status
+        pu = push
+        df = diff
