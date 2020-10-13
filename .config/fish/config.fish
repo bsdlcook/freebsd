@@ -8,7 +8,6 @@ if test -z (pgrep ssh-agent | head -n1)
 end
 
 alias ls="exa"
-alias sr="doas"
 
 alias gitc="git clone"
 alias gitm="git commit -m"
@@ -19,14 +18,6 @@ alias gitl="git log"
 alias gitr="git reflog"
 alias gits="git status"
 
-alias pc="pclean"
-alias pi="pinstall"
-alias prm="premove"
-alias pse="psearch"
-alias pst="pstats"
-alias pupd="pupdate"
-alias pupg="pupgrade"
-
 alias ab="ansible"
 alias abp="ansible-playbook"
 alias abg="ansible-galaxy"
@@ -36,8 +27,8 @@ set -x LC_ALL en_GB.UTF-8
 set -x LC_CTYPE en_GB.UTF-8
 set -x PATH $PATH ~/.scripts/
 set -x BROWSER firefox
-set -x EDITOR emacs
-set -x VISUAL emacs 
+set -x EDITOR vim
+set -x VISUAL vim
 set -x TERM xterm-256color
 set -x GOROOT /usr/local/go
 set -x GOPATH ~/Development/.go
