@@ -14,9 +14,11 @@
 [diff]
 	noprefix = true
 [alias]
-        co = checkout
+	cl = clone
+	df = diff
+	ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	st = status
         br = branch
         ci = commit
-        st = status
+        co = checkout
         pu = push
-        df = diff
