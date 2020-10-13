@@ -1,12 +1,12 @@
 ![](https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Freebsd_logo.svg/500px-Freebsd_logo.svg.png) 
 
-- [Preface][#preface]
-- [Workflow][#workflow]
-  - [Keybindings][#keybindings]
-  - [Screenshots][#screenshots]
-- [Prerequisites][#prerequisites]
-  - [Setup and installation][#setup-and-installation]
-  - [Suckless][#suckless]
+- [Preface](#preface)
+- [Workflow](#workflow)
+  - [Keybindings](#keybindings)
+  - [Screenshots](#screenshots)
+- [Prerequisites](#prerequisites)
+  - [Setup and installation](#setup-and-installation)
+  - [Suckless](#suckless)
 
 # Preface
 
