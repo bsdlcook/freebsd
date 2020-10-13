@@ -7,7 +7,6 @@ This repository is my current FreeBSD setup as of June 2018 to present, which co
 - **dwm**: dwm (short for dynamic window manager) is a bare-bones window manager written for X where you patch in the features you want;
 - **st**: The suckless terminal. A *very*, if not most minimal terminal that follows the suckless software philosophy;
 - **zathura**: A minimal pdf viewer also with vim keybindings;
-- **emacs**: More than just your usual text editor and my personal development enviroment of choice. This is included as a git submodule from [here](https://gitlab.com/lcook/emacs); to include this you'll need to pass ``--recursive`` when cloning this repo.
 
 There's also configuration files for: dmenu; neofetch; htop and a few others that I use.
 
@@ -62,7 +61,7 @@ There isn't much prerequisites as the bootstrap script makes it *for the most pa
 ### Setup and installation
 
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
-- Clone this repo ``git clone --recursive https://gitlab.com/lcook/freebsd`` (remove ``--recursive`` to prevent cloning my [Emacs configuration](https://gitlab.com/lcook/emacs) and [custom ports](https://gitlab.com/lcook/ports/tree/adhoc) (needed for the Suckless utils) repository) and change to that given directory;
+- Clone this repo ``git clone --recursive https://gitlab.com/lcook/freebsd`` (remove ``--recursive`` to prevent cloning my [custom ports](https://gitlab.com/lcook/ports/tree/adhoc) which is needed for the Suckless utils) and change to that given directory;
 - From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
 - The default shell is changed to fish, as well as configuration files copied to the home directory;
 - There's different *phases* of the bootstrapping process that have a set of given tasks, feel free to peek into the script;
