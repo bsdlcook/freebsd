@@ -9,15 +9,6 @@ end
 
 alias ls="exa"
 
-alias gitc="git clone"
-alias gitm="git commit -m"
-alias gitp="git push -f origin"
-alias gita="git add ."
-alias gitd="git diff"
-alias gitl="git log"
-alias gitr="git reflog"
-alias gits="git status"
-
 alias ab="ansible"
 alias abp="ansible-playbook"
 alias abg="ansible-galaxy"
