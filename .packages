@@ -3,7 +3,6 @@ audio/spotify-tui
 audio/spotifyd
 devel/ccache-static
 devel/cmake
-editors/emacs
 graphics/ImageMagick6
 graphics/zathura
 graphics/zathura-pdf-mupdf

@@ -1,4 +1,4 @@
-readonly EDITOR="emacs"
+readonly EDITOR="vim"
 readonly DEVELDIR="$HOME/Development"
 readonly MANDIR="$DEVELDIR/manual"
 readonly MANVIEW="zathura"

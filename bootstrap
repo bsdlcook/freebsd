@@ -116,7 +116,7 @@ bootstrap_manuals() {
 bootstrap_files() {
 	phase "bootstrap_files"
 
-	readonly DIRS=".gitconfig .git-credentials .gitmessage .ansible .emacs.d .config .scripts .xinitrc .porttools"
+	readonly DIRS=".gitconfig .git-credentials .gitmessage .ansible .config .scripts .xinitrc .porttools"
 
 	log "=> Bootstrapping files."
 	(
