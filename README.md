@@ -1,30 +1,22 @@
 ![](https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Freebsd_logo.svg/500px-Freebsd_logo.svg.png) 
 
+- [Preface][#preface]
+- [Workflow][#workflow]
+  - [Keybindings][#keybindings]
+  - [Screenshots][#screenshots]
+- [Prerequisites][#prerequisites]
+  - [Setup and installation][#setup-and-installation]
+  - [Suckless][#suckless]
+
 # Preface
 
-This repository is my current FreeBSD setup as of June 2018 to present, which comes with my custom configuration files. Some of these include the following (but not limited to): 
-- **fish**: Custom functions to easily install ports either from source or binary blobs (see ~/.config/fish/functions/ for the available commands);
-- **dwm**: dwm (short for dynamic window manager) is a bare-bones window manager written for X where you patch in the features you want;
-- **st**: The suckless terminal. A *very*, if not most minimal terminal that follows the suckless software philosophy;
-- **zathura**: A minimal pdf viewer also with vim keybindings;
-
-There's also configuration files for: dmenu; neofetch; htop and a few others that I use.
+This repository is my current FreeBSD setup as of June 2018 to present.
 
 # Workflow
 
 Granted, this work-flow helps various mundane tasks less insufferable (for me personally) and much more time efficient if you know how to use it correctly; adapt the setup to your heart's content so under no circumstances am I guaranteeing this is for *you* specifically. If there's anything to improve and/or critique I'm open to suggestions, simply create a pull request or issue and I'll take a look into it when I have the time to.
 
 *I'd like to heavily emphasize on the fact this repo contains configuration files specific to me and myself only, you'll have to manually edit them to suit your needs - by no means is this repo for other than to keep track of my setup and my setup alone.*
-
-### fish port functions
-
-I've written some very basic fish functions that somewhat act as a wrapper for port. By no means do you have to use these. Took me the space of 20 minutes to write all these and have been helpful, especially if you wish to install a package from source. Here's the full list below:
-- **psearch \<package\>**: Search for a package in ports; e.g. ``psearch firefox``
-- **pinstall \<group/package\> [--source/-s]**: Install a package either from source or binary blob; e.g. ``pinstall www/firefox --source``
-- **premove \<group/package\>**: Remove a package that's installed on the system; e.g ``premove www/firefox``
-- **pupdate**: Update the ports collection;
-- **pupgrade**: Upgrade FreeBSD, applying any new patches;
-- **pstats**: Returns info about the installed packages.
 
 ### Keybindings
 
