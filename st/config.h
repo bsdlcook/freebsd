@@ -1,4 +1,4 @@
-#include "theme.h"
+#include "../theme.h"
 
 /*
  * appearance
