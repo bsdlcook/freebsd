@@ -17,7 +17,7 @@ sysutils/htop
 textproc/fzf
 textproc/jq
 www/firefox
-x11-fonts/iosevka
+x11-fonts/firacode
 x11-fonts/nerd-fonts
 x11/setxkbmap
 x11/xclip
