@@ -1,7 +1,7 @@
 [user]
-	email = vulcan@wired.sh
+	email = lcook@FreeBSD.org
 	name = Lewis Cook
-	signingkey = 2A2AFC451E1EC726
+	signingkey = 96755710687AE873
 [commit]
 	gpgsign = true
 	template = ~/.gitmessage
@@ -14,11 +14,11 @@
 [diff]
 	noprefix = true
 [alias]
-	cl = clone
-	df = diff
-	ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	st = status
         br = branch
-        ci = commit
+        cl = clone
+        cm = commit
         co = checkout
+        df = diff
+        ll = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
         pu = push
+        st = status
