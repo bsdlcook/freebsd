@@ -1,9 +1,0 @@
-. /usr/home/${USER}/.config/common
-
-readonly GITLABDEVEL="$DEVELDIR/gitlab"
-readonly GITLABUSER="lcook"
-readonly GITLABDIR="$GITLABDEVEL/$GITLABUSER"
-readonly GITLABURL="https://gitlab.com"
-readonly GITLABAPI="$GITLABURL/api/v4/users"
-readonly GITLABPROJECTS="$GITLABAPI/$GITLABUSER/projects"
-readonly GITLABREPO="$GITLABURL/$GITLABUSER"
