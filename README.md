@@ -38,9 +38,9 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 
 ### Screenshots
 
-![](https://space.wired.sh/~lcook/setup/zen-1.png)
-![](https://space.wired.sh/~lcook/setup/zen-2.png)
-![](https://space.wired.sh/~lcook/setup/zen-3.png)
+![](https://depot.wired.sh/setup/zen-1.png)
+![](https://depot.wired.sh/setup/zen-2.png)
+![](https://depot.wired.sh/setup/zen-3.png)
 
 # Prerequisites
 
