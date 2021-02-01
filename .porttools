@@ -1,4 +1,4 @@
-EMAIL="vulcan@wired.sh"
+EMAIL="lcook@FreeBSD.org"
 FULLNAME="Lewis Cook"
 DIFF_MODE="SVN"
 DIFF_VIEWER="more"
