@@ -1,4 +1,0 @@
-[submodule "ports"]
-	path = ports
-	url = https://gitlab.com/lcook/ports
-	branch = adhoc
