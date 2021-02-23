@@ -1,78 +1,51 @@
-# git functions
-function git_branch
-    echo (command git symbolic-ref HEAD ^/dev/null | sed -e "s|^refs/heads/||")
+if test -z (pgrep ssh-agent | head -n1)
+    eval (ssh-agent -c) 1>/dev/null
+    eval (ssh-add 2>/dev/null)
+    set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+    set -Ux SSH_AGENT_PID $SSH_AGENT_PID
+    set -Ux GPG_TTY (tty)
 end
-function git_repo
-    echo (command basename (git rev-parse --show-toplevel ^/dev/null))
-end
-function git_dir
-    echo (command git rev-parse --show-prefix ^/dev/null)
-end
-function git_hash
-    echo (command git rev-parse --short HEAD ^/dev/null)
-end
+
+# General alias'
+alias ls=exa
+alias vim=nvim
+
+# General environment
+set -x fish_greeting
+set -x LC_ALL en_GB.UTF-8
+set -x LC_CTYPE en_GB.UTF-8
+set -x EDITOR nvim
+set -x VISUAL nvim
+set -x TERM xterm-256color
+set -x BROWSER firefox
+
+# Go paths
+set -x GOROOT /usr/local/go
+set -x GOPATH ~/Development/.go
+
+# Scripts
+set -x PATH $PATH ~/.scripts/
 
 function fish_prompt
-    # colors
-    set -l normal (set_color normal)
-    set -l yellow (set_color yellow)
-    set -l red (set_color red)
-    set -l cyan (set_color cyan)
-    set -l green (set_color green)
-    set -l purple (set_color purple)
-    set -l blue (set_color blue)
-    set -l white (set_color white)
+    set -g yellow (set_color yellow)
+    set -g yellow_bold (set_color -o yellow)
+    set -g normal (set_color normal)
 
-    set -l byellow (set_color -o yellow)
-    set -l bred (set_color -o red)
-    set -l bcyan (set_color -o cyan)
-    set -l bpurple (set_color -o purple)
-    set -l bblue (set_color -o blue)
-    set -l bgreen (set_color -o green)
-    set -l bwhite (set_color -o white)
+    set -l last_status $status
+    set -l prompt_char \$
+    set -l tty (tty | sed 's,\/dev\/,,')
 
-    set -l lgbracket $red"["$normal
-    set -l rgbracket $red"]"$normal
-
-    set -l lbracket $red"("$normal
-    set -l rbracket $red")"$normal
-    set -l delim $bwhite"%"
-    set -l basedir (basename (prompt_pwd))
-
-    # git status
-    set -l git ""
-    set -l git_branch (git_branch)
-    if test -n "$git_branch"
-        set -l git_repo (git_repo)
-        set -l git_dir (git_dir)
-        set -l git_hash (git_hash)
-        if test -n "$git_hash"
-            set git $lbracket$white"git"$rbracket$lgbracket$bgreen$git_branch$normal$white":"$cyan$git_hash$normal$rgbracket
-        else
-            set git $lbracket$white"git"$rbracket$lbgracket$bgreen$git_branch$normal$rgbracket
-        end
+    if [ (id -u) -eq 0 ]
+        set prompt_char \#
     end
 
-    # pwd 
-    set -l pwd ""
-    set -l user (echo $USER)
-    set -l home (pwd | grep ~)
-    if test -n "$home"
-       	set pwd $purple$basedir$normal
-    else
-        set pwd $purple"/"$normal
-    end
-    if test (echo (pwd)) != ~ -a (echo (pwd)) != /
-        set pwd $purple$basedir$normal
+    if [ $last_status -ne 0 ]
+        echo -n "[$yellow_bold$last_status$normal] "
     end
 
-    # if active ssh session, append to prompt
     if test -n "$SSH_CLIENT"
-        echo -esn $bwhite"[ssh] "
+        echo -n "[$yellow_bold"ssh"$normal] "
     end
 
-    set -l host $lbracket$bpurple$user@$hostname$normal:$pwd$rbracket
-
-    # prompt
-    echo -esn "$host $git\n$delim "
+    echo -e $tty [$yellow(whoami)$normal@(hostname)] $yellow(basename (prompt_pwd))$normal"$prompt_char "
 end
