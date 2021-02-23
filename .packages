@@ -1,9 +1,4 @@
-audio/portaudio
-audio/spotify-tui
-audio/spotifyd
-devel/ccache-static
-devel/cmake
-graphics/ImageMagick6
+graphcis/maim
 graphics/zathura
 graphics/zathura-pdf-mupdf
 misc/freebsd-doc-en
@@ -11,13 +6,9 @@ multimedia/mpv
 security/gnupg
 security/pinentry-gtk2
 shells/fish
-sysutils/dunst
 sysutils/exa
-sysutils/htop
-textproc/fzf
-textproc/jq
 www/firefox
-x11-fonts/firacode
+x11-fonts/iosevka
 x11-fonts/nerd-fonts
 x11/setxkbmap
 x11/xclip
