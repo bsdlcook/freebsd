@@ -1,2 +1,2 @@
 #!/bin/sh
-goshare -sc && notify-send "Screenshot uploaded!"
+maim -s 2>/dev/null | xclip -selection clipboard -t image/png
