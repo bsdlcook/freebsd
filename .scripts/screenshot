@@ -1,2 +1,2 @@
 #!/bin/sh
-maim -s 2>/dev/null | xclip -selection clipboard -t image/png
+maim -s 2> /dev/null | xclip -selection clipboard -t image/png

@@ -1,3 +1,3 @@
 #!/bin/sh
-awk '/^Host.*$/{print $2}' "$HOME/.ssh/config" | sed "/\*.*$/d" | \
-	dmenu -i -p "host:" | xargs st ssh &
+awk '/^Host.*$/{print $2}' ~/.ssh/config | sed "/\*.*$/d" \
+	| dmenu -i -p "host:" | xargs st ssh &
