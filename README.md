@@ -53,11 +53,11 @@ There isn't much prerequisites as the bootstrap script makes it *for the most pa
 ### Setup and installation
 
 There's not much to it (given you've met the prerequisites). *Now for the fun part*:
-- Clone this repo ``git clone --recursive https://gitlab.com/lcook/freebsd`` (remove ``--recursive`` to prevent cloning my [custom ports](https://gitlab.com/lcook/ports/tree/adhoc) which is needed for the Suckless utils) and change to that given directory;
+- Clone this repo ``git clone https://gitlab.com/lcook/freebsd`` change to that given directory;
 - From there you'll find a setup script that you can run by typing ``./bootstrap`` and everything else is done for you;
 - The default shell is changed to fish, as well as configuration files copied to the home directory;
 - There's different *phases* of the bootstrapping process that have a set of given tasks, feel free to peek into the script;
-- Once these phases have completed it's suggested your reboot your computer;
+- Once these phases have completed, proceed to [suckless installation](#suckless). After installed it's suggested your reboot your computer;
 - Note: the **x11-fonts/nerd-fonts** package is fairly large, give it time to download and extract (be patient).
 
 ## Suckless
