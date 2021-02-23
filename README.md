@@ -62,10 +62,8 @@ There's not much to it (given you've met the prerequisites). *Now for the fun pa
 
 ## Suckless
 
-As of [this commit](https://gitlab.com/lcook/freebsd/commit/cf36358c370a0ed05339924ea83afad848021890) the Suckless tools (dwm, dmenu and st) have been moved to the [suckless branch](https://gitlab.com/lcook/freebsd/tree/suckless)—independent of the master branch. The reasoning for this is that I've individually packaged up them into their own ports, so in order to install them, you'll have to build the ports from my custom adhoc tree.
+As of [this commit](https://gitlab.com/lcook/freebsd/commit/cf36358c370a0ed05339924ea83afad848021890) the Suckless tools (dwm, dmenu and st) have been moved to the [suckless branch](https://gitlab.com/lcook/freebsd/tree/suckless)—independent of the master branch. Once you've cloned the suckless branch to another location, to install the applications, run the following:
 
-- Assuming you've followed the previous steps and cloned this repo recursively the custom ports tree will already be there;
-- Switch to ``/bin/sh`` and run ``find ports/x11*/zen-* -type d -depth 0 | xargs -n1 doas make clean install -C``;
-- Make sure the packages installed by running ``pkg info | awk '/zen/{print $1}'``, you should see: ``zen-dmenu``, ``zen-dwm`` and ``zen-sterm``.
-
-You'll now have them installed but as packages, to what I believe is the more sane way of handling them.
+- ``doas make clean install -C dmenu``
+- ``doas make clean install -C dwm``
+- ``doas make clean install -C st``
