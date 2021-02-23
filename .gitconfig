@@ -13,12 +13,19 @@
 	pager = cat
 [diff]
 	noprefix = true
+[url "git@gitlab.com:lcook/"]
+        insteadOf = gl:
+[url "git@github.com:bsdlcook/"]
+        insteadOf = gh:
+
 [alias]
-        br = branch
-        cl = clone
-        cm = commit
-        co = checkout
-        df = diff
-        ll = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-        pu = push
-        st = status
+	br = branch
+	cm = commit
+	cl = clone
+	co = checkout
+	df = diff
+	ll = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	pu = push
+	st = status
+[pull]
+	ff = only
