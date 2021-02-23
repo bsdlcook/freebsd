@@ -57,7 +57,6 @@ static const char *editor[]   = { "emacsclient", "-c", NULL };
 /* commands */
 static const char *dmenu[]	= { "dmenu_run", "-i", "-p", "run:", NULL };
 static const char *screenshot[]	= { "screenshot", NULL 		          };
-static const char *projects[]   = { "glproject", NULL                     };
 static const char *manview[]    = { "manview", NULL			  };
 static const char* sshmenu[]    = { "sshmenu", NULL                       };
 
@@ -73,8 +72,7 @@ static Key keys[] = {
 	{ MODKEY,			XK_e,	   spawn,	   {.v = editor}     },	 /* spawn editor 				*/
 	/*							   commands:								*/
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenu}      },	 /* spawn dmenu 		   		*/
-	{ MODKEY, 			XK_Print,  spawn,	   {.v = screenshot} },  /* take a screenshot and copy url to clipboard */
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = projects}   },  /* select gitlab project with dmenu            */
+	{ MODKEY, 			XK_Print,  spawn,	   {.v = screenshot} },  /* take a screenshot and copy to clipboard	*/
 	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = manview}    },  /* select manual with dmenu                    */
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = sshmenu}    },  /* select ssh host with dmenu                  */
  	/*							   bindings:								*/
@@ -99,11 +97,11 @@ static Key keys[] = {
 	{ MODKEY,             		XK_q,      quit,           {1} },		 /* inline restart dwm				*/
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },		 /* quit dwm 					*/
 	/*							   workspace bindings:							*/
-	TAGKEYS(                        XK_1,                      0)			 /* workspace 1: main				*/
-	TAGKEYS(                        XK_2,                      1)			 /* workspace 2: dev			  	*/
-	TAGKEYS(                        XK_3,                      2)			 /* workspace 3: web				*/
-	TAGKEYS(                        XK_4,                      3)			 /* workspace 4: music				*/
-	TAGKEYS(                        XK_5,                      4)			 /* workspace 5: chat				*/
+	TAGKEYS(                        XK_1,                      0)			 /* workspace 1					*/
+	TAGKEYS(                        XK_2,                      1)			 /* workspace 2				  	*/
+	TAGKEYS(                        XK_3,                      2)			 /* workspace 3					*/
+	TAGKEYS(                        XK_4,                      3)			 /* workspace 4					*/
+	TAGKEYS(                        XK_5,                      4)			 /* workspace 5					*/
 	/*																*/
 };
 

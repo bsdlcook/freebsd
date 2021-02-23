@@ -29,39 +29,41 @@ typedef struct {
 
 // minty theme
 static const Theme theme = {
-	// general appearance
-	"Fira Code:pixelsize=15:antialias=true:autohint=true",
-	"#7B3D44",	// accent
-	"#1b1b1b",	// background
-	"#9e9e9e",	// foreground
+	/* general appearance */
+	"Iosevka:pixelsize=16:antialias=true:autohint=true",
+	"#9E7B38",	/* accent     */
+	"#262626",	/* background */
+	"#9e9e9e",	/* foreground */
 	{ 
-		// dwm
-		"#7B3D44",	// border active
-		"#1b1b1b"	// border inactive
+		/* dwm */
+		"#9E7B38",	/* border active   */
+		"#262626"	/* border inactive */
 	},
 	{
-		// st
-		"#1b1b1b", // black
-		"#6E282E", // red
-		"#90a959", // green
-		"#f4bf75", // yellow
-		"#6a9fb5", // blue
-		"#aa759f", // magenta
-		"#75b5aa", // cyan
-		"#8F8F8F", // normal colors
-		
-		"#262626",
-		"#7D2E34",
-		"#5d742a",
-		"#754e2a",
-		"#2a4e74",
-		"#703664",
-		"#297366",
-		"#9e9e9e", // bright colors
+		/* st */
+		/* 8 normal colors    */
+		"#282828", /* black   */
+		"#CC4741", /* red     */
+		"#98971a", /* green   */
+		"#d79921", /* yellow  */
+		"#458588", /* blue    */
+		"#b16286", /* magenta */
+		"#689d6a", /* cyan    */
+		"#a89984", /* white   */
+
+		/* 8 bright colors    */
+		"#928374", /* black   */
+		"#fb4934", /* red     */
+		"#b8bb26", /* green   */
+		"#fabd2f", /* yellow  */
+		"#83a598", /* blue    */
+		"#d3869b", /* magenta */
+		"#8ec07c", /* cyan    */
+		"#ebdbb2", /* white   */
 	}
 };
 
-// dwm
+/* dwm */
 #define DWM_BORDER_PIXEL 2
 #define DWM_SHOW_BAR 1
 #define DWM_TOP_BAR 1
@@ -77,12 +79,12 @@ static const Theme theme = {
 static const char* tags[]     = { UNICODE, UNICODE, UNICODE, UNICODE, UNICODE };
 static const char* tag_active = { UNICODE_ACTIVE };
 
-// dmenu
+/* dmenu */
 #define DMENU_BORDER_WIDTH 1
 #define DMENU_MIN_WIDTH 500
 #define DMENU_TOP_BAR 1
 #define DMENU_LINES 5
 #define DMENU_LINE_HEIGHT 28
 
-// st
+/* st */
 #define ST_PAD 5 
