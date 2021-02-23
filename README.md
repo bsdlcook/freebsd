@@ -29,9 +29,9 @@ All of the key bindings for dwm are found [here](https://gitlab.com/lcook/freebs
 | `Mod + Shift + j` | Move client stack forward
 | `Mod + Shift + k` | Move client stack backward
 | `Mod + Enter` | Open terminal
-| `Mod + Shift + p` | Gitlab project launcher
-| `Mod + Shift + s` | SomaFM launcher
-| `Mod + Shift + m` | Manual launcher
+| `Mod + Shift + prnt` | Take a screenshot
+| `Mod + Shift + s` | SSH Host launcher
+| `Mod + Shift + m` | FreeBSD docs launcher
 | `Mod + Space` | Program launcher
 | `Mod + t` | Tiling layout mode
 | `Mod + f` | Floating layout mode
