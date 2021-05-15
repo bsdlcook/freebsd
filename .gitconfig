@@ -15,7 +15,7 @@
 	noprefix = true
 [url "git@gitlab.com:lcook/"]
         insteadOf = gl:
-[url "git@github.com:bsdlcook/"]
+[url "git@github.com:lcook/"]
         insteadOf = gh:
 
 [alias]
